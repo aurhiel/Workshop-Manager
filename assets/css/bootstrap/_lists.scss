@@ -1,0 +1,113 @@
+// Lists (ul/ol)
+// -----------------------
+
+.list-group-stripped {
+  .list-group-item {
+    background: none;
+    &:nth-of-type(odd) {
+      background-color: rgba(0, 0, 0, .04);
+    }
+  }
+}
+
+.list-group-specs {
+  .label, .value {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.2;
+  }
+
+  .label {
+    font-weight: bold;
+    width: 53%;
+
+    .icon {
+      margin-right: .2rem;
+    }
+  }
+
+  .value {
+    width: 45%;
+    word-break: break-all;
+  }
+
+  .list-group-item {
+    &.workshop-infos {
+      .label {
+        vertical-align: top;
+      }
+    }
+  }
+}
+
+.list-group-wonderful {
+  background-color: $white;
+  list-style: none;
+  border-left: .14rem solid $primary;
+  border-radius: .14rem;
+  padding: .6rem .6rem .6rem 1rem;
+  margin-bottom: .4rem;
+  margin-top: .4rem;
+
+  .label, .value {
+    display: block;
+  }
+
+  li {
+    + li {
+      margin-top: .4rem;
+    }
+  }
+
+  .label {
+    font-size: .75em;
+    text-transform: uppercase;
+    opacity: .6;
+  }
+
+  .value {
+    font-size: 1.2em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+}
+
+.list-faq {
+  list-style: none;
+  counter-reset: li;
+  padding-left: 1.6rem;
+
+  > li {
+    counter-increment: li;
+    position: relative;
+
+    &:before {
+      content: counter(li);
+      display: inline-block;
+      width: 1rem;
+      position: absolute;
+      left: -1.5rem;
+      color: $primary;
+      font-size: 1.45rem;
+      font-weight: bold;
+      line-height: 1;
+      text-align: right;
+      direction: rtl;
+    }
+  }
+}
+
+
+@include media-breakpoint-up(md) {
+  .list-group {
+    &-specs {
+      .label {
+        width: 40%;
+      }
+
+      .value {
+        width: 58%;
+      }
+    }
+  }
+}

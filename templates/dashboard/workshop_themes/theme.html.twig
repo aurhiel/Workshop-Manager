@@ -1,0 +1,114 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-brush"></span>
+      <span class="theme-entity-name">{{ workshop_theme.name }}</span>
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      <div class="theme-entity-description">{{ workshop_theme.description|nl2br }}</div>
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <button type="button" name="button" class="btn btn-secondary btn-stealth-raven-load-form mr-1 "
+          data-stealth-raven-loader="{{ path('admin_dashboard_workthemes_get', { id : workshop_theme.id }) }}"
+            data-stealth-raven-fill-form="workshop_theme" data-target="#modal-manage-workshop-theme">
+        <span class="icon-edit"></span>
+        <span class="d-none d-sm-inline">Modifier</span>
+      </button>
+      <a class="btn btn-danger btn-stealth-raven" data-action="workshop_theme_delete"
+        href="{{ path('admin_dashboard_workthemes_del', { id : workshop_theme.id }) }}"
+          data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer la thématique : {{ workshop_theme.name }} ?">
+        <span class="icon-trash"></span>
+        <span class="d-none d-sm-inline">Supprimer</span>
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-11 col-xl-10">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-0">Liste des ateliers de la thématique triés par date</h4>
+
+            {% if theme_workshops is empty %}
+              <div class="text-muted mt-3">Aucun atelier pour cette thématique</div>
+            {% else %}
+              <div class="text-muted">
+                Nombre total d'ateliers : <b>{{ theme_workshops|length }}</b>
+              </div>
+            {% endif %}
+          </div>
+
+          {% if theme_workshops is not empty %}
+            <table class="table table-sm table-striped table-entities table-workshop-entities">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-id">#</th>
+                  <th scope="col" class="col-date">
+                    <span class="icon icon-calender-outline"></span> Date
+                  </th>
+                  <th scope="col" class="col-schedule">
+                    <span class="icon icon-time"></span> Horaires
+                  </th>
+                  <th scope="col" class="col-location">
+                    <span class="icon icon-location-outline"></span> Lieu
+                  </th>
+                  <th scope="col" class="col-lecturer">
+                    <span class="icon icon-user"></span>
+                    <span class="d-none d-md-inline">Présenté par</span>
+                  </th>
+                  <th scope="col" class="col-nb-subscribes">
+                    <span class="icon icon-input-checked-outline"></span>
+                    <span class="d-none d-lg-inline">Inscriptions</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for workshop in theme_workshops %}
+                <tr>
+                  <td class="col-id">{{ workshop.id }}</td>
+                  <td class="col-date">
+                    {{ workshop.dateStart | localizeddate('medium', 'none')|capitalize }}
+                  </td>
+                  <td class="col-schedule text-time">
+                    {{ workshop.dateStart | localizeddate('none', 'short') }}
+                    - {{ workshop.dateEnd | localizeddate('none', 'short') }}
+                  </td>
+                  <td class="col-location">
+                    {{ workshop.address.name }}
+                  </td>
+                  <td class="col-lecturer">
+                    <b>{{ workshop.lecturer.lastname }}</b> {{ workshop.lecturer.firstname }}
+                  </td>
+                  <td class="col-nb-subscribes">
+                    {{ workshop.nbSeatsTaken }} / {{ workshop.nbSeats }}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Modal / Manage workshop #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_workshop_theme,
+    'stealth_raven_modal_id'    : 'modal-manage-workshop-theme',
+    'stealth_raven_title_add'   : 'Ajouter une thématique',
+    'stealth_raven_title_edit'  : 'Modifier la thématique'
+  } %}
+  {% endembed %}
+{% endblock %}

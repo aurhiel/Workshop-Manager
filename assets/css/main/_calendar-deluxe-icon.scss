@@ -1,0 +1,54 @@
+// Calendar Deluxe Icon
+//
+//   _______________
+//  |               |
+//  |   September   |
+//   _______________
+//  |               |
+//  |        2      |
+//  |     Monday    |
+//  |_______________|
+//
+
+.calendar-deluxe-icon {
+  background-color: $white;
+  color: $dark;
+  line-height: 1;
+  text-align: center;
+  display: inline-block;
+  border-radius: .4em;
+  overflow: hidden;
+  width: 3.4em;
+  box-shadow: 0.14em 0.14em 0 rgba(0, 0, 0, .04);
+
+  .content-top {
+    background-color: $primary;
+    color: $white;
+    display: block;
+    padding: .26em .4em .2em;
+    text-shadow: 0 .1em 0 rgba(0, 0, 0, .2);
+  }
+
+  .content-bottom {
+    display: block;
+    padding: .25em .2em .1em;
+  }
+
+  ._month {
+    font-size: .7em;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  ._day-number {
+    font-size: 1.8em;
+    font-weight: bold;
+    display: block;
+  }
+
+  ._day-label {
+    font-size: .6em;
+    text-transform: uppercase;
+    display: block;
+  }
+}

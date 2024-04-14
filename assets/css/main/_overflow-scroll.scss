@@ -1,0 +1,57 @@
+// Overflow scroll
+//
+
+@mixin overflow-scroll-unlock($breakpoint-name) {
+  .overflow-scroll {
+    &-#{$breakpoint-name} {
+      height: auto;
+      max-width: inherit;
+      overflow: inherit;
+
+      .os-content {
+        padding-bottom: 0;
+        white-space: inherit;
+        overflow-x: inherit;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+
+.overflow-scroll {
+  max-width: 100%;
+  height: 3.5rem;
+  // height: 2.5rem; // Hide scrollbar
+  overflow: hidden;
+
+  .os-content {
+    white-space: nowrap;
+    overflow-x: auto;
+    margin-bottom: 0;
+    // padding-bottom: 2rem;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(sm) {
+  @include overflow-scroll-unlock(sm);
+}
+
+@include media-breakpoint-up(md) {
+  @include overflow-scroll-unlock(md);
+}
+
+@include media-breakpoint-up(lg) {
+  @include overflow-scroll-unlock(lg);
+}
+
+@include media-breakpoint-up(xl) {
+  @include overflow-scroll-unlock(xl);
+}

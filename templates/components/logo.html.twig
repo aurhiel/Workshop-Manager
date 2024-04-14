@@ -1,0 +1,13 @@
+{% set hide_text = (hide_text is defined) ? hide_text : false %}
+{% set custom_class = (custom_class is defined) ? ' ' ~ custom_class : '' %}
+{% set type_text  = (type_text is defined) ? type_text : 'sub' %}
+{% set goto_home = (goto_home is defined) ? goto_home : false %}
+
+<{% if goto_home %}a href="{{ path('home') }}"{% else %}span{% endif %} class="brand-logo{{ custom_class }}">
+  <span class="icon icon-calendar"></span>
+  {% if hide_text == false %}
+  <span class="_text _text-{{ type_text }}">
+    Ateliers <span class="text-primary">Ingeneria</span>
+  </span>
+  {% endif %}
+</{% if goto_home %}a{% else %}span{% endif %}>

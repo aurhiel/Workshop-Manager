@@ -1,0 +1,9 @@
+// Buttons
+// -----------------------
+
+.btn-purple {
+  @include button-variant($purple, $purple);
+}
+.btn-outline-purple {
+  @include button-outline-variant($purple);
+}

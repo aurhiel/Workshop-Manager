@@ -1,0 +1,319 @@
+<script src="https://maps.googleapis.com/maps/api/js?key={{ gmaps_key }}"></script>
+
+<div id="workshop-popin-details" class="simple-popin simple-popin--workshop simpin-hide">
+  <div class="simpin-inner container">
+    <button type="button" class="simpin-close btn btn-outline-light btn-lg py-1 px-2">
+      <span class="icon-times"></span>
+    </button>
+
+    <div class="workshop-date">
+      <span class="calendar-deluxe-icon">
+        <span class="content-top _month"></span>
+        <span class="content-bottom">
+          <span class="_day-label"></span>
+          <span class="_day-number"></span>
+        </span>
+      </span>
+      <span class="_time">
+        <span class="from">De <span class="value"></span></span>
+        <span class="to">à <span class="value"></span></span>
+      </span>
+    </div>
+
+    <div class="workshop-text">
+      <h3 class="workshop-title"></h3>
+      <div class="workshop-desc"></div>
+    </div>
+
+    <div class="workshop-summary row clearfix">
+      <div class="col-md-7 mb-4">
+        <ul class="list-group list-group-stripped list-group-specs">
+          <li class="list-group-item workshop-lecturer">
+            <span class="label"><span class="icon icon-user"></span> Présenté par</span>
+            <span class="value">
+              <span class="name"></span><br>
+              <span class="contact"></span>
+            </span>
+          </li>
+          <li class="list-group-item workshop-infos">
+            <span class="label"><span class="icon icon-info-large"></span> Informations</span>
+            <span class="value"></span>
+          </li>
+          <li class="list-group-item workshop-duration">
+            <span class="label"><span class="icon icon-time"></span> Durée</span>
+            <span class="value text"></span>
+          </li>
+          <li class="list-group-item workshop-seats-left">
+            <span class="label"><span class="icon icon-group"></span> Nombre de places</span>
+            <span class="value">
+              <span class="text badge badge-pill"></span>
+              <span class="nb-waiting small"></span>
+            </span>
+          </li>
+          {% if is_granted('ROLE_PUBLISHER') == false %}
+          <li class="list-group-item workshop-user-status">
+            <span class="label"><span class="icon icon-ticket"></span> Mon inscription</span>
+            <span class="value">
+              <span class="status-icon" data-status-icon=""></span>
+              <span class="status-text">Non-inscrit</span>
+            </span>
+          </li>
+          <li class="list-group-item workshop-user-has-come">
+            <span class="label"><span class="icon icon-input-checked-outline"></span> Présence à l'atelier</span>
+            <span class="value">
+              <span class="has-come-icon"></span>
+              <span class="has-come-text"></span>
+            </span>
+          </li>
+          {% endif %}
+        </ul>
+
+        <div class="workshop-actions border-top pt-3 mt-4" style="border-color: rgba(255, 255, 255, .075) !important;">
+          {% if is_granted('ROLE_PUBLISHER') %}
+          <button type="button" name="workshop-edit" class="btn btn-secondary btn-edit-workshop btn-stealth-raven-load-form"
+              data-stealth-raven-loader="#TO_FILL#" data-stealth-raven-fill-form="workshop" data-target="#modal-manage-workshop">
+            <span class="icon icon-edit"></span>
+            Modifier l'atelier
+          </button>
+
+          <a class="btn btn-danger btn-delete-workshop" href="#TO_FILL#"
+            data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer cet atelier ?">
+            <span class="icon icon-trash"></span>
+            Supprimer l'atelier
+          </a>
+          {% else %}
+          <a class="btn btn-primary btn-subscribe-to-workshop" href="#TO_FILL#">
+            <span class="icon icon-user-add"></span>
+            <span class="text">M'inscrire à l'atelier</span>
+          </a>
+          <a class="btn btn-warning btn-unsubscribe-to-workshop" href="#TO_FILL#"
+            data-stealth-raven-confirm="Êtes-vous sûr de vouloir vous désinscrire de cet atelier ?">
+            <span class="icon icon-user-delete"></span>
+            <span class="text">Me désinscrire de l'atelier</span>
+          </a>
+          <a class="btn btn-success btn-valid-subscribe" href="#TO_FILL#">
+            <span class="icon icon-edit"></span>
+            Confirmer mon inscription
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="workshop-location">
+          <div class="workshop-address">
+            <span class="icon icon-location-outline"></span> Adresse :
+            <span class="text"></span>
+          </div>
+          <div class="google-maps">
+            <div class="map"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if is_granted('ROLE_PUBLISHER') %}
+    <div class="workshop-subscribers mt-4">
+      <div class="row mb-2">
+        <div class="col-md-8">
+          <h3 class="subscribers-title">
+            <span class="icon-group"></span> Liste des participants
+          </h3>
+          <div class="text-muted">
+            <b>Gérez ici les inscriptions</b> des participant&middot;e&middot;s et
+            <b>validez leur présence</b> le jour de l'atelier.
+          </div>
+        </div>
+        <div class="col-md-4 subscribers-actions">
+          {# Add subscriber to workshop #}
+          <button type="button" class="btn btn-modal-add-subber btn-sm btn-primary my-1" data-toggle="tooltip" data-placement="left"
+          data-html="true" title="Ajouter des participants">
+            <span class="icon icon-user-add"></span>
+          </button>
+          {# Copy subscriber's list #}
+          <button class="btn btn-copy btn-sm btn-primary dropdown-toggle" id="btn-copy-users" type="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Copier les participants
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <button class="dropdown-item btn-clipboard" data-clipboard-target="#subscribers-copy-format-text" data-clip-tooltip-target="#btn-copy-users">au format texte</button>
+            <button class="dropdown-item btn-clipboard" data-clipboard-target="#subscribers-copy-format-mail" data-clip-tooltip-target="#btn-copy-users">au format e-mail</button>
+          </div>
+          <div class="clipboardJS-hidden-data" id="subscribers-copy-format-text" aria-hidden="true"></div>
+          <div class="clipboardJS-hidden-data" id="subscribers-copy-format-mail" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="card-subscribers card-striped subscribers-list">
+        <div class="card subscriber-item subscriber-sample" data-id-subscribe="null" style="display:none">
+          <label class="subber-check-presence" for="#TO_FILL#">
+            <input type="checkbox" class="checkbox" id="#TO_FILL#" name="presence" />
+            <span class="box"></span>
+          </label>
+          <div class="card-body">
+            <h5 class="card-title app-user-mini-info has-status has-more-dots mb-0">
+              <span class="subscriber-status status-icon" data-toggle="tooltip" data-placement="right"
+              data-original-title="" data-html="true" title=""></span>
+
+              <div class="_names"></div>
+              <div class="_email"></div>
+
+              {# Dropdown actions #}
+              <div class="app-more-dots" data-toggle="dropdown">
+                <span class="dot"></span>
+              </div>
+
+              <div class="dropdown-menu dropdown-menu-right text-right">
+                <div class="subber-manage-subscribe">
+                  <span class="dropdown-header">Gestion de l'inscription</span>
+                  <button class="dropdown-item btn-change-status btn-status-subscribed" data-status="subscribed">
+                    Confirmer l'inscription
+                    <span class="status-icon" data-status-icon="subscribed"></span>
+                  </button>
+                  <button class="dropdown-item btn-change-status btn-status-pre-sub" data-status="pre-subscribe">
+                    En attente de confirmation
+                    <span class="status-icon" data-status-icon="pre-subscribe"></span>
+                  </button>
+                  <button class="dropdown-item btn-change-status btn-status-sub-not-confirmed" data-status="pre-subscribe">
+                    Inscription non-confirmée
+                    <span class="status-icon" data-status-icon="sub-not-confirmed"></span>
+                  </button>
+                  <button class="dropdown-item btn-change-status btn-status-waiting-seats" data-status="waiting-seats">
+                    File d'attente
+                    <span class="status-icon" data-status-icon="waiting-seats"></span>
+                  </button>
+                  <div class="dropdown-divider"></div>
+                </div>
+                <a class="dropdown-item btn-delete-subscribe" href="#TO_FILL#" data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer ce participant de l'atelier ?">
+                  Supprimer l'inscription
+                  <span class="icon icon-times"></span>
+                </a>
+                <div class="dropdown-divider subscriber-link-divider"></div>
+                <a class="dropdown-item subscriber-link" href="#TO_FILL#" target="_blank">
+                  Profil
+                  <span class="icon icon-user"></span>
+                </a>
+              </div>
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="no-subscribes">
+        Aucun participant à cet atelier.
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+
+{% if is_granted('ROLE_PUBLISHER') %}
+  {# Modal / Manage workshop #}
+  {% if form_workshop is defined %}
+    {% embed 'components/modals/form.html.twig'  with {
+      'modal_size'                : 'lg',
+      'form'                      : form_workshop,
+      'stealth_raven_modal_id'    : 'modal-manage-workshop',
+      'stealth_raven_title_add'   : 'Ajouter un nouvel atelier',
+      'stealth_raven_title_edit'  : 'Modifier l\'atelier'
+    } %}
+      {% block form_widgets %}
+        <div class="form-row">
+          <div class="col-sm-6 mb-3">
+            {{ form_label(form_workshop.date_start, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form_workshop.date_start) }}
+            {{ form_errors(form_workshop.date_start) }}
+          </div>
+
+          <div class="col-sm-6 mb-3">
+            {{ form_label(form_workshop.date_end, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form_workshop.date_end) }}
+            {{ form_errors(form_workshop.date_end) }}
+          </div>
+        </div>
+
+        <div class="form-row pt-3 mt-1 border-top">
+          <div class="col-sm-8 mb-3">
+            <span class="icon-brush"></span> {{ form_label(form_workshop.theme, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form_workshop.theme) }}
+            {{ form_errors(form_workshop.theme) }}
+          </div>
+
+          <div class="col-sm-4 mb-3">
+            <span class="icon-group"></span> {{ form_label(form_workshop.nb_seats, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form_workshop.nb_seats) }}
+            {{ form_errors(form_workshop.nb_seats) }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-sm-6 mb-3">
+            <span class="icon-user"></span> {{ form_label(form_workshop.lecturer, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form_workshop.lecturer, { attr : { 'data-stealth-raven-wash-value': app.user.id, 'data-stealth-raven-dont-wash': "true" } }) }}
+            {{ form_errors(form_workshop.lecturer) }}
+          </div>
+
+          <div class="col-sm-6 mb-3">
+            <span class="icon-location-outline"></span> {{ form_label(form_workshop.address, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form_workshop.address) }}
+            {{ form_errors(form_workshop.address) }}
+          </div>
+        </div>
+
+        <div class="form-group pt-3 mt-1 border-top">
+          <span class="icon-info-large"></span> {{ form_label(form_workshop.description) }}
+          {{ form_widget(form_workshop.description) }}
+          {{ form_errors(form_workshop.description) }}
+        </div>
+      {% endblock %}
+
+			{% block form_footer %}
+			<div class="d-flex mr-auto">
+				{{ form_label(form_workshop.is_VSI_type) }}
+				{{ form_widget(form_workshop.is_VSI_type) }}
+				{{ form_errors(form_workshop.is_VSI_type) }}
+			</div>
+			{% endblock %}
+    {% endembed %}
+  {% endif %}
+
+  {# Modal / Add user to workshop #}
+  {% embed 'components/modals/basic.html.twig'  with {
+    modal_title : 'Ajouter des participants',
+    modal_id    : 'modal-add-subber',
+    modal_size  : 'md'
+  } %}
+    {% block modal_body %}
+      <p class="text-muted">
+        Recherchez les participants que vous souhaitez ajouter à l'aide de son nom et/ou prénom.
+      </p>
+
+      <div class="form-row">
+        <div class="col">
+          <label for="user_lastname" class="sr-only">Nom</label>
+          <input placeholder="Nom du participant" type="text" id="user_lastname" name="lastname" class="form-control input-search-user" autocomplete="off">
+        </div>
+
+        <div class="col">
+          <label for="user_lastname" class="sr-only">Prénom</label>
+          <input placeholder="Prénom du participant" type="text" id="user_firstname" name="firstname" class="form-control input-search-user" autocomplete="off">
+        </div>
+      </div>
+
+      <hr/>
+
+      <h5>Résultats</h5>
+
+      <div class="search-results">
+        <div class="item row">
+          <h6 class="app-user-mini-info col-7 pr-0">
+            <div class="_names"></div>
+            <div class="_email"></div>
+          </h6>
+          <span class="col-5 text-right">
+            <button type="button" class="btn btn-sm btn-primary btn-add-new-subber">
+              <span class="icon-user-add"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+    {% endblock %}
+  {% endembed %}
+{% endif %}

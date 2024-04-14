@@ -1,0 +1,141 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{# delete errors from label ! #}
+{% form_theme form _self %}
+{% block form_label_errors %}{% endblock %}
+
+{% set status_text  = (user.isEnabled) ? 'actif' : 'inactif' %}
+{% set status_class = (user.isEnabled) ? 'active' : 'inactive' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      Profil de {{ user.lastname }} {{ user.firstname }}
+      {% if 'ROLE_PUBLISHER' in user.roles %}
+        <span class="icon-star-outline" title="Formateur"></span>
+      {% endif %}
+      {% if 'ROLE_ADMIN' in user.roles %}
+        <span class="icon-star" title="Administrateur"></span>
+      {% endif %}
+      {%- if 'ROLE_USER' in user.roles -%}
+        <small class="badge badge-type-service badge-{{ user.getServiceType() }}"
+          data-toggle="tooltip" data-placement="right" data-html="true"
+            title="Fin de la prestation le <br> <u>{{ user.registerEndDate | localizeddate('long', 'none') }}</u>">
+          {{  ('label.' ~ (user.getServiceType())) | trans }}
+        </small>
+      {% endif %}
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Inscrit&middot;e le {{ user.registerDate | localizeddate('long', 'none') }} à {{ user.registerDate | localizeddate('none', 'short', null, "Europe/Paris") }}
+      {%- if 'ROLE_USER' in user.roles -%}
+      , fin de la prestation le <u>{{ user.registerEndDate | localizeddate('long', 'none') }}</u>
+      {%- endif -%}
+      <span class="user-status user-status--{{ status_class }} ml-1">{{ status_text }}</span>
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <a class="btn btn-outline-secondary text-white mr-2" href="{{ path('admin_dashboard_user_workshops_subbed', { id : user.id }) }}">
+        <span class="icon icon-clipboard"></span>
+        {% if 'ROLE_PUBLISHER' in user.roles or 'ROLE_ADMIN' in user.roles %}
+          Ateliers présentés
+        {% else %}
+          Ateliers souscrits
+        {% endif %}
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          {{ form_start(form) }}
+            <h2 class="h4 mb-3">Status</h2>
+            {% if form.serviceType is defined and form.registerEndDate is defined %}
+            <div class="form-row">
+              <div class="col-6 mb-4">
+                {{ form_label(form.serviceType, null, { label_attr: { class: 'text-required' } }) }}
+                {{ form_widget(form.serviceType) }}
+                {{ form_errors(form.serviceType) }}
+              </div>
+
+              <div class="col-6 col-sm-5 mb-4">
+                {{ form_label(form.registerEndDate, null, { label_attr: { class: 'text-required' } }) }}
+                {{ form_widget(form.registerEndDate) }}
+                {{ form_errors(form.registerEndDate) }}
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="form-row">
+              <div class="col-sm-6 mb-3">
+              {% if form.roles is defined %}
+                {{ form_label(form.roles, null, { label_attr: { class: 'text-required' } }) }}
+                {{ form_widget(form.roles) }}
+                {{ form_errors(form.roles) }}
+              {% endif %}
+              </div>
+              <div class="col-sm-6 mb-3">
+                {{ form_label(form.isActive) }}
+                {{ form_widget(form.isActive) }}
+                {{ form_errors(form.isActive) }}
+
+                <div class="mt-2">
+                  {{ form_label(form.isArchived) }}
+                  {{ form_widget(form.isArchived) }}
+                  {{ form_errors(form.isArchived) }}
+                </div>
+
+                {% if form.is_consultant is defined %}
+                <div class="mt-2">
+                  {{ form_label(form.is_consultant) }}
+                  {{ form_widget(form.is_consultant) }}
+                  {{ form_errors(form.is_consultant) }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <hr class="w-25 ml-0 mb-4">
+
+            <h2 class="h4 mb-3">Informations</h2>
+            {% include 'dashboard/profile/components/form-settings-inputs.html.twig' with {
+              form : form
+            } %}
+
+            <div class="col-7 col-md-4 py-2 px-0 mt-2 mb-3 border-top small text-required text-required--prepend">
+              Champs obligatoires
+            </div>
+
+            <div class="row">
+              <div class="col">
+                {% if is_granted('ROLE_ADMIN') and user.email != app.user.email %}
+                <a href="{{ path('admin_dashboard_delete_user', { id : user.id }) }}"
+                    class="btn btn-sm btn-danger btn-stealth-raven my-1" data-action="simple_confirm" data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer l'utilisateur : {{ user.lastname }} {{ user.firstname }} ?" data-stealth-raven-no-ajax="true">
+                  <span class="icon-trash"></span>
+                  Supprimer l'utilisateur
+                </a>
+                {% endif %}
+              </div>
+
+              <div class="col text-right">
+                <button class="btn btn-primary" type="submit" name="register">
+                  Valider les modifications
+                </button>
+              </div>
+            </div>
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

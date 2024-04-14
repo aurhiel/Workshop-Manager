@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--blank-page app-core--footer-centered' %}
+
+{% block header %}
+  <div class="text-center my-3">
+    {% include 'components/logo.html.twig' with { goto_home : true, custom_class : 'brand-logo--big' } %}
+  </div>
+{% endblock %}
+
+{% block body %}
+  <div class="app-main-content">
+    Default blank page<a href="https://www.youtube.com/watch?v=XnWTtmu8CHQ" target="_blank" title="Do you feeeel(fill) meeee ?">.</a>
+  </div>
+{% endblock %}

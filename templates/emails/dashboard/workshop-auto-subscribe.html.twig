@@ -1,0 +1,26 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ user.firstname|capitalize }},
+  </p>
+
+  <p>
+    Une place s'est libérée pour l'atelier <b>{{ workshop.theme.name }}</b>,
+    se déroulant le <b>{{ workshop.getDateStart() | localizeddate('long', 'none', 'fr') }}
+    à {{ workshop.getDateStart() | localizeddate('none', 'short', 'fr') }}</b>.<br>
+    Comme vous étiez en file d'attente, vous avez été inscrit&middot;e automatiquement à cet atelier.
+  </p>
+
+  {% if workshop.isWaitingSubscribesValidation() %}
+    <p>
+      Confirmez, ou non, votre inscription pour cet atelier dès <b>aujourd'hui</b>,
+      sur le site des <a href="{{ url('dashboard') }}" style="color: #4aa5e6;">Ateliers Ingeneria</a>.
+    </p>
+  {% else %}
+    <p>
+      Rendez-vous le <b>{{ workshop.getDateBeforeStoppingSubscribe() | localizeddate('long', 'none', 'fr') }}</b>, sur le site
+      des <a href="{{ url('dashboard') }}" style="color: #4aa5e6;">Ateliers Ingeneria</a>, pour confirmer votre inscription à cet atelier.
+    </p>
+  {% endif %}
+{% endblock %}

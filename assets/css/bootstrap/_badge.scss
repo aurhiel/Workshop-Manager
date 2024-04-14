@@ -1,0 +1,30 @@
+//
+//
+
+.badge-activ-crea {
+  @include badge-variant($purple);
+  box-shadow: 0 0 0 .2em transparentize($purple, .75);
+}
+
+.badge-activ-projet {
+  @include badge-variant($cyan);
+  box-shadow: 0 0 0 .2em transparentize($cyan, .75);
+}
+
+.badge-number {
+  padding-right: 0;
+  padding-left: 0;
+  min-width: 1.5em;
+}
+
+
+
+//
+// Print
+//
+
+@media print {
+  .badge {
+    border: 0;
+  }
+}

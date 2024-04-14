@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--authentification app-core--body-centered app-core--footer-centered' %}
+
+{# delete errors from label ! #}
+{% form_theme form _self %}
+{% block form_label_errors %}{% endblock %}
+
+{# Remove default flashes to change their position #}
+{% block flashes %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="logo-auth">
+    {% include 'components/logo.html.twig' %}
+  </div>
+
+  <div class="row panel-auth panel-auth--register">
+    {{ form_start(form, { attr : { class: 'col-sm-7 col-md-8 col-auth col-auth--form' } }) }}
+      {% include 'components/flashes.html.twig' %}
+
+      <h2 class="h4 mb-3">Inscription</h2>
+
+      {% include 'dashboard/profile/components/form-settings-inputs.html.twig' with {
+        form : form
+      } %}
+
+      <div class="col-7 col-md-4 py-2 px-0 mt-2 mb-3 border-top small text-required text-required--prepend">
+        Champs obligatoires
+      </div>
+
+      <button class="btn btn-primary" type="submit" name="register">
+        S'inscrire
+      </button>
+    {{ form_end(form) }}
+
+    <div class="col-sm-5 col-md-4 col-auth col-auth--redirect">
+      <h2 class="h4 mb-3">Déjà inscrit&middot;e ?</h2>
+      <p class="small">
+        Vous possédez déjà un compte ?
+      </p>
+
+      <div class="mt-4">
+        <a href="{{ path('login') }}" class="btn btn-light">Connectez-vous</a>
+      </div>
+    </div>
+  </div>
+
+  {% include 'components/footer.html.twig' %}
+</div>
+{% endblock %}

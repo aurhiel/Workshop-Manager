@@ -1,0 +1,172 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--static-page' %}
+
+{% block body %}
+<div class="app-main-content container">
+  {% include 'components/logo.html.twig' with { goto_home : true, type_text : 'inline', custom_class : 'brand-logo--big' } %}
+
+  <div class="textual-content">
+    <h1 class="page-header h2 mt-3 mb-4">Données personnelles</h1>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title h5">Collecte des données</h2>
+        <p class="card-text">
+          {{ data_manager.name }} est la société gestionnaire du site {{ website.name }}
+        </p>
+
+        <p class="card-text">
+          {{ company.name }} est attentif à la protection des données personnelles de ses
+          fournisseurs et/ou clients, de toute personne qui accède à son site internet,
+          et d’une manière générale de toute personne dont elle serait amenée à
+          traiter les données à caractère personnel. Cette Politique de
+          protection des données personnelles a pour objet de fournir aux
+          personnes concernées les informations importantes sur la manière
+          dont {{ company.name }} traite leurs données personnelles, et sur la manière
+          dont les personnes concernées peuvent exercer leurs droits. Elle vise
+          également à répondre aux exigences de la nouvelle réglementation relative
+          à la protection des données personnelles (Règlement n°2016/679) entrée
+          en vigueur le 25 mai 2018.
+        </p>
+
+        <hr class="w-25 ml-0">
+
+        <h2 class="card-title h5">Vos droits sur vos données</h2>
+
+        <p class="card-text">
+          Vous disposez conformément à la réglementation du droit d’accéder à
+          vos données personnelles, de les rectifier, de vous opposer à leur
+          traitement ou d’en obtenir la limitation, l’effacement ou leur portabilité
+          lorsque cela est applicable. Par ailleurs, vous pouvez à tout moment retirer
+          votre consentement pour les traitements qui seraient fondés sur celui-ci,
+          ou demander à ne plus recevoir nos communications relatives aux informations,
+          annonces, vœux, newsletters ainsi qu’aux invitations à des événements
+          organisés par {{ company.name }}, en utilisant le lien prévu à cet effet dans chaque
+          email que vous adresse {{ company.name }}. Vous pouvez introduire une réclamation
+          auprès de la CNIL si vous considérez que vos droits ne sont pas respectés
+          (<a href="https://www.cnil.fr:fr/plaintes" target="_blank">https://www.cnil.fr:fr/plaintes</a>).<br>
+          Selon les traitements, vous bénéficiez des droits suivants :
+        </p>
+
+        <ul>
+          <li>
+            Droit d’opposition : vous disposez du droit de vous opposer à tout
+            moment au traitement de vos données personnelles : à des fins
+            d’envoi d’informations, annonces, vœux, newsletters ainsi que des invitations.
+          </li>
+          <li>
+            Droit d’accès : vous avez le droit d’obtenir confirmation que vos
+            données personnelles sont ou non traitées par {{ company.name }}.
+          </li>
+          <li>
+            Droit de rectification : vous avez le droit d’obtenir la
+            rectification d’informations inexactes ou incomplètes vous concernant.
+          </li>
+          <li>
+            Droit de retirer votre consentement : vous pouvez, pour les traitements
+            qui seraient fondés sur le consentement, retirer à tout moment le
+            consentement que vous avez donné pour un traitement.
+          </li>
+          <li>
+            Droit à l’effacement ou droit à l’oubli : vous avez le droit d’obtenir
+            l’effacement par {{ company.name }} de vos données personnelles lorsque l’un des motifs
+            suivants s’applique : (i) les données ne sont plus nécessaires au
+            regard des finalités pour lesquelles elles ont été collectées ;
+            (ii) vous retirez votre consentement au traitement et il n’existe
+            pas d’autre fondement juridique au traitement ; (iii) vous vous opposez
+            au traitement de vos données personnelles et il n’existe pas de motif
+            légitime impérieux pour le traitement ; (iv) les données font l’objet
+            d’un traitement illicite ; (v) les données doivent être effacées pour
+            respecter une obligation légale.
+          </li>
+          <li>
+            Droit à la portabilité : vous avez le droit d’obtenir les données
+            personnelles que vous avez fournies à {{ company.name }} dans un format structuré,
+            couramment utilisé et lisible par machine pour que vous puissiez les
+            transmettre à un autre responsable de traitement. Ce droit est applicable
+            lorsque le traitement est fondé sur votre consentement ou sur
+            l’exécution d’un contrat, et qu’il est effectué à l’aide de
+            procédés automatisés.
+          </li>
+          <li>
+            Droit d’introduire une réclamation auprès de la Commission Nationale
+            de l’Informatique et des Libertés (CNIL).
+          </li>
+        </ul>
+
+        <hr class="w-25 ml-0">
+
+        <h2 class="card-title h5">Comment voir et modifier mes données ?</h2>
+        <p class="card-text">
+          Vous pouvez voir et éditer via les paramètres de votre compte,
+          l’ensemble de vos données personnelles.
+        </p>
+
+        <p class="card-text">
+          Pour toute information ou exercice de vos droits Informatique et
+          Libertés sur les traitements de données personnelles gérés par
+          <b>{{ data_manager.name }}</b>, vous pouvez contacter son délégué à
+          la protection des données (DPO) à l'adresse suivante :
+          <b>{{ data_manager.email }}</b>
+        </p>
+
+        <hr class="w-25 ml-0">
+
+        <h2 class="card-title h5">Où vos données sont-elles stockées ?</h2>
+        <p class="card-text">
+          Toutes les données personnelles conservées par <b>{{ data_manager.name }}</b> sont
+          hébergées chez <b>{{ website.host }}</b> en {{ website.host_location }}.
+        </p>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title h5">A propos des cookies</h2>
+        <h3 class="card-title h6">Cookies internes</h3>
+        <p class="card-text">
+          Nous utilisons des cookies persistant afin d’améliorer l’expérience
+          utilisateur. Ces cookies sont conservés sur votre ordinateur même
+          après fermeture de votre navigateur et réutilisé lors des prochaines visites sur le site.
+          (ex: conserver votre connexion sur le site ouverte)
+        </p>
+
+        <h3 class="card-title h6">Cookies de tiers</h3>
+        <p class="card-text">
+          Des appels vers des services tiers sont effectués. Ils concernent le
+          bon fonctionnement du site et sont susceptibles d'utiliser des cookies.
+        </p>
+        <div class="card-text">
+          Les services tiers appelés sont :
+          <ul>
+            <li>
+              <a href="https://privacy.google.com/businesses/" target="_blank">Youtube</a>
+              (seulement sur cette page)
+            </li>
+            <li>
+              Google Maps (pour localiser le lieu d'un atelier)
+            </li>
+          </ul>
+        </div>
+
+        <h3 class="card-title h6">Cookies de mesure d'audience</h3>
+        <p class="card-text">
+          Aucun cookie de mesure d'audience (Google Analytics, Xiti, ...) ne sont utilisés sur le site.
+        </p>
+
+        <hr class="w-25 ml-0">
+
+        <h2 class="card-title h5">Comment supprimer ses cookies ?</h2>
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/Ij9EkAQzVvM?feature=oembed" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <a href="{{ path('home') }}" class="btn btn-outline-secondary btn-sm">
+      <span class="icon-chevron-left"></span> Revenir au site
+    </a>
+  </div>
+</div>
+{% endblock %}

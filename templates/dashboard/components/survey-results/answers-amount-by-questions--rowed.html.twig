@@ -1,0 +1,30 @@
+{% if steps_stats is not empty %}
+  <div class="survey-results survey-results--answers-amount-simplified">
+    <h3 class="page-header mt-5">Détail des réponses par étape</h3>
+    <div class="card-columns">
+    {% for step_stat in steps_stats %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="h5 mb-0">{{ step_stat.step_label }}</h4>
+        </div>
+        <table class="table table-striped">
+        {% for id_question, question in step_stat.questions %}
+          <tr>
+            <td class="cell-label"><b>{{ question.question_label }}</b></td>
+            {% for id_grade, answer in question.grades_answers_count %}
+              {% if answer > 0 %}
+                {% set grade = survey_grades[id_grade] %}
+                <td class="cell-grade cell-grade--{{ grade.value }}">
+                  <span class="-text">{{ grade.label }}</span>
+                  <span class="-icon"><span class="icon-grade-{{ grade.value }}"></span></span>
+                </td>
+            {% endif %}
+          {% endfor %}
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endif %}

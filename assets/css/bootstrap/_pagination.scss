@@ -1,0 +1,37 @@
+// Pagination
+//
+
+
+
+//
+// Alternatives
+//
+
+.pagination-alphabet {
+  .page-item {
+    &.disabled {
+      display: none;
+    }
+  }
+}
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(md) {
+
+  //
+  // Alternatives
+  //
+
+  .pagination-alphabet {
+    .page-item {
+      &.disabled {
+        display: initial;
+      }
+    }
+  }
+}

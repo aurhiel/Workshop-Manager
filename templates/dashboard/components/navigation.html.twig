@@ -1,0 +1,91 @@
+
+<nav class="navbar navbar-dashboard">
+  <div class="container px-3">
+    <a class="navbar-brand" href="{{ path('dashboard') }}">
+      {% include 'components/logo.html.twig' with { hide_text: true } %}
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Afficher la navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        {% if is_granted('ROLE_PUBLISHER') == false and is_granted('ROLE_ADMIN') == false %}
+        <li class="nav-item{% if app.request.attributes.get('_route') == 'dashboard_user_workshops_subbed' %} active{% endif %}">
+          <a class="nav-link" href="{{ path('dashboard_user_workshops_subbed') }}">
+            <span class="icon icon-clipboard"></span>
+            Mes Ateliers
+          </a>
+        </li>
+        {% endif %}
+        {# Publisher's pages #}
+        {% if is_granted('ROLE_PUBLISHER') %}
+        <li class="nav-item{% if app.request.attributes.get('_route') == 'admin_dashboard_users' %} active{% endif %}">
+          <a class="nav-link" href="{{ path('admin_dashboard_users') }}">
+            <span class="icon icon-group"></span>
+            Utilisateurs
+          </a>
+        </li>
+        <li class="nav-item{% if app.request.attributes.get('_route') == 'admin_dashboard_workthemes' %} active{% endif %}">
+          <a class="nav-link" href="{{ path('admin_dashboard_workthemes') }}">
+            <span class="icon icon-brush"></span>
+            Thématiques
+          </a>
+        </li>
+        {% endif %}
+        {# Admin's pages #}
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item{% if app.request.attributes.get('_route') == 'admin_dashboard_addresses' %} active{% endif %}">
+          <a class="nav-link" href="{{ path('admin_dashboard_addresses') }}">
+            <span class="icon icon-location-outline"></span>
+            Adresses
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" href="#modal-welcome">
+            <span class="icon icon-help"></span>
+            Aides &amp; F.A.Q
+          </a>
+        </li>
+        <li class="nav-divider d-md-none"></li>
+        <li class="nav-item d-md-none{% if app.request.attributes.get('_route') == 'profile_settings' %} active{% endif %}">
+          <a class="nav-link" href="{{ path('profile_settings') }}">
+            <span class="icon icon-user"></span>
+            Profil
+          </a>
+        </li>
+        <li class="nav-item d-md-none">
+          <a class="nav-link" href="{{ path('logout') }}">
+            <span class="icon icon-power"></span>
+            Déconnexion
+          </a>
+        </li>
+      </ul>
+
+      <div class="dropdown dropdown-user d-none d-md-inline-block">
+        <div class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="app-user-mini-info text-right">
+            <span class="_names">
+              {{ app.user.lastname|capitalize }} {{ app.user.firstname|capitalize }}
+            </span>
+            <span class="_email">{{ app.user.email }}</span>
+          </span>
+          <span class="app-avatar icon icon-user ml-2"></span>
+        </div>
+        <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="{{ path('profile_settings') }}">
+            Profil
+            <span class="icon icon-user"></span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ path('logout') }}">
+            Déconnexion
+            <span class="icon icon-power"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

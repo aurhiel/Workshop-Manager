@@ -1,0 +1,20 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ user.firstname|capitalize }},
+  </p>
+
+  <p>
+    Votre compte pour accéder aux ateliers d'Ingeneria a bien été créé, <b>cependant il
+    n'est pas encore actif</b>.
+  </p>
+
+  <p>
+    Vous serez prévenu par e-mail, lorsque votre consultant référent l'aura activé.
+  </p>
+
+  <p>
+    Rappel de votre identifiant de connexion : <b>{{ user.email }}</b>
+  </p>
+{% endblock %}

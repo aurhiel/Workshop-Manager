@@ -1,0 +1,69 @@
+{% if form.serviceType is defined or form.referentConsultant is defined %}
+<div class="form-row border-bottom mb-4">
+  {% if form.serviceType is defined and form.serviceType.rendered == false %}
+  <div class="col-md-6 mb-4">
+    {{ form_label(form.serviceType, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.serviceType) }}
+    {{ form_errors(form.serviceType) }}
+  </div>
+  {% endif %}
+
+  {% if form.referentConsultant is defined %}
+  <div class="col-md-{% if form.serviceType is not defined %}12{% else %}6{% endif %} mb-4">
+    {{ form_label(form.referentConsultant, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.referentConsultant) }}
+    {{ form_errors(form.referentConsultant) }}
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="form-row">
+  <div class="col-6 mb-3">
+    {{ form_label(form.lastname, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.lastname) }}
+    {{ form_errors(form.lastname) }}
+  </div>
+
+  <div class="col-6 mb-3">
+    {{ form_label(form.firstname, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.firstname) }}
+    {{ form_errors(form.firstname) }}
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="col-md-7 mb-3">
+    {{ form_label(form.email, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.email) }}
+    {{ form_errors(form.email) }}
+  </div>
+
+  <div class="col-md-5 mb-3">
+    {{ form_label(form.phone, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.phone) }}
+    {{ form_errors(form.phone) }}
+  </div>
+</div>
+
+{% if form.idPoleEmploi is defined %}
+<div class="form-group">
+  {{ form_label(form.idPoleEmploi, null, { label_attr: { class: 'text-required' } }) }}
+  {{ form_widget(form.idPoleEmploi) }}
+  {{ form_errors(form.idPoleEmploi) }}
+</div>
+{% endif %}
+
+<div class="form-row">
+  <div class="col-sm-6 mb-3">
+    {{ form_label(form.plainPassword.first, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.plainPassword.first) }}
+    {{ form_errors(form.plainPassword.first) }}
+  </div>
+
+  <div class="col-sm-6 mb-2">
+    {{ form_label(form.plainPassword.second, null, { label_attr: { class: 'text-required' } }) }}
+    {{ form_widget(form.plainPassword.second) }}
+    {{ form_errors(form.plainPassword.second) }}
+  </div>
+</div>

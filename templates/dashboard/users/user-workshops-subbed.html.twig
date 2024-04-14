@@ -1,0 +1,104 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard app-core--dashboard-disable-merge' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-clipboard"></span>
+      Liste des ateliers de {{ user.lastname }} {{ user.firstname }}
+      {% if 'ROLE_PUBLISHER' in user.roles %}
+        <span class="icon-star-outline" title="Formateur"></span>
+      {% endif %}
+      {% if 'ROLE_ADMIN' in user.roles %}
+        <span class="icon-star" title="Administrateur"></span>
+      {% endif %}
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      {% if 'ROLE_PUBLISHER' in user.roles or 'ROLE_ADMIN' in user.roles %}
+        Retrouvez ici la liste des ateliers <u>présenté</u> par {{ user.lastname }} {{ user.firstname }}.
+      {% else %}
+        Retrouvez ici la liste des ateliers auquel {{ user.lastname }} {{ user.firstname }} s'est <u>inscrit&middot;e</u>.
+      {% endif %}
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <button class="btn btn-outline-primary text-white mr-3" data-toggle="print" type="button">
+        <span class="icon icon-printer"></span> Imprimer la liste
+      </button>
+
+      <button class="btn btn-outline-primary btn-clipboard text-white mr-3"
+          data-clipboard-target="#user-workshops-list-clip" type="button">
+        <span class="icon icon-export"></span> Copier la liste
+      </button>
+
+      <div class="checkbox-filters d-inline-block">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="filter-old-subs" data-toggle="class-toggler" data-target="#user-workshops-by-days, #user-workshops-list-clip" data-class-css="show-old-days" checked>
+          <label class="custom-control-label" for="filter-old-subs">Afficher les ateliers passés</label>
+        </div>
+
+        <!-- <div class="custom-control custom-checkbox custom-checkbox--success">
+          <input type="checkbox" class="custom-control-input" id="filter-subs-confirmed" checked>
+          <label class="custom-control-label" for="filter-subs-confirmed">Inscription confirmée</label>
+        </div>
+
+        <div class="custom-control custom-checkbox custom-checkbox--warning">
+          <input type="checkbox" class="custom-control-input" id="filter-subs-pre-sub" checked>
+          <label class="custom-control-label" for="filter-subs-pre-sub">Inscrit&;middot;e</label>
+        </div>
+
+        <div class="custom-control custom-checkbox custom-checkbox--danger">
+          <input type="checkbox" class="custom-control-input" id="filter-subs-not-confirmed" checked>
+          <label class="custom-control-label" for="filter-subs-not-confirmed">Inscription non-confirmée</label>
+        </div> -->
+      </div>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  {% if workshops_by_date is not empty %}
+    <div class="clipboardJS-hidden-data show-old-days" id="user-workshops-list-clip" aria-hidden="true">
+    {% for key_date, workshops in workshops_by_date %}
+      {% set is_current_or_future = (key_date|date('U') >= "now"|date('Y-m-d')|date('U')) %}
+
+      <div {% if is_current_or_future == false %}class="old-days"{% endif %}>
+        <div>{{ key_date | localizeddate('full', 'none') | capitalize }}</div>
+
+        {% for user_sub in workshops %}
+          {% set workshop = (user_sub.workshop is defined) ? user_sub.workshop : user_sub %}
+          {% set subscriber = (user_sub.workshop is defined) ? user_sub : null %}
+
+          <div>{{ workshop.getDateStart() | localizeddate('none', 'short') }} à {{ workshop.getDateEnd() | localizeddate('none', 'short') }} - {{ workshop.theme.getName() }}</div>
+        {% endfor %}
+        {% if loop.last == false %}<br>{% endif %}
+      </div>
+    {% endfor %}
+    </div>
+
+    {% include 'dashboard/components/workshops-by-days.html.twig' with {
+      id_list               : 'user-workshops-by-days',
+      workshops_by_date     : workshops_by_date,
+      enable_workshop_popin : false
+    } %}
+  {% else %}
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-muted">
+        {% if 'ROLE_USER' in user.roles %}
+          Aucune inscription trouvée pour des ateliers, {{ user.lastname }} {{ user.firstname }} doit d'abord s'inscrire à des ateliers.
+        {% elseif 'ROLE_PUBLISHER' in user.roles or 'ROLE_ADMIN' in user.roles %}
+          {{ user.lastname }} {{ user.firstname }} n'a présenté ou n'est lié&middot;e a aucun atelier, pour le moment.
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

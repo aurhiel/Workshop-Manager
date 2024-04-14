@@ -1,0 +1,74 @@
+security:
+    always_authenticate_before_granting: true
+    encoders:
+      App\Entity\User: bcrypt
+
+    # HIERARCHY
+    role_hierarchy:
+        ROLE_PUBLISHER:   ROLE_USER
+        ROLE_ADMIN:       [ROLE_PUBLISHER]
+        ROLE_SUPERADMIN:  [ROLE_ADMIN]
+
+    # PROVIDERS
+    providers:
+        # in_memory: { memory: ~ }
+        # own user provider
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                # Restrict login to one field
+                # property: username
+
+    # FIREWALLS
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            logout_on_user_change: true
+            anonymous: true
+            provider: our_db_provider
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: /dashboard
+            logout:
+                path:   /logout
+                target: /connexion
+            # Remember
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+      # SCHEDULER TASK
+      - { path: '^/test',                         roles: ROLE_SUPERADMIN }
+      - { path: '^/command-scheduler',            roles: ROLE_SUPERADMIN }
+      - { path: '^/dashboard/questionnaires',     roles: ROLE_SUPERADMIN }
+      # ADMIN & PUBLISHER PART'S (USERS/THEMES/ADDRESSES)
+      - { path: '^/dashboard/utilisateurs/[0-9]{1,}/supprimer', roles: ROLE_ADMIN }
+      - { path: '^/dashboard/utilisateurs',       roles: ROLE_PUBLISHER }
+      - { path: '^/dashboard/questionnaire',      roles: ROLE_PUBLISHER }
+      - { path: '^/dashboard/thematiques',        roles: ROLE_PUBLISHER }
+      - { path: '^/dashboard/adresses',           roles: ROLE_ADMIN }
+      - { path: '^/dashboard/inscriptions',       roles: ROLE_PUBLISHER }
+      # WORKSHOPS
+      # Rule above gives access to workshops informations and subscribe for CLASSIC USERS
+      - { path: '^/dashboard/atelier/inscription/[0-9]{1,}',    roles: IS_AUTHENTICATED_REMEMBERED }
+      - { path: '^/dashboard/atelier/desinscription/[0-9]{1,}', roles: IS_AUTHENTICATED_REMEMBERED }
+      - { path: '^/dashboard/atelier/[0-9]{1,}',                roles: IS_AUTHENTICATED_REMEMBERED }
+      # Need PUBLISHER's users role for everything else: add, delete and edit workshops
+      - { path: '^/dashboard/atelier',            roles: ROLE_PUBLISHER }
+      # CLASSIC USERS
+      - { path: '^/dashboard',                    roles: IS_AUTHENTICATED_REMEMBERED }
+      - { path: '^/profil',                       roles: IS_AUTHENTICATED_FULLY }

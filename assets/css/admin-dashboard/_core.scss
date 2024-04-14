@@ -1,0 +1,118 @@
+// Admin Core
+//
+
+
+
+// VSI monospace text
+.text-vsi {
+  font-weight: bold;
+  font-family: monospace;
+  font-size: .85em;
+  letter-spacing: .1em;
+}
+.btn .text-vsi {
+  margin-left: .5em;
+}
+
+
+
+$search-results-bg: $gray-100;
+$search-results-border: $gray-200;
+$search-results-padding-x: .8rem;
+
+// Search
+.search-results {
+  background-color: $search-results-bg;
+  border-radius: $border-radius;
+  border: 1px solid $search-results-border;
+  padding-left: $search-results-padding-x;
+  padding-right: $search-results-padding-x;
+  height: 210px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .item {
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+
+    .app-user-mini-info {
+      margin-bottom: 0;
+    }
+
+    + .item {
+      border-top: 1px solid $search-results-border;
+    }
+
+    &:nth-child(2n) {
+      background-color: rgba(0, 0, 0, .02);
+    }
+
+    // Specifics
+    &.in-workshop {
+      position: relative;
+
+      &:after {
+        content: 'inscrit(e)';
+        color: $gray-700;
+        font-size: .8rem;
+        font-weight: bold;
+        letter-spacing: .02rem;
+        line-height: 1;
+        border: 1px solid $gray-400;
+        border-radius: $btn-border-radius-sm;
+        padding: .2rem .4rem;
+        position: absolute;
+        right: $search-results-padding-x;
+        top: 50%;
+        margin-top: -.65rem;
+      }
+
+      .btn-add-new-subber {
+        display: none;
+      }
+    }
+
+    &.is-vsi {
+      ._names {
+        padding-left: 1.8em;
+        position: relative;
+        z-index: 1;
+
+        &:after {
+          content: 'VSI';
+          background-color: $primary;
+          color: $white;
+          font-weight: bold;
+          font-family: monospace;
+          font-size: .6em;
+          line-height: 1;
+          letter-spacing: .1em;
+          border-radius: .7em;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          margin-top: -.65em;
+          padding: .2em .6em .1em .6em;
+        }
+      }
+    }
+  }
+}
+
+
+
+//
+// Responsive
+
+@include media-breakpoint-up(xl) {
+  // Search
+  .search-results {
+    .item {
+      &.is-vsi {
+        ._names {
+          padding-left: 2.2em;
+        }
+      }
+    }
+  }
+}

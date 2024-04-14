@@ -1,0 +1,96 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--survey' %}
+
+{% block body %}
+<header class="header--survey">
+  <div class="container">
+    <div class="row">
+      <div class="-user col-md-5 col-lg-4">
+        <span class="app-user-mini-info text-right">
+          <span class="_names">
+            {{ user_vsi.lastname|capitalize }} {{ user_vsi.firstname|capitalize }}
+          </span>
+          <span class="_email">{{ user_vsi.email }}</span>
+        </span>
+        <span class="app-avatar icon icon-user ml-2"></span>
+      </div>
+
+      <div class="col-md-7 col-lg-8 order-md-first">
+        <h1 class="-title">
+          <span class="icon-edit"></span>
+          {{ survey.label }}
+        </h1>
+        <p class="-subtitle h4">
+          {% if nb_days_left > 0 %}
+            Encore <u>{{ nb_days_left }} jour{% if nb_days_left > 1 %}s{% endif %}</u> pour remplir votre questionnaire
+          {% elseif nb_hours_left is not null and nb_hours_left > 0 %}
+            Plus que <u>{{ nb_hours_left }} heure{% if nb_hours_left > 1 %}s{% endif %}</u> pour compléter votre questionnaire
+          {% else %}
+            Plus que quelques minutes pour finir votre questionnaire, faites vite !
+          {% endif %}<br>
+          Dernier jour d'accès le <u>{{ date_expires_at | localizeddate('long', 'none') }}</u>
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container container--survey">
+  <div class="card card--survey">
+    <span class="badge--survey badge badge-pill badge-primary">
+      Étape -
+      <span class="survey--step">
+        <span class="-current">{{ step_position }}</span>
+        <span class="-delimiter">/</span>
+        <span class="-total">{{ nb_steps }}</span>
+      </span>
+    </span>
+    <form method="post">
+      <div class="card-header text-center">
+        <h2 class="h4 mt-2 mb-0 mt-md-0">{{ step.label }}</h2>
+      </div>
+      <div class="card-body">
+        {% for question in questions %}
+          <div class="survey--question row align-items-center">
+            <div class="col-md-7">
+              <h3 class="-question h5">
+                <span class="badge badge-pill badge-number badge-primary">{{ loop.index }}</span>
+                <span class="text">{{ question.label }}</span>
+              </h3>
+            </div>
+            <div class="col-md-5 text-center">
+              {% for grade in grades %}
+                <div class="grade-control d-inline-block mx-1">
+                  <input type="radio" id="{{ question.id }}-grade-{{ grade.value }}"
+                    name="question-{{ question.id }}" value="{{ grade.id }}"
+                      class="grade-control-input grade-control-input--{{ grade.value }}"
+                        required="required"{% if answers[question.id] is defined and answers[question.id].getSurveyGrade().value == grade.value %} checked="checked"{% endif %} >
+                  <label class="grade-control-label" for="{{ question.id }}-grade-{{ grade.value }}">
+                    <span class="grade-control-icon icon-grade-{{ grade.value }}"></span>
+                    <span class="grade-control-text">{{ grade.label }}</span>
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="card-footer clearfix">
+        {% if step_position > 1 %}
+        <a href="{{ path('survey', { token : token, step_position : (step_position - 1) }) }}?action=previous"
+          class="btn btn-sm btn-outline-secondary mt-1">
+          <span class="icon-chevron-left"></span>
+          Précédente
+        </a>
+        {% endif %}
+        <button class="btn btn-primary float-right" type="submit" name="action" value="next">
+          {% if step_position == nb_steps %}Terminer
+          {% else %}Suivante{% endif %}
+          <span class="icon-chevron-right"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

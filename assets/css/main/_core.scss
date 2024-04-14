@@ -1,0 +1,390 @@
+// Core
+//
+
+// :root {
+//   // Resize Test
+//   font-size: 14px;
+// }
+
+//
+// Core (= <body>)
+//
+
+.app-core {
+  min-width: 320px;
+
+  // SOME ALTERNATIVES
+  &--footer-centered {
+    .app-footer {
+      background: none;
+      box-shadow: none;
+      margin-top: 1.4rem;
+
+      > .container {
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+
+    .footer-item {
+      &--left, &--right {
+        text-align: center;
+        float: none;
+        width: 100%;
+      }
+
+      &--author {
+        margin-top: .25rem;
+      }
+    }
+  }
+
+  &--body-centered {
+    display: table;
+    min-height: 100vh;
+    width: 100%;
+
+    .app-body {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  // SPECIFICS PAGES
+  &--static-page {
+    .brand-logo {
+      margin: 2rem auto;
+    }
+
+    .app-main-content {
+      background-color: rgba(0, 0, 0, .01);
+      padding-bottom: 1rem;
+    }
+  }
+
+  &--blank-page {
+    .app-main-content {
+      background-color: $white;
+      box-shadow: .4rem .4rem 1.6rem rgba(0, 0, 0, .05);
+      width: 94%;
+      max-width: 42rem;
+      margin-right: auto;
+      margin-left: auto;
+      padding: 1rem 1.4rem;
+    }
+  }
+}
+
+
+
+//
+// Brand logo
+//
+
+.brand-logo {
+  color: $body-color;
+  white-space: nowrap;
+  display: inline-block;
+  @include print-color-adjust(exact);
+
+  &[href] {
+    text-decoration: none;
+    transition: color 400ms ease;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  &--big {
+    font-size: 2rem;
+  }
+
+  .icon {
+    background-color: $primary;
+    color: $white;
+    font-size: 1em;
+    line-height: 1;
+    text-align: center;
+    border: .06em solid rgba(0, 0, 0, .06);
+    text-shadow: .06em .06em 0 rgba(0, 0, 0, .06);
+    border-radius: .2em;
+    display: inline-block;
+    vertical-align: middle;
+    padding: .18em .28em .3em .28em;
+  }
+
+  ._text {
+    font-size: .85em;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: .4rem;
+
+    &-sub {
+      display: block;
+      margin-top: .2em;
+      margin-left: 0;
+    }
+  }
+}
+
+.page-header {
+  color: darken($body-color, 7%);
+  font-weight: bold;
+  margin-bottom: .6em;
+
+  &:after {
+    content: '';
+    border-top: .14em solid $primary;
+    border-radius: 1em;
+    display: block;
+    width: 2.6em;
+    margin-top: .2em;
+  }
+
+  &.text-center {
+    &:after {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+.textual-content {
+  font-size: .85rem;
+  max-width: 40rem;
+
+  ul, ol {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+  }
+
+  p {
+    line-height: 1.8;
+    text-align: justify;
+  }
+}
+
+.text-required {
+  &:after, &:before {
+    color: $red;
+    font-weight: bold;
+    font-size: .75rem;
+    position: relative;
+    top: -.15rem;
+  }
+
+  &:after { content: ' *'; }
+
+  &--prepend {
+    &:after { content: ''; }
+    &:before { content: '* '; }
+  }
+}
+
+.app-avatar {
+  background-color: $gray-200;
+  color: $gray-600;
+  font-size: 2em;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  overflow: hidden;
+}
+
+.app-user-mini-info {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1rem;
+
+  ._names {
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+  }
+
+  ._email {
+    font-size: .8rem;
+    line-height: 1;
+    letter-spacing: .04rem;
+    opacity: .5;
+  }
+
+  &.has-status {
+    position: relative;
+    padding-left: 1.7rem;
+
+    > .status-icon {
+      height: .5rem;
+      width: .5rem;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -.25rem;
+    }
+  }
+
+  &.has-more-dots {
+    .app-more-dots {
+      top: 50%;
+      margin-top: -.6rem;
+    }
+  }
+}
+
+.user-status {
+  display: inline-block;
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 100%;
+    height: 0;
+    width: 0;
+    border: .125em solid;
+    margin-right: .2em;
+    margin-bottom: .2em;
+    line-height: 0;
+  }
+
+  &--active {
+    color: $success;
+  }
+
+  &--inactive {
+    color: $danger;
+  }
+}
+
+.app-more-dots {
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+  padding: 8px;
+  cursor: pointer;
+
+  &:after {
+    content: '';
+    position: absolute;
+    background-color: rgba(0, 0, 0, .1);
+    z-index: 1;
+    height: 150%;
+    width: 150%;
+    top: 50%;
+    left: 50%;
+    margin-top: -75%;
+    margin-left: -75%;
+    border-radius: 50%;
+    transform: scale(.5);
+    opacity: 0;
+    transition: transform 400ms ease, opacity 400ms ease;
+  }
+
+  &:hover, &[aria-expanded="true"] {
+    &:after {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .dot {
+    position: relative;
+    z-index: 5;
+
+    &, &:before, &:after {
+      background-color: currentcolor;
+      line-height: 0;
+      display: block;
+      height: 4px;
+      width: 4px;
+      border-radius: 50%;
+    }
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+
+    &:before {
+      top: -6px;
+    }
+
+    &:after {
+      top: 6px;
+    }
+  }
+}
+
+.google-maps {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
+  }
+
+  > .map {
+    background-color: rgba(0, 0, 0, .04);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // border-radius: .2rem;
+  }
+}
+
+.viewport-sizes {
+  position: absolute;
+  top: -100%;
+  left: -100%;
+}
+
+
+
+//
+// Responsive
+//
+
+
+@include media-breakpoint-up(md) {
+  // Core (= <body>)
+  //
+  .app-core {
+    &--blank-page {
+      .app-main-content {
+        padding: 2rem 2.4rem;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  // :root {
+  //   font-size: 16px;
+  // }
+
+  .app-body {
+    min-height: 90vh;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  :root {
+    font-size: 17px;
+  }
+}

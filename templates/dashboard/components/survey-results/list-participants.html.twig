@@ -1,0 +1,79 @@
+{% if participants is not empty %}
+  <div class="survey-results survey-results--participants">
+    <h3 class="page-header mt-5">Participants</h3>
+    <div class="card-users row justify-content-center">
+    {% for user in participants %}
+      {% set user_token = (user.surveyTokens is not empty) ? user.surveyTokens[0] : null %}
+      {% set percent_completed = (user.surveyAnswersCount * 100 / user_token.survey.surveyQuestionsCount)|round %}
+      {% set has_expired = (user_token.expiresAt - date().timestamp) < 0 %}
+
+      <div class="-item col-md-6 col-lg-4 col-print-4" style="break-inside: avoid;">
+        <div class="card" style="break-inside: avoid;">
+          <div class="card-body" style="break-inside: avoid;">
+            <div class="h5 card-title has-more-dots app-user-mini-info">
+              <div class="_names">{{ user.lastname|capitalize }} {{ user.firstname|capitalize }}</div>
+              <div class="_email">{{ user.email }}</div>
+
+              {# Dropdown actions #}
+              {% if percent_completed >= 100 %}
+                <div class="app-more-dots d-print-none" data-toggle="dropdown">
+                  <span class="dot"></span>
+                </div>
+
+                <div class="dropdown-menu dropdown-menu-right text-right d-print-none">
+                  <a class="dropdown-item" href="{{ path('admin_dashboard_users_VSI_user_survey_results', { id : user.id }) }}">
+                    Résultats
+                    <span class="icon icon-chart-bar-outline ml-1"></span>
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row small text-muted">
+              <div class="col-token-status col-5 pr-0" data-url-survey-token="{{ path('survey', { token : 'SURVEY_TOKEN' }) }}">
+              {% if user_token is not null %}
+                {% if percent_completed >= 100 %}
+                  <span class="badge badge-type-service badge-success">
+                    <span class="text">complété</span>
+                  </span>
+                {% elseif has_expired == true %}
+                  <span class="badge badge-type-service badge-danger"
+                      data-toggle="tooltip" data-placement="top" data-html="true"
+                        title="L'accès a expiré le <b class='d-inline-block'>{{ user_token.expiresAt|date('d M. Y') }}</b>">
+                    <span class="text">non-complété !</span>
+                  </span>
+                  <a href="#btn-reset-survey-token" class="btn-reset-survey-token icon-arrow-sync align-middle" data-toggle="tooltip" data-placement="top"
+                    title="renouveler l'accès au questionnaire" data-survey-token-id="{{ user_token.id }}"></a>
+                {% else %}
+                  <a href="{{ path('survey', { token : user_token.token }) }}" class="badge badge-type-service badge-warning"
+                      data-toggle="tooltip" data-placement="top" data-html="true"
+                        title="L'accès expire le <b class='d-inline-block'>{{ user_token.expiresAt|date('d M. Y') }}</b>">
+                    <span class="text">en cours - {{ percent_completed }}%</span>
+                  </a>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-type-service badge-secondary"
+                    data-toggle="tooltip" data-placement="top" data-html="true"
+                      title="Le questionnaire sera envoyé le <b class='d-inline-block'>{{ user.workshopEndDate|date('d M. Y') }}</b>">
+                  <span class="text">envoi à venir</span>
+                </span>
+              {% endif %}
+              </div>
+              <div class="col-7 pl-0 text-right">
+                Num. Cohorte :
+                {% if user_vsi_filters.id_cohort != user.idCohort %}
+                  <a href="{{ path('admin_dashboard_users_VSI', { id_consultant : user_vsi_filters.id_consultant, id_cohort : user.idCohort, date_start : user_vsi_filters.date_start, date_end : user_vsi_filters.date_end, page : 1 }) }}"
+                    title="Voir seulement cette cohorte"><b>{{ user.idCohort }}</b></a>
+                {% else %}
+                  <b>{{ user.idCohort }}</b>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,46 @@
+// Stealth Raven
+//
+
+body {
+  &.raven-is-loading {
+    user-select: none;
+
+    .raven-loader {
+      opacity: 1;
+      top: 0;
+      bottom: 0;
+      pointer-events: initial;
+      transition: opacity 600ms ease, top 400ms ease, bottom 400ms ease;
+    }
+  }
+}
+
+.raven-loader {
+  opacity: 0;
+  display: block;
+  position: fixed;
+  z-index: 9999; // IT'S OVER NIIINE-THOUUUSAAAAAND : https://www.youtube.com/watch?v=iJG8Kv6qO2U
+  top: 50%;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  // height: 0;
+  background-color: #222;
+  background-color: rgba(0, 0, 0, .75);
+  color: #fff;
+  transition: opacity 400ms ease, top 600ms ease, bottom 600ms ease;
+  pointer-events: none;
+
+  &:after {
+    content: 'Chargement en cours, veuillez patienter . . .';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    margin-top: -.5em;
+    font-size: .8rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}

@@ -1,0 +1,118 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-cog"></span>
+      Étapes du questionnaire {{ survey.label }}
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Créez, modifiez ou supprimez les étapes et questions du questionnaire de satisfaction <u>{{ survey.label }}</u>
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <a class="btn btn-outline-primary text-white px-3 modal-stealth-raven-button"
+          data-target="#modal-manage-survey-step">
+        Ajouter une étape
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="card-survey-steps row justify-content-center mt-4 mb-2">
+    {% for step in survey.surveySteps %}
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">{{ step.label }}</h5>
+          </div>
+          <table class="table table-hover table-striped table-entities table-survey-question-entities">
+            <thead>
+              <tr>
+                <th scope="col" class="col-id">#</th>
+                <th scope="col" class="col-position">Pos.</th>
+                <th scope="col" class="col-name">Question</th>
+                <th scope="col" class="col-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for question in step.surveyQuestions %}
+              <tr>
+                <th scope="row" class="col-id">{{ question.id }}</th>
+                <td class="col-position">{{ question.position }}</td>
+                <td class="col-name">{{ question.label }}</td>
+                <td class="col-actions">
+                  <button type="button" name="button" class="btn btn-sm btn-secondary btn-stealth-raven-load-form"
+                      data-stealth-raven-loader="{{ path('admin_dashboard_users_VSI_survey_question_get', { id : question.id }) }}"
+                        data-stealth-raven-fill-form="survey_question" data-target="#modal-manage-survey-question">
+                    <span class="icon-edit"></span>
+                    <span class="sr-only">Modifier</span>
+                  </button>
+                  <a class="btn btn-sm btn-danger btn-stealth-raven" data-action="simple_confirm"
+                    href="{{ path('admin_dashboard_survey_question_del', { id : question.id }) }}"
+                      data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer l'étape : {{ question.label }} ?">
+                    <span class="icon-trash"></span>
+                    <span class="sr-only">Supprimer</span>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <div class="card-footer text-right">
+            <a class="btn btn-sm btn-outline-primary btn-add-survey-question modal-stealth-raven-button"
+                data-target="#modal-manage-survey-question" data-survey-step-id="{{ step.id }}">
+              Ajouter une question
+            </a>
+            <button type="button" name="button" class="btn btn-sm btn-secondary btn-stealth-raven-load-form"
+                data-stealth-raven-loader="{{ path('admin_dashboard_users_VSI_survey_step_get', { id : step.id }) }}"
+                  data-stealth-raven-fill-form="survey_step" data-target="#modal-manage-survey-step">
+              <span class="icon-edit"></span>
+              <span class="d-none d-sm-inline">Modifier</span>
+            </button>
+            <a class="btn btn-sm btn-danger btn-stealth-raven" data-action="simple_confirm"
+              href="{{ path('admin_dashboard_survey_step_del', { id : step.id }) }}"
+                data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer l'étape : {{ step.label }} ?">
+              <span class="icon-trash"></span>
+              <span class="d-none d-sm-inline">Supprimer</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  {# Modal / Manage survey step #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_survey_step,
+    'stealth_raven_modal_id'    : 'modal-manage-survey-step',
+    'stealth_raven_title_add'   : 'Ajouter une étape',
+    'stealth_raven_title_edit'  : 'Modifier l\'étape'
+  } %}
+    {% block form_widgets %}
+      {{ form_widget(form) }}
+      <input type="hidden" name="survey-id" value="{{ survey.id }}">
+    {% endblock %}
+  {% endembed %}
+
+  {# Modal / Manage survey question #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_survey_question,
+    'stealth_raven_modal_id'    : 'modal-manage-survey-question',
+    'stealth_raven_title_add'   : 'Ajouter une question',
+    'stealth_raven_title_edit'  : 'Modifier la question'
+  } %}
+    {% block form_widgets %}
+      {{ form_widget(form) }}
+      <input type="hidden" name="survey-step-id" value="#STEP_ID#">
+    {% endblock %}
+  {% endembed %}
+{% endblock %}

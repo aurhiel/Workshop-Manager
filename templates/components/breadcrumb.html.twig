@@ -1,0 +1,16 @@
+{% if breadcrumb_links is defined and breadcrumb_links is not empty %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+  {%- for bc_link in breadcrumb_links -%}
+    {% set is_current = (bc_link.current is defined and bc_link.current == true) %}
+    <li class="breadcrumb-item{% if is_current %} active{% endif %}"{% if is_current %} aria-current="page"{% endif %}>
+      {% if bc_link.href is defined %}
+        <a href="{{ bc_link.href }}">{{ bc_link.label }}</a>
+      {% else %}
+        {{ bc_link.label }}
+      {% endif %}
+    </li>
+  {%- endfor -%}
+  </ol>
+</nav>
+{% endif %}

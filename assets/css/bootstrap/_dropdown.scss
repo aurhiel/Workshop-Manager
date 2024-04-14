@@ -1,0 +1,35 @@
+
+.dropdown-user {
+  .dropdown-toggle {
+    cursor: pointer;
+  }
+
+  .dropdown-item {
+    padding-left: $dropdown-item-padding-x / 2;
+    padding-right: $dropdown-item-padding-x / 2;
+  }
+
+  .dropdown-menu {
+    margin-top: .6rem;
+  }
+
+  .dropdown-divider {
+    margin: .25rem 0;
+  }
+}
+
+.dropdown-item {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  outline: 0;
+
+  &:active, &.active {
+    .icon {
+      color: $dropdown-link-active-color;
+    }
+  }
+
+  .icon {
+    color: $gray-600;
+  }
+}

@@ -1,0 +1,19 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour,
+  </p>
+
+  <p>
+    Nous vous informons que l'atelier <b>{{ workshop.theme.name }}</b>
+    se déroulant le <b>{{ workshop.getDateStart() | localizeddate('long', 'none', 'fr') }}
+    à {{ workshop.getDateStart() | localizeddate('none', 'short', 'fr') }}</b>, auquel
+    vous étiez inscrit&middot;e, a été <b style="color: #e74c3c;">annulé</b>.
+  </p>
+
+  <p>
+    Connectez-vous sur le site des <a href="{{ url('dashboard') }}" style="color: #4aa5e6;">Ateliers Ingeneria</a>
+    pour vous inscrire à un autre atelier.
+  </p>
+{% endblock %}

@@ -1,0 +1,53 @@
+// Header
+// -----------------------
+
+.header--survey {
+  background-color: $survey-header-bg;
+  color: $survey-header-color;
+  text-align: center;
+  padding: 2rem 0 6.4rem;
+
+  .-title {
+    line-height: 1;
+    margin: 1.8rem auto 0 auto;
+
+    + .-subtitle {
+      margin-top: .8rem;
+    }
+  }
+
+  .-subtitle {
+    font-size: 1.2rem;
+    font-weight: normal;
+    line-height: 1.4;
+    opacity: .4;
+  }
+}
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(md) {
+  .header--survey {
+    text-align: left;
+    padding-top: 2.6rem;
+    padding-bottom: 8rem;
+
+    .-user {
+      text-align: right;
+    }
+
+    .-title {
+      margin: 0 auto;
+    }
+  }
+}
+
+
+@include media-breakpoint-up(xl) {
+  .container {
+    max-width: 960px;
+  }
+}

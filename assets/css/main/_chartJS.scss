@@ -1,0 +1,18 @@
+// ChartJS
+//
+
+.chart-js {
+  position: relative;
+  z-index: 1;
+}
+
+@media print {
+  // ChartJS NOTE: not working properly
+  .chart-js {
+    canvas {
+      height: auto !important;
+      width: auto !important;
+      max-width: 100%;
+    }
+  }
+}

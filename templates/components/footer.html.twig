@@ -1,0 +1,48 @@
+<div class="app-footer">
+  <div class="container clearfix">
+    <div class="footer-item footer-item--left footer-item--links">
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="{{ path('static_pages', { page_slug : 'mentions-legales' }) }}">Mentions légales</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ path('static_pages', { page_slug : 'donnees-personnelles' }) }}">Données personnelles</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ path('static_pages', { page_slug : 'a-propos' }) }}">A propos</a>
+        </li>
+        {% if is_granted('ROLE_SUPERADMIN') %}
+        <li class="list-inline-item">
+          <a href="{{ path('jmose_command_scheduler_list') }}" target="_blank">
+            <span class="icon icon-puzzle-outline"></span>
+            Tâches
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="footer-item footer-item--right footer-item--author">
+      &copy;&nbsp;2018 - Conçu avec du <span class="icon-code" title="code" alt="code"></span> et un peu de <span class="icon-coffee" title="thé ou café" alt="thé ou café"></span> par <a href="http://litti-aurelien.fr" title="litti-aurelien.fr" target="_blank">Litti Aurélien</a>
+    </div>
+  </div>
+</div>
+
+{# Define some javascript's useful variables #}
+{% if app.user is defined and app.user.id is defined %}
+<script type="text/javascript">
+  var user = {
+    id            : {{ app.user.id }},
+    firstname     : '{{ app.user.firstname }}',
+    lastname      : '{{ app.user.lastname }}',
+    email         : '{{ app.user.email }}',
+    is_consultant : {{ app.user.isConsultant ? 1 : 0 }},
+    roles         : {{ app.user.roles|json_encode|raw }}
+  };
+
+  if (typeof DASH_SETTINGS === 'undefined')
+    DASH_SETTINGS = {};
+
+  DASH_SETTINGS.user = user;
+</script>
+{% endif %}

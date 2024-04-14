@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+      {# Favicons #}
+      <link rel="apple-touch-icon-precomposed" href="{{ asset('/images/favicons/apple-touch-icon.png') }}" sizes="120x120" />
+      <link rel="icon" href="{{ asset('/images/favicons/favicon-32x32.png') }}" sizes="32x32" type="image/png" />
+      <link rel="icon" href="{{ asset('/images/favicons/favicon-16x16.png') }}" sizes="16x16" type="image/png" />
+
+      {# meta.title #}
+      <title>
+      {%- block meta_title -%}
+        {%- if meta.title is defined and meta.title is not empty -%}
+          {{ meta.title }} - Ateliers Ingeneria
+        {%- else -%}
+          Ateliers Ingeneria
+        {%- endif -%}
+      {%- endblock -%}
+      </title>
+
+      {# meta.desc #}
+      {% if meta.desc is defined and meta.desc is not empty %}
+        <meta name="description" content="{{ meta.desc }}" />
+      {% endif %}
+
+      {# meta.robots #}
+      {% if meta.robots is defined and meta.robots is not empty %}
+        <meta name="robots" content="{{ meta.robots }}" />
+      {% else %}
+        <meta name="robots" content="noindex, nofollow" />
+      {% endif %}
+
+      {# Stylesheets #}
+      <link rel="stylesheet" href="{{ asset('build/google-fonts.css') }}">
+      <link rel="stylesheet" href="{{ asset('build/main.css') }}">
+      {% if stylesheets is defined %}
+        {% for stylesheet_url in stylesheets %}
+          <link rel="stylesheet" href="{{ asset('build/' ~ stylesheet_url) }}">
+        {% endfor %}
+      {% endif %}
+      {# Custom stylesheets from twig templates #}
+      {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="app-core{% if core_class is defined %} {{ core_class }}{% endif %}">
+      {% block header %}{% endblock %}
+
+      <div class="app-body" id="main-content">
+        {% block flashes %}
+          <div class="container container--flashes">{% include 'components/flashes.html.twig' %}</div>
+        {% endblock %}
+
+        {% block body %}{% endblock %}
+      </div>
+
+      {% block footer %}
+        {% include 'components/footer.html.twig' %}
+      {% endblock %}
+
+      <span class="raven-loader"></span>
+
+      <span class="viewport-sizes">
+        <span class="d-block d-sm-none" data-viewport-size-slug="xs"></span>
+        <span class="d-none d-sm-block d-md-none" data-viewport-size-slug="sm"></span>
+        <span class="d-none d-md-block d-lg-none" data-viewport-size-slug="md"></span>
+        <span class="d-none d-lg-block d-xl-none" data-viewport-size-slug="lg"></span>
+        <span class="d-none d-xl-block" data-viewport-size-slug="xl"></span>
+      </span>
+
+      {# Custom javascripts from twig templates #}
+      {% block javascripts_defines %}{% endblock %}
+
+      {# Javascripts #}
+      <script src="{{ asset('build/runtime.js') }}"></script>
+      <script src="{{ asset('build/entries.js') }}"></script>
+      <script src="{{ asset('build/main.js') }}"></script>
+      {% if scripts is defined %}
+        {% for script_url in scripts if scripts is defined %}
+          <script src="{{ asset('build/' ~ script_url) }}"></script>
+        {% endfor %}
+      {% endif %}
+
+      {# Custom javascripts from twig templates #}
+      {% block javascripts %}{% endblock %}
+    </body>
+</html>

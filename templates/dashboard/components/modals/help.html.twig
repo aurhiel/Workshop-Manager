@@ -1,0 +1,243 @@
+{% embed 'components/modals/basic.html.twig' with {
+  'modal_title' : 'Aides & F.A.Q',
+  'modal_id'    : 'modal-welcome',
+  'modal_size'  : 'xl modal-lg',
+} %}
+  {% block modal_body %}
+  <p>
+    Afin d'organiser au mieux nos ateliers nous avons créé ce site où vous
+    trouverez l'ensemble des ateliers que nous vous proposons.
+  </p>
+
+  <p class="mb-2">
+    Il faut passer par un processus d'inscription composé de <b>3 étapes</b>
+    pour pouvoir participer aux ateliers.
+  </p>
+
+  <h4 class="page-header text-center h3 mt-4 mb-4">Les 3 étapes d'un atelier</h4>
+  <div class="workshop-steps row">
+    <div class="ws-step ws-step--subscribes-opened col-lg-4">
+      <div class="step-icon">
+        <span class="box">
+          <span class="icon icon-user-add"></span>
+        </span>
+      </div>
+      <div class="step-text">
+        <h5 class="title">1. Inscription</h5>
+        <div class="briefing">
+          <p>
+            <strong>L'inscription</strong> et la <strong>file d'attente</strong> de l'atelier
+            sont <strong>ouvertes</strong>.
+          </p>
+
+          <h6 class="border-top pt-3">
+            <span class="icon-ticket"></span>
+            Statuts d'inscription
+          </h6>
+
+          <ul class="list-unstyled mb-0">
+            <li class="mb-3">
+              <span>
+                <span class="status-icon" data-status-icon="pre-subscribe"></span>
+                <b>Inscrit&middot;e</b> :
+              </span>
+              Votre inscription est prise en compte, vous devrez la confirmer,
+              ou non, <strong class="text-important">3 jours avant</strong> l'atelier.
+            </li>
+            <li>
+            <span>
+              <span class="status-icon" data-status-icon="waiting-seats"></span>
+              <b>File d'attente</b> :
+            </span>
+            Vous devez attendre qu'une place se libère, un email vous en avertira.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-step ws-step--waiting-validation col-lg-4">
+      <div class="step-icon">
+        <span class="box">
+          <span class="icon icon-edit"></span>
+        </span>
+      </div>
+      <div class="step-text">
+        <h5 class="title">2. Confirmation</h5>
+        <div class="briefing">
+          <p class="mb-2">
+            <strong class="text-important">3 jours avant</strong> l'atelier,
+            <strong>la file d'attente est fermée</strong> et seules les places restantes
+            sont disponibles à l'inscription.
+          </p>
+
+          <!-- <div class="alert alert-info p-2">
+            <b>Remontée de file d'attente :</b> Si <u>vous ne confirmez pas votre inscription</u>,
+            elle sera <u>rejetée automatiquement, à minuit</u> afin de favoriser un
+            participant en file d'attente.
+          </div> -->
+
+          <h6 class="border-top pt-3">
+            <span class="icon-ticket"></span>
+            Statuts d'inscription
+          </h6>
+
+          <ul class="list-unstyled mb-0">
+            <li class="mb-3">
+              <span>
+                <span class="status-icon" data-status-icon="pre-subscribe"></span>
+                <b>En attente de confirmation</b> :
+              </span>
+              Vous devez confirmer, ou non, votre inscription.
+            </li>
+            <li>
+              <span>
+                <span class="status-icon" data-status-icon="waiting-seats"></span>
+                <b>File d'attente</b> :
+              </span>
+              Vous devez encore attendre qu'une place se libère ou vous désinscrire
+              et trouver un atelier semblable un autre jour.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-step ws-step--subscribes-closed col-lg-4">
+      <div class="step-icon">
+        <span class="box">
+          <span class="icon icon-times"></span>
+        </span>
+      </div>
+      <div class="step-text">
+        <h5 class="title">3. Fermeture</h5>
+        <div class="briefing">
+          <p>
+            L'atelier est en cours ou passé,
+            <b>les inscriptions</b> sont donc <b>fermées</b>.
+          </p>
+
+          <h6 class="border-top pt-3">
+            <span class="icon-ticket"></span>
+            Statuts d'inscription
+          </h6>
+
+          <ul class="list-unstyled mb-0">
+            <li class="mb-3">
+              <span>
+                <span class="status-icon" data-status-icon="subscribed"></span>
+                <b>Inscription confirmée</b> :
+              </span>
+              Votre inscription a été confirmée, <strong>vous pouvez vous rendre à l'atelier.</strong>
+            </li>
+            <li class="mb-3">
+              <span>
+                <span class="status-icon" data-status-icon="sub-not-confirmed"></span>
+                <b>Inscription non-confirmée</b> :
+              </span>
+              Vous n'avez pas confirmé, ou non, votre inscription, vous pouvez venir à l'atelier
+              mais <strong>prévenez l'organisateur de votre présence.</strong>
+            </li>
+            <li>
+              <span>
+                <span class="status-icon" data-status-icon="waiting-stuck"></span>
+                <b>File d'attente</b> :
+              </span>
+              Aucune place ne s'est libérée, vous devez voir pour un autre
+              atelier ou contacter l'organisateur.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="page-header text-center h3 mt-5 mb-4">F.A.Q</h4>
+  <ol class="list-faq">
+    <li>
+      <h5>Quels sont les emails de rappel que je vais recevoir ?</h5>
+      <p class="text-muted mb-1">
+        Vous pouvez recevoir des emails pour plusieurs raisons lorsque vous êtes
+        inscrit&middot;e à un atelier.
+      </p>
+      <ul class="text-muted mb-4">
+        <li>
+          Lors de <b>l'ouverture des confirmations d'un atelier</b>
+          (période de 3 jours précédant l'atelier).
+        </li>
+        <li>
+          Lors de la <b>modification d'un atelier</b> (changement de date,
+          d'heure, description, organisateur).
+        </li>
+        <li>
+          Lors de <b>l'annulation d'un atelier</b>.
+        </li>
+        <li>
+          Lors de <b>l'ajout de places</b>, si vous êtes en file
+          d'attente et selon votre place vous serez automatiquement inscrit&middot;e et
+          prévenu&middot;e par email.
+        </li>
+        <li>
+          Lors de la <b>suppression de places</b>, peu importe votre statut
+          d'inscription et selon votre place vous serez automatiquement mis&middot;e
+          en file d'attente et prévenu&middot;e par email.
+        </li>
+        <li>
+          Lorsque vous êtes <b>en file d'attente</b> et qu'une
+          personne <b>vous laisse sa place en se désinscrivant</b> de l'atelier
+          ou qu'un <b>participant ne confirme pas son inscription</b>.
+        </li>
+        <!-- <li>
+          Lorsque <b>vous ne confirmez pas votre inscription</b> et qu'elle
+          est supprimée afin de laisser une place à une personne en file attente.
+        </li> -->
+      </ul>
+    </li>
+    <li>
+      <h5>Dois-je attendre de recevoir l'email d'ouverture des confirmations pour confirmer mon inscription ?</h5>
+      <p class="text-muted mb-4">
+        Les emails envoyés ne servent que de rappels ou notifications, et
+        peuvent être bloqués ou envoyés en différés. Cependant vous pouvez
+        vous connecter et confirmer votre inscription dès l'ouverture
+        des confirmations, pendant les 3 jours précédant l'atelier.
+      </p>
+    </li>
+    <li>
+      <h5>J'ai confirmé mon inscription (<span class="status-icon mr-1" data-status-icon="subscribed"></span>), mais je ne peux finalement pas venir, que faire ?</h5>
+      <p class="text-muted mb-4">
+        Si cela devait arriver, vous pouvez contacter l'organisateur de l'atelier,
+        il pourra vous désinscrire et débloquer ainsi une place pour un participant en file d'attente.<br>
+      </p>
+    </li>
+    <li>
+      <h5>Comment contacter l'organisateur d'un atelier ?</h5>
+      <p class="text-muted">
+        Vous pouvez contacter l'organisateur d'un atelier en récupérant son adresse email
+        dans la fiche d'un atelier.
+      </p>
+    </li>
+    <li>
+      <h5>Je ne reçois pas les emails de rappel du site ou en retard, est-ce normal ?</h5>
+      <p class="text-muted mb-4">
+        Les emails envoyés par le site sont parfois bloqués par les services de messagerie (Orange, Hotmail, Gmail, ...)
+        et sont donc traités comme des SPAMs ou encore bloqués par l'hébergeur du site.<br>
+        Si vous ne pouvez les trouver dans votre dossier de SPAMs, n'hésitez pas à en parler
+        à votre conseiller INGENERIA qui fera remonter le problème.
+      </p>
+    </li>
+  </ol>
+  {% endblock %}
+
+  {% block modal_footer %}
+      {#<div class="col-6">
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="never_display_again" name="never_display_again" {% if app.user.getHideHelpModal() == true %}checked="checked"{% endif %}>
+          <label class="custom-control-label" for="never_display_again">ne plus afficher</label>
+        </div>
+      </div>#}
+
+      <div class="col-6 text-right">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+      </div>
+  {% endblock %}
+{% endembed %}

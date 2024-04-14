@@ -1,0 +1,89 @@
+{% if users_vsi is not empty %}
+  <div class="card-users row justify-content-center">
+  {% for user in users_vsi %}
+    {% set user_token = (user.surveyTokens is not empty) ? user.surveyTokens[0] : null %}
+    {% set percent_completed = ((user_token is not null) ? ((user.surveyAnswersCount * 100 / user_token.survey.surveyQuestionsCount)|round) : 0) %}
+    {% set has_expired = (user_token is not null) ? (user_token.expiresAt - date().timestamp) < 0 : true %}
+
+    <div class="-item col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="h5 card-title has-more-dots app-user-mini-info">
+            <div class="_names">{{ user.lastname|capitalize }} {{ user.firstname|capitalize }}</div>
+            <div class="_email">{{ user.email }}</div>
+
+            {# Dropdown actions #}
+            <div class="app-more-dots" data-toggle="dropdown">
+              <span class="dot"></span>
+            </div>
+
+            <div class="dropdown-menu dropdown-menu-right text-right">
+              {% if percent_completed >= 100 %}
+                <a class="dropdown-item" href="{{ path('admin_dashboard_users_VSI_user_survey_results', { id : user.id }) }}">
+                  Résultats
+                  <span class="icon icon-chart-bar-outline ml-1"></span>
+                </a>
+                <div class="dropdown-divider"></div>
+              {% endif %}
+              <a class="dropdown-item btn-stealth-raven-load-form" href="#" tabindex="{{ user.id }}"
+                  data-stealth-raven-loader="{{ path('admin_dashboard_users_VSI_get', { id : user.id }) }}"
+                    data-stealth-raven-fill-form="user_vsi" data-target="#modal-manage-user-vsi">
+                Modifier
+                <span class="icon icon-edit ml-1"></span>
+              </a>
+              <a class="dropdown-item btn-stealth-raven" data-action="simple_confirm"
+                href="{{ path('admin_dashboard_users_VSI_del', { id : user.id }) }}"
+                  data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer l'utilisateur VSI : {{ user.lastname }} {{ user.firstname }} ?">
+                Supprimer
+                <span class="icon icon-trash ml-1"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row small text-muted">
+            <div class="col-token-status col-5 pr-0" data-url-survey-token="{{ path('survey', { token : 'SURVEY_TOKEN' }) }}">
+            {% if user_token is not null %}
+              {% if percent_completed >= 100 %}
+                <span class="badge badge-type-service badge-success">
+                  <span class="text">complété</span>
+                </span>
+              {% elseif has_expired == true %}
+                <span class="badge badge-type-service badge-danger"
+                    data-toggle="tooltip" data-placement="top" data-html="true"
+                      title="L'accès a expiré le <b class='d-inline-block'>{{ user_token.expiresAt|date('d M. Y') }}</b>">
+                  <span class="text">non-complété !</span>
+                </span>
+                <a href="#btn-reset-survey-token" class="btn-reset-survey-token icon-arrow-sync align-middle" data-toggle="tooltip" data-placement="top"
+                  title="renouveler l'accès au questionnaire" data-survey-token-id="{{ user_token.id }}"></a>
+              {% else %}
+                <a href="{{ path('survey', { token : user_token.token }) }}" class="badge badge-type-service badge-warning"
+                    data-toggle="tooltip" data-placement="top" data-html="true"
+                      title="L'accès expire le <b class='d-inline-block'>{{ user_token.expiresAt|date('d M. Y') }}</b>">
+                  <span class="text">en cours - {{ percent_completed }}%</span>
+                </a>
+              {% endif %}
+            {% else %}
+              <span class="badge badge-type-service badge-secondary"
+                  data-toggle="tooltip" data-placement="top" data-html="true"
+                    title="Le questionnaire sera envoyé le <b class='d-inline-block'>{{ user.workshopEndDate|date('d M. Y') }}</b>">
+                <span class="text">envoi à venir</span>
+              </span>
+            {% endif %}
+            </div>
+            <div class="col-7 pl-0 text-right">
+              Num. Cohorte :
+              {% if user_vsi_filters.id_cohort != user.idCohort %}
+                <a href="{{ path('admin_dashboard_users_VSI', { id_consultant : user_vsi_filters.id_consultant, id_cohort : user.idCohort, date_start : user_vsi_filters.date_start, date_end : user_vsi_filters.date_end, page : 1 }) }}"
+                  title="Voir seulement cette cohorte"><b>{{ user.idCohort }}</b></a>
+              {% else %}
+                <b>{{ user.idCohort }}</b>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}

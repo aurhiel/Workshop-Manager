@@ -1,0 +1,70 @@
+{% if users is not empty %}
+  <div class="card-users row justify-content-center mt-4 mb-2">
+  {% for user in users %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card{% if user.isEnabled == false %} disabled{% endif %}">
+      <div class="card-body">
+        <div class="h5 card-title has-more-dots app-user-mini-info">
+          <div class="_names">
+            {{ user.lastname|capitalize }} {{ user.firstname|capitalize }}
+            {% if 'ROLE_PUBLISHER' in user.roles %}
+              <span class="icon-star-outline" title="Formateur"></span>
+            {% endif %}
+            {% if 'ROLE_ADMIN' in user.roles %}
+              <span class="icon-star" title="Administrateur"></span>
+            {% endif %}
+          </div>
+          <div class="_email">{{ user.email }}</div>
+
+          {# Dropdown actions #}
+          <div class="app-more-dots" data-toggle="dropdown">
+            <span class="dot"></span>
+          </div>
+
+          <div class="dropdown-menu dropdown-menu-right text-right">
+            <a class="dropdown-item" href="{{ path('admin_dashboard_user_settings', { id : user.id }) }}">
+              Profil
+              <span class="icon icon-user"></span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ path('admin_dashboard_user_workshops_subbed', { id : user.id }) }}">
+            {% if 'ROLE_PUBLISHER' in user.roles or 'ROLE_ADMIN' in user.roles %}
+              Ateliers présentés
+            {% else %}
+              Ateliers souscrits
+            {% endif %}
+              <span class="icon icon-clipboard"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="row small text-muted">
+          <div class="col-6 pr-0">
+            {% if 'ROLE_USER' in user.roles %}
+              <span class="badge badge-type-service badge-{{ user.getServiceType()}}"
+                data-toggle="tooltip" data-placement="right" data-html="true"
+                  title="Inscrit&middot;e le {{ user.registerDate | localizeddate('long', 'none') }}<br> jusqu'au <u>{{ user.registerEndDate | localizeddate('long', 'none') }}</u>">
+                {{ ('label.' ~ (user.getServiceType())) | trans }}
+              </span>
+            {% endif %}
+          </div>
+          <div class="col-6 pl-0 text-right">
+            {% set status_text  = (user.isEnabled) ? 'actif' : 'inactif' %}
+            {% set status_class = (user.isEnabled) ? 'active' : 'inactive' %}
+
+            <span class="user-status user-status--{{ status_class }}">
+              {{ status_text }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-light text-left">
+    Aucun <u>{{ roles[current_role]|lower }}</u> inscrit&middot;e pour le moment.
+  </div>
+{% endif %}

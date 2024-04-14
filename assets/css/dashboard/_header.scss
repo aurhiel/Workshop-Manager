@@ -1,0 +1,271 @@
+
+
+//
+// Navbar
+//
+
+.navbar-dashboard {
+  background-color: $navbard-dashboard-bg;
+  color: $navbard-dashboard-color;
+  padding-left: 0;
+  padding-right: 0;
+  overflow: hidden;
+
+  .navbar-brand {
+    margin-right: .6rem;
+  }
+
+  .navbar-collapse {
+    overflow: initial;
+    position: relative;
+    // the top property paste navbar to bottom, for better spacing with header-menu
+    top: $navbar-padding-y;
+
+    &:after {
+      content: '';
+      background-color: darken($navbard-dashboard-bg, 1%);
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: -100%;
+      right: -100%;
+      bottom: 0;
+    }
+
+    .navbar-nav {
+      padding: .5rem 0;
+      position: relative;
+      z-index: 5;
+    }
+  }
+
+  .nav-item {
+    .icon {
+      font-size: 1.2rem;
+      margin-right: .2rem;
+    }
+  }
+
+  .nav-link {
+    color: $navbar-dark-color;
+
+    @include hover-focus {
+      color: $navbar-dark-hover-color;
+    }
+
+    &.disabled {
+      color: $navbar-dark-disabled-color;
+    }
+  }
+
+  .nav-divider {
+    border-color: transparentize($white, .96);
+  }
+
+  .show > .nav-link,
+  .active > .nav-link,
+  .nav-link.show,
+  .nav-link.active {
+    color: $navbar-dark-active-color;
+  }
+
+  .navbar-toggler {
+    color: $white;
+    // border-color: $navbar-dark-toggler-border-color;
+  }
+
+  .navbar-toggler-icon {
+    background-image: $navbar-dark-toggler-icon-bg;
+  }
+
+  // Hide user names & email on mobile
+  .app-user-mini-info {
+    display: none;
+  }
+}
+
+.nav-divider {
+  height: 0;
+  margin: .5rem 0;
+  overflow: hidden;
+  border-top: 1px solid;
+}
+
+
+
+//
+// Header
+//
+
+.dashboard-header {
+  background-color: $dashboard-header-bg;
+  color: $dashboard-header-color;
+  padding-top: $dashboard-header-padding-y;
+  padding-bottom: $dashboard-header-padding-y * 2 + $dashboard-merge-size;
+
+  .breadcrumb {
+    background: none;
+    font-size: .9rem;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .breadcrumb-item {
+    &.active {
+      color: $gray-200;
+    }
+
+    &:after {
+      display: inline-block; // Suppress underlining of the separator in modern browsers
+      padding-left: $breadcrumb-item-padding;
+      color: $breadcrumb-divider-color;
+      content: $breadcrumb-divider;
+    }
+
+    + .breadcrumb-item {
+      &:before {
+        display: none;
+      }
+    }
+  }
+}
+
+.dshbd-header-title {
+  font-size: 2.4rem;
+  margin: 0 auto;
+
+  .brand-logo {
+    font-size: 2rem;
+    margin-right: 1.4rem;
+    display: none;
+  }
+
+  .badge-type-service {
+    font-size: 35%;
+    vertical-align: text-top;
+  }
+}
+
+.dshbd-header-subtitle {
+  color: $gray-500;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: .4rem auto 0 auto;
+}
+
+.dshbd-header-actions {
+  margin-top: 1rem;
+
+  .btn-group {
+    margin-right: .5rem;
+    margin-bottom: .5rem;
+  }
+}
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(md) {
+  .navbar-dashboard {
+    // background-color: $dashboard-header-menu-bg;
+    // padding-top: $navbar-padding-y * 2;
+    // padding-bottom: $navbar-padding-y * 2;
+    overflow: inherit;
+
+    .navbar-collapse {
+      display: flex !important;
+      flex-basis: auto;
+      top: 0;
+
+      &:after { display: none; }
+    }
+
+    .navbar-nav {
+      flex-direction: row;
+
+      .nav-link {
+        margin-right: $navbar-nav-link-padding-x;
+        margin-left: $navbar-nav-link-padding-x;
+        padding-right: .2rem;
+        padding-left: .2rem;
+        border-top: .16rem solid transparent;
+        border-bottom: .16rem solid transparent;
+      }
+    }
+
+    // active .nav-link status
+    .show > .nav-link,
+    .active > .nav-link,
+    .nav-link.show,
+    .nav-link.active {
+      border-bottom-color: $primary;
+    }
+
+    .navbar-toggler {
+      display: none;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .navbar-dashboard {
+    padding-top: $navbar-padding-y * 2;
+    padding-bottom: $navbar-padding-y * 2;
+
+    .navbar-brand {
+      font-size: 1.85rem;
+      margin-right: $navbar-padding-x;
+    }
+
+    .navbar-nav {
+      .nav-link {
+        margin-right: $navbar-nav-link-padding-x * 1.75;
+        margin-left: $navbar-nav-link-padding-x * 1.75;
+        padding: $nav-link-padding-y * 1.5 .4rem;
+      }
+    }
+
+    // Show user names & email on desktop (lg)
+    .app-user-mini-info {
+      display: inline-block;
+    }
+  }
+
+  .dashboard-header {
+    padding-top: $dashboard-header-padding-y * 3;
+    padding-bottom: $dashboard-header-padding-y * 3 + $dashboard-merge-size-lg;
+  }
+}
+
+
+
+//
+// Print
+//
+
+@media print {
+  .dashboard-header {
+    background-color: $dashboard-header-print-bg;
+    color: $dashboard-header-print-color;
+  }
+
+  .dshbd-header-title {
+    margin-top: 2.6rem;
+    margin-bottom: 1.4rem;
+
+    .brand-logo {
+      display: inline-block;
+    }
+
+    > [class^="icon-"], > [class*=" icon-"] {
+      display: none;
+    }
+  }
+
+  .dshbd-header-subtitle, .dshbd-header-actions {
+    display: none;
+  }
+}

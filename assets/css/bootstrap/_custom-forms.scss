@@ -1,0 +1,177 @@
+// Custom controls
+// -----------------------
+
+@mixin custom-checkbox-variant($color) {
+  .custom-control-input {
+    &:checked {
+      ~ .custom-control-label {
+        &:before {
+          background-color: $color;
+        }
+      }
+    }
+
+    &:focus {
+      ~ .custom-control-label {
+        &:before {
+          box-shadow: 0 0 0 .2rem transparentize($color, .75);
+        }
+      }
+    }
+  }
+}
+
+
+.custom-checkbox {
+  &--danger {
+    @include custom-checkbox-variant($danger);
+  }
+  &--warning {
+    @include custom-checkbox-variant($warning);
+  }
+  &--success {
+    @include custom-checkbox-variant($success);
+  }
+}
+
+// .custom-control-input:focus ~ .custom-control-label::before
+// .custom-control-input:checked ~ .custom-control-label::before
+// .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before
+
+// Grade control (smiley)
+.grade-control {
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    z-index: 3;
+  }
+}
+.grade-control-input {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  margin-left: -.4em;
+  opacity: 0;
+}
+.grade-control-label {
+  margin-bottom: 0;
+  opacity: .6;
+  cursor: pointer;
+  transition: opacity 400ms ease;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+  &:hover {
+    .grade-control-text {
+      opacity: 1;
+    }
+  }
+}
+.grade-control-icon {
+  font-size: 1.8rem;
+  position: relative;
+  z-index: 0;
+  transition: color 400ms ease;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: .1175em;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    border: .085em solid currentColor;
+    transform: scale(1.35);
+    transition: opacity 400ms ease;
+    opacity: 0;
+  }
+}
+.grade-control-text {
+  background-color: darken($dark, 7%);
+  color: $light;
+  font-size: .8rem;
+  letter-spacing: .08rem;
+  line-height: 1.4;
+  text-align: center;
+  border-radius: .2rem;
+  /* text-transform: uppercase; */
+  /* font-weight: bold; */
+  /* font-family: monospace; */
+  position: absolute;
+  bottom: 3.2em;
+  left: 50%;
+  width: 8rem;
+  margin-left: -4rem;
+  padding: .5rem 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+// Grade control status
+.grade-control-input {
+  &:focus {
+    ~ .grade-control-label {
+      .grade-control-icon {
+        &:after {
+          opacity: .5;
+        }
+      }
+    }
+  }
+
+  &:checked {
+    ~ .grade-control-label {
+      opacity: 1;
+
+      .grade-control-icon {
+        color: $primary;
+      }
+
+      .icon-grade-1 {
+        &:before { content: $icon-grade-1-filled; }
+      }
+      .icon-grade-2 {
+        &:before { content: $icon-grade-2-filled; }
+      }
+      .icon-grade-3 {
+        &:before { content: $icon-grade-3-filled; }
+      }
+      .icon-grade-4 {
+        &:before { content: $icon-grade-4-filled; }
+      }
+      .icon-grade-5 {
+        &:before { content: $icon-grade-5-filled; }
+      }
+    }
+  }
+}
+.grade-control-input--1:checked {
+  ~ .grade-control-label {
+    .grade-control-icon { color: $red; }
+  }
+}
+.grade-control-input--2:checked {
+  ~ .grade-control-label {
+    .grade-control-icon { color: $orange; }
+  }
+}
+.grade-control-input--3:checked {
+  ~ .grade-control-label {
+    .grade-control-icon { color: $yellow; }
+  }
+}
+.grade-control-input--4:checked {
+  ~ .grade-control-label {
+    .grade-control-icon { color: $green; }
+  }
+}
+.grade-control-input--5:checked {
+  ~ .grade-control-label {
+    .grade-control-icon { color: $teal; }
+  }
+}

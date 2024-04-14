@@ -1,0 +1,77 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-location-outline"></span>
+      Adresses
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Ajoutez, modifiez ou supprimez les adresses des ateliers
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <a class="btn btn-outline-primary text-white px-3 modal-stealth-raven-button"
+          data-target="#modal-manage-address">
+        Ajouter une adresse
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="card">
+      <table class="table table-hover table-striped table-entities">
+        <thead>
+          <tr>
+            <th scope="col" class="col-id">#</th>
+            <th scope="col" class="col-name">Intitulé de l'adresse</th>
+            <th scope="col" class="col-lat-lng">Localisation</th>
+            <th scope="col" class="col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+          <tr class="row-entity" data-id-entity="{{ address.id }}">
+            <th scope="row" class="col-id">{{ address.id }}</th>
+            <td class="col-name">{{ address.name }}</td>
+            <td class="col-lat-lng">{{ address.latPosition }}, {{ address.lngPosition }}</td>
+            <td class="col-actions">
+              <button type="button" name="button" class="btn btn-sm btn-secondary btn-stealth-raven-load-form"
+                  data-stealth-raven-loader="{{ path('admin_dashboard_addresses_get', { id : address.id }) }}"
+                    data-stealth-raven-fill-form="address" data-target="#modal-manage-address">
+                <span class="icon-edit"></span>
+                <span class="d-none d-sm-inline">Modifier</span>
+              </button>
+              <a class="btn btn-sm btn-danger btn-stealth-raven" data-action="row_delete"
+                href="{{ path('admin_dashboard_addresses_del', { id : address.id }) }}"
+                  data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer l'adresse : {{ address.name }} ?">
+                <span class="icon icon-trash"></span>
+                <span class="d-none d-sm-inline">Supprimer</span>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {# Modal / Manage entity #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_address,
+    'stealth_raven_modal_id'    : 'modal-manage-address',
+    'stealth_raven_title_add'   : 'Ajouter une adresse',
+    'stealth_raven_title_edit'  : 'Modifier l\'adresse'
+  } %}
+  {% endembed %}
+{% endblock %}
+
+{% block body_before_close %}
+{% endblock %}

@@ -1,0 +1,55 @@
+// Survey
+// -----------------------
+
+//
+// Base
+//
+
+@import "bootstrap/variables";        // Variables overrides before Bootstrap libs
+@import "~bootstrap/scss/functions";  // Need to be with Bootstrap _variables.scss
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+// App libs
+@import "main/mixins";
+@import "main/variables";
+
+@import "icomoon/variables";
+
+//
+// Survey
+//
+
+@import "survey/variables";
+@import "survey/header";
+@import "survey/core";
+
+
+.survey--question {
+  padding: $card-spacer-x 0;
+}
+.survey--question:first-child { padding-top: 0; }
+.survey--question:last-child  { padding-bottom: 0; }
+.survey--question + .survey--question {
+  border-top: 1px solid $border-color;
+}
+.survey--question .-question {
+  margin-bottom: .4rem;
+  position: relative;
+  z-index: 1;
+}
+.survey--question .-question .badge {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+}
+.survey--question .-question .text {
+  display: block;
+  padding-left: 2.2rem;
+}
+
+@include media-breakpoint-up(md) {
+  .survey--question .-question {
+    margin-bottom: 0;
+  }
+}

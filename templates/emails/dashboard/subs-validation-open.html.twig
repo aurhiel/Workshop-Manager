@@ -1,0 +1,45 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour,
+  </p>
+
+  {% if workshops|length < 2 %}
+  <p>
+    Vous recevez cet email car vous vous êtes inscrit à l'atelier
+    <b>{{ workshops[0].getTheme.getName }}</b>.
+  </p>
+
+  <p>
+    Vous devez donc confirmer, ou non, votre inscription pour cet atelier
+    se déroulant le <b>{{ workshops_date | localizeddate('full', 'none', 'fr') }}</b>
+    de {{ workshops[0].getDateStart | localizeddate('none', 'short', 'fr') }}
+    à {{ workshops[0].getDateEnd | localizeddate('none', 'short', 'fr') }}
+  </p>
+  {% else %}
+  <p>
+    Vous recevez cet email car vous vous êtes inscrit à {{ workshops|length }} ateliers,<br>
+    et vous devez donc confirmer, ou non, votre inscription pour ces ateliers du
+    <b>{{ workshops_date | localizeddate('full', 'none', 'fr') }}</b>.
+  </p>
+
+  <p>
+    Liste des ateliers à confirmer :<br>
+    <ul>
+      {% for workshop in workshops %}
+      <li>
+        <b>{{ workshop.getTheme.getName }}</b> de {{ workshop.getDateStart | localizeddate('none', 'short', 'fr') }} à {{ workshop.getDateEnd | localizeddate('none', 'short', 'fr') }}
+      </li>
+      {% endfor %}
+    </ul>
+  </p>
+  {% endif %}
+
+  <p>
+    {# need to use real URL because when this email is sent by the server result is "localhost" #}
+    <a href="https://ateliers-ingeneria.fr/dashboard/mes-ateliers" style="color: #fff; background-color: #4aa5e6; border: 1px solid #459bd8; text-decoration: none; font-size: 14px; line-height: 1.5; text-align: center; border-radius: 4px; padding: 7px 20px; user-select: none; white-space: nowrap;">
+      Se rendre sur le site
+    </a>
+  </p>
+{% endblock %}

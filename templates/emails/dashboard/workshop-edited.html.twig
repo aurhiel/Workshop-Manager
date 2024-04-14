@@ -1,0 +1,55 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  {% set workshop_date = changes.date_start is defined ? changes.date_start[0] : workshop.getDateStart() %}
+
+  <p>
+    Bonjour,
+  </p>
+
+  <p>
+    Nous vous informons que l'atelier <b>{{ workshop.theme.name }}</b>
+    se déroulant le <b>{{ workshop_date | localizeddate('none', 'none', 'fr', null, 'eeee dd MMMM') }}</b> a
+    été modifié, vous trouverez la liste des changements ci-dessous.
+  </p>
+
+  <ul>
+  {% for name, values in changes %}
+    {% set old_value = values[0] %}
+    {% set new_value = values[1] %}
+
+    {# EditOn:description #}
+    {% if name == 'description' %}
+      <li><b>Informations:</b> {{ new_value }}</li>
+    {# EditOn:dates(_start|end) #}
+    {% elseif name == 'date_start' or name == 'date_end' %}
+      {% set new_day = new_value | localizeddate('long', 'none', 'fr') %}
+      {% set old_day = old_value | localizeddate('long', 'none', 'fr') %}
+      {% set text_start_or_end = name == 'date_start' ? 'début' : 'fin' %}
+
+      {# if DAY of the workshop has changed #}
+      {% if (new_day != old_day) and (name == 'date_start') %}
+      <li><b>Date de l'atelier:</b> {{ new_day }}</li>
+      {% endif %}
+
+      {% set new_time = new_value | localizeddate('none', 'short', 'fr') %}
+      {% set old_time = old_value | localizeddate('none', 'short', 'fr') %}
+      {# if TIME of the workshop has changed #}
+      {% if (new_time != old_time) %}
+      <li><b>Heure de {{ text_start_or_end }}:</b> {{ new_time }}</li>
+      {% endif %}
+    {# EditOn:lecturer #}
+    {% elseif name == 'address' %}
+      <li><b>Lieu:</b> {{ new_value.getName() }}</li>
+    {# EditOn:lecturer #}
+    {% elseif name == 'lecturer' %}
+      <li><b>Présenté par:</b> {{ new_value.getLastname() }} {{ new_value.getFirstname() }}</li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+
+  <p>
+    Connectez-vous sur le site des <a href="{{ url('dashboard') }}" style="color: #4aa5e6;">Ateliers Ingeneria</a>
+    pour obtenir plus d'informations.
+  </p>
+{% endblock %}

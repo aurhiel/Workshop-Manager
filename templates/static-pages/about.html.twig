@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--static-page' %}
+
+{% block body %}
+<div class="app-main-content container">
+  {% include 'components/logo.html.twig' with { goto_home : true, type_text : 'inline', custom_class : 'brand-logo--big' } %}
+
+  <div class="textual-content">
+    <h1 class="page-header h2 mt-3 mb-4">A propos</h1>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title h5">Développement</h2>
+
+        <p class="card-text">
+          Cette application web a été développée à l'aide du framework PHP
+          <a href="http://symfony.com/" target="_blank">Symfony</a>
+          (version 4), du framework HTML <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> (version 4.1.1) et de la bibliothèque
+          <abbr title="Javascript">JS</abbr> <a href="https://jquery.com/" target="_blank">jQuery</a>.
+        </p>
+
+        <p class="card-text">
+          Le plugin <abbr title="Javascript">JS</abbr> <a href="https://fullcalendar.io/" target="_blank">Full<b>Calendar</b></a> a été employé afin de gérer l'affichage des ateliers sous la forme d'un calendrier.
+        </p>
+
+        <hr class="w-25 my-4 ml-0">
+
+        <h2 class="card-title h5">Médias</h2>
+        <p class="card-text">
+          Les icônes du site ont été mise en place à l'aide de l'outil web <a href="https://icomoon.io/" target="_blank">Icomoon</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <a href="{{ path('home') }}" class="btn btn-outline-secondary btn-sm">
+      <span class="icon-chevron-left"></span> Revenir au site
+    </a>
+  </div>
+</div>
+{% endblock %}

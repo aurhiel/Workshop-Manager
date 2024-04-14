@@ -1,0 +1,22 @@
+// Core
+// -----------------------
+
+.container--survey {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.header--survey + .container--survey {
+  margin-top: -3.8rem;
+}
+
+.badge--survey {
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding: .5rem 1rem;
+}
+
+.card--survey .badge--survey {
+  position: absolute;
+  top: -1rem;
+  left: .8rem;
+}

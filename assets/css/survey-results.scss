@@ -1,0 +1,22 @@
+// Survey
+// -----------------------
+
+//
+// Base
+//
+
+@import "bootstrap/variables";        // Variables overrides before Bootstrap libs
+@import "~bootstrap/scss/functions";  // Need to be with Bootstrap _variables.scss
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+// App libs
+@import "main/mixins";
+@import "main/variables";
+
+@import "icomoon/variables";
+
+//
+// Survey results
+//
+
+@import "survey-results/core"

@@ -1,0 +1,53 @@
+// Entire app
+// -----------------------
+
+
+//
+// Icomoon
+//
+
+$icomoon-font-path: "/build/fonts/icomoon";
+@import "icomoon/core";
+
+
+//
+// Bootstrap custom/reset
+//
+
+// Because of "resolveUrlLoader: false" in webpack.config.js
+// - (read: https://symfony.com/doc/current/frontend/encore/bootstrap.html for details)
+// $icon-font-path: "~bootstrap/assets/fonts/bootstrap/";
+
+@import 'bootstrap/variables';        // Variables overrides before Bootstrap libs
+@import '~bootstrap/scss/bootstrap';  // node_module : Bootstrap Libraries
+@import 'bootstrap/card';
+@import 'bootstrap/badge';
+@import 'bootstrap/form';
+@import 'bootstrap/buttons';
+@import 'bootstrap/breadcrumb';
+@import 'bootstrap/text';
+@import 'bootstrap/lists';
+@import 'bootstrap/tables';
+@import 'bootstrap/modals';
+@import 'bootstrap/pagination';
+@import 'bootstrap/dropdown';
+@import 'bootstrap/input-group';
+@import 'bootstrap/custom-forms';
+@import 'bootstrap/tooltip';
+@import 'bootstrap/print';
+
+
+//
+// App
+//
+
+@import "main/variables";
+@import "main/mixins";
+@import 'main/core';
+@import 'main/calendar-deluxe-icon';
+@import 'main/overflow-scroll';
+@import 'main/authentification';
+@import 'main/stealthRaven';
+@import 'main/clipboardJS';
+@import 'main/chartJS';
+@import 'main/footer';

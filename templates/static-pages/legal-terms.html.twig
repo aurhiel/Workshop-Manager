@@ -1,0 +1,127 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--static-page' %}
+
+{% block body %}
+<div class="app-main-content container">
+  {% include 'components/logo.html.twig' with { goto_home : true, type_text : 'inline', custom_class : 'brand-logo--big' } %}
+
+  <div class="textual-content">
+    <h1 class="page-header h2">Mentions Légales</h1>
+
+    <p>
+      Le site <b>{{ company.url }}</b> est la propriété de la société
+      <b>{{ company.name }}</b>.
+    </p>
+
+    <p>
+      Conformément à l'article L.122-4 du Code de la Propriété Intellectuelle,
+      « toute représentation ou reproduction intégrale ou partielle faite sans
+      le consentement de l' auteur ou de ses ayants droit ou ayants cause est
+      illicite.<br>
+      Il en est de même pour la traduction, l'adaptation ou la
+      transformation , l'arrangement ou la reproduction par un art ou un
+      procédé quelconque ».
+    </p>
+
+    <h2 class="h5">Propriétaire du site</h2>
+    <ul class="list-group-wonderful">
+      <li>
+        <span class="label">Etablissement principal (adresse physique et postale) : </span>
+        <span class="value">{{ company.address }}</span>
+      </li>
+      {% if company.head_office is defined and company.head_office.address is defined %}
+      <li>
+        <span class="label">Siège social (domiciliation administrative) : </span>
+        <span class="value">{{ company.head_office.address }}</span>
+      </li>
+      {% endif %}
+      <li>
+        <span class="label">Téléphone : </span>
+        <span class="value">{{ owner.phone }}</span>
+      </li>
+      <li>
+        <span class="label">Email : </span>
+        <span class="value">{{ owner.email }}</span>
+      </li>
+      <li>
+        <span class="label">Forme sociale : </span>
+        <span class="value">{{ company.social_form }} à associé unique au capital de {{ company.capital }}</span>
+      </li>
+      <li>
+        <span class="label">N° SIREN : </span>
+        <span class="value">{{ company.siren.number }} {{ company.siren.address }}</span>
+      </li>
+      {% if company.vta_number %}
+      <li>
+        <span class="label">N° TVA intracommunautaire : </span>
+        <span class="value">{{ company.vta_number }}</span>
+      </li>
+      {% endif %}
+      {% if cnil is defined %}
+      <li>
+        <span class="label">N° déclaration CNIL (Commission nationale informatique et libertés) :</span>
+        <span class="value">N° {{ cnil.number }} du {{ cnil.register_date }}</span>
+      </li>
+      {% endif %}
+      <li>
+        <span class="label">Directeur de publication : </span>
+        <span class="value">{{ owner.firstname }} {{ owner.lastname }}</span>
+      </li>
+    </ul>
+
+
+    <h2 class="h5">Hébergeur du site</h2>
+    <ul class="list-group-wonderful">
+      <li>
+        <span class="label">Nom : </span>
+        <span class="value">{{ web_host.name }}</span>
+      </li>
+      <li>
+        <span class="label">Forme sociale : </span>
+        <span class="value">{{ web_host.social_form }}</span>
+      </li>
+      <li>
+        <span class="label">Adresse postale : </span>
+        <span class="value">{{ web_host.address }}</span>
+      </li>
+      <li>
+        <span class="label">Téléphone : </span>
+        <span class="value">{{ web_host.phone }}</span>
+      </li>
+    </ul>
+
+
+    <h2 class="h5">Concepteur du site</h2>
+    <ul class="list-group-wonderful">
+      <li>
+        <span class="label">Nom : </span>
+        <span class="value">{{ developer.firstname }} {{ developer.lastname }}</span>
+      </li>
+      {% if developer.address is defined %}
+      <li>
+        <span class="label">Adresse postale : </span>
+        <span class="value">{{ developer.address }}</span>
+      </li>
+      {% endif %}
+      {% if developer.email is defined %}
+      <li>
+        <span class="label">Email : </span>
+        <span class="value">{{ developer.email }}</span>
+      </li>
+      {% endif %}
+      {% if developer.phone is defined %}
+      <li>
+        <span class="label">Téléphone : </span>
+        <span class="value">{{ developer.phone }}</span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div>
+    <a href="{{ path('home') }}" class="btn btn-outline-secondary btn-sm">
+      <span class="icon-chevron-left"></span> Revenir au site
+    </a>
+  </div>
+</div>
+{% endblock %}

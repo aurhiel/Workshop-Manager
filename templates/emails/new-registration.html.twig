@@ -1,0 +1,25 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ consultant.firstname|capitalize }},
+  </p>
+
+  <p>
+    <b>{{ user.firstname|capitalize }} {{ user.lastname|capitalize }}</b>
+    vient de s'inscrire sur le site des Ateliers d'Ingeneria.<br>
+    Veuillez confirmer son inscription en <b>activant son compte</b> afin qu'il puisse <b>se
+    connecter et s'inscrire à des ateliers</b>.
+  </p>
+
+  <p>
+    Si sa <b>date de fin de prestation n'est pas correcte</b>, veuillez aussi la modifier en conséquence,
+    elle est pour le moment datée au : <b>{{ user.registerEndDate|localizeddate('long', 'none', 'fr') }}</b>
+  </p>
+
+  <p class="content-block">
+    <a href="{{ url('admin_dashboard_user_settings', { id : user.id }) }}" style="color: #fff; background-color: #4aa5e6; border: 1px solid #459bd8; text-decoration: none; font-size: 14px; line-height: 1.5; text-align: center; border-radius: 4px; padding: 7px 20px; user-select: none; white-space: nowrap;">
+      Se rendre sur le profil
+    </a>
+  </p>
+{% endblock %}

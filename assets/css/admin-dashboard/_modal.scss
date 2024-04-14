@@ -1,0 +1,22 @@
+// Modal
+//
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(sm) {
+  #modal-manage-workshop {
+    .modal-dialog {
+      max-width: $modal-manage-workshop-max-width;
+    }
+  }
+
+  #modal-manage-workshop-theme {
+    .modal-dialog {
+      max-width: $modal-manage-workshop-theme-max-width;
+    }
+  }
+}

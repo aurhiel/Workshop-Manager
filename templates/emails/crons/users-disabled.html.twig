@@ -1,0 +1,26 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour,
+  </p>
+
+  <p>
+  {% if nb_users_disabled > 1 %}
+    Vous recevez cet email car {{ nb_users_disabled }} utilisateurs ont été
+    désactivés automatiquement suite à leur fin de prestation.
+  {% else %}
+    Vous recevez cet email car {{ nb_users_disabled }} utilisateur a été
+    désactivé automatiquement suite à sa fin de prestation.
+  {% endif %}
+  </p>
+
+  <ul>
+  {% for user in users_disabled %}
+    <li>
+      <b>{{ user.getLastname() }} {{ user.getFirstname() }}</b>
+      <span style="color:#adb5bd">{{ user.getEmail() }}</span>
+    </li>
+  {% endfor %}
+  </ul>
+{% endblock %}

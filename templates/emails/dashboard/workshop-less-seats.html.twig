@@ -1,0 +1,17 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ user.firstname|capitalize }},
+  </p>
+
+  <p>
+    Suite à la réduction de places pour l'atelier <b>{{ workshop.theme.name }}</b>,
+    vous avez été placé&middot;e en <b style="color: #fd7e14;">file d'attente</span>.
+  </p>
+
+  <p>
+    <u>Rappel:</u> Si des places se libèrent vous serez automatiquement
+    averti&middot;e par email et ré-inscrit&middot;e à l'atelier (vous devrez confirmer à nouveau votre inscription).
+  </p>
+{% endblock %}

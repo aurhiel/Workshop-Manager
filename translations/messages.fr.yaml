@@ -1,0 +1,133 @@
+label :
+  activ-crea      : Activ'Créa
+  activ-projet    : Activ'Projet
+  role_user       : Utilisateur classique
+  role_publisher  : Formateur
+  role_admin      : Administrateur
+  plural :
+    role_user       : Utilisateurs classiques
+    role_publisher  : Formateurs
+    role_admin      : Administrateurs
+
+
+# Form user's register
+form_user:
+  firstname:
+    label: Prénom
+  lastname:
+    label: Nom
+  phone:
+    label: Téléphone
+  email:
+    label: E-mail
+  id_pole_emploi:
+    label: ID Pôle Emploi
+  service_type:
+    label: Type de prestation
+  first_password:
+    label: Mot de passe
+  second_password:
+    label: Répéter le mot de passe
+  # Form admin edit user's settings
+  register_end_date:
+    label: Date de fin de la prestation
+  roles:
+    label: Droits
+  is_active:
+    label: Actif(ve)
+  is_archived:
+    label: Archivé(e)
+  is_consultant:
+    label: Consultant
+  referent_consultant:
+    label: Consultant référent
+    placeholder: Choisissez votre consultant
+
+# Form userVSI's register
+form_user_vsi:
+  firstname:
+    label: Prénom
+  lastname:
+    label: Nom
+  email:
+    label: E-mail
+  workshop_end_date:
+    label: Date de fin des ateliers
+    hint: Date à laquelle le questionnaire sera envoyé
+  id_vsi:
+    label: ID VSI
+  id_cohort:
+    label: Numéro de cohorte
+    hint: Doit commencer par un nombre, si vous souhaitez ajouter du texte
+  referent_consultant:
+    label: Consultant référent
+    placeholder: Choisissez le consultant
+
+# Form reset password
+form_reset_pwd :
+  first_password :
+    label : Nouveau mot de passe
+  second_password :
+    label : Répéter le nouveau mot de passe
+
+# Form Workshop
+form_workshop :
+  theme :
+    label       : Thématique
+    placeholder : (Aucune thématique)
+  lecturer :
+    label       : Présenté par
+    placeholder : (Aucun formateur)
+  address :
+    label       : Adresse
+    placeholder : (Aucune adresse)
+  date_start :
+    label       : Date de début
+  date_end :
+    label       : Date de fin
+  nb_seats :
+    label       : Nombre de places
+  description :
+    label       : Informations supplémentaires
+  is_vsi_type :
+    label       : Atelier « VSI »
+
+# Form Workshop Theme
+form_workshop_theme:
+    name:
+      label: Nom de la thématique
+    description:
+      label: Description de la thématique
+
+# Form Survey
+form_survey:
+    label:
+        label: Libellé
+    slug:
+        label: Slug
+    enable_workshops_grade:
+        label: Permettre l'évaluation aux ateliers souscrits
+# Form Survey step
+form_survey_step:
+    label:
+        label: Libellé
+    position:
+        label: Position
+# Form Survey question
+form_survey_question:
+    label:
+        label: Libellé
+    position:
+        label: Position
+# Form Survey grade
+form_survey_grade:
+    position:
+        label: Position
+    label:
+        label: Libellé
+    value:
+        label: Valeur
+
+
+# . . .
+"workshop.subs.validate_subscription.done": Votre inscription à l'atelier "%workshop_theme%" a bien été confirmée !

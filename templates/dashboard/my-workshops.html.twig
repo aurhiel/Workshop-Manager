@@ -1,0 +1,66 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard app-core--dashboard-disable-merge' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-clipboard"></span>
+      Mes ateliers
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Retrouvez ici la liste des ateliers auquel vous vous êtes inscrit&middot;e
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <button class="btn btn-outline-primary text-white px-3 mr-3" data-toggle="print" type="button">
+        <span class="icon icon-printer"></span> Imprimer les ateliers
+      </button>
+
+      <div class="checkbox-filters d-inline-block">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="filter-old-subs" data-toggle="class-toggler" data-target="#user-workshops-by-days" data-class-css="show-old-days" checked>
+          <label class="custom-control-label" for="filter-old-subs">Afficher les ateliers passés</label>
+        </div>
+
+        <!-- <div class="custom-control custom-checkbox custom-checkbox--success">
+          <input type="checkbox" class="custom-control-input" id="filter-subs-confirmed" checked>
+          <label class="custom-control-label" for="filter-subs-confirmed">Inscription confirmée</label>
+        </div>
+
+        <div class="custom-control custom-checkbox custom-checkbox--warning">
+          <input type="checkbox" class="custom-control-input" id="filter-subs-pre-sub" checked>
+          <label class="custom-control-label" for="filter-subs-pre-sub">Inscrit&middot;e</label>
+        </div>
+
+        <div class="custom-control custom-checkbox custom-checkbox--danger">
+          <input type="checkbox" class="custom-control-input" id="filter-subs-not-confirmed" checked>
+          <label class="custom-control-label" for="filter-subs-not-confirmed">Inscription non-confirmée</label>
+        </div> -->
+      </div>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  {% if workshops_by_date is not empty %}
+    {% include 'dashboard/components/workshops-by-days.html.twig' with {
+      id_list           : 'user-workshops-by-days',
+      workshops_by_date : workshops_by_date
+    } %}
+  {% else %}
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-muted">
+          Aucune inscription trouvée pour des ateliers, inscrivez-vous d'abord à des ateliers sur la <a href="{{ path('dashboard') }}">page d'accueil</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

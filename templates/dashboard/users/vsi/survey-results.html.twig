@@ -1,0 +1,88 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard app-core--survey-results' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-chart-bar-outline"></span>
+      Résultats du questionnaire
+    {% endblock %}
+    {% block dashboard_header_subtitle %}
+      Période du <u>{{ user_vsi_filters.date_start | localizeddate('long', 'none') }}</u> au <u>{{ user_vsi_filters.date_end | localizeddate('long', 'none') }}</u>,
+      {% if user_vsi_filters.id_cohort == 'all' %}
+        pour <u>toutes les cohortes</u>
+      {% else %}
+        pour la cohorte <u>{{ user_vsi_filters.id_cohort }}</u>
+      {% endif %}
+      {% if current_consultant is not null %}
+        de le&middot;a consultant&middot;e <u>{{ current_consultant.lastname }} {{ current_consultant.firstname }}</u>.
+      {% else %}
+        de <u>tous les consultants</u> du site.
+      {% endif %}
+    {% endblock %}
+    {% block dashboard_header_actions %}
+      <button class="btn btn-outline-primary text-white px-3 d-none d-sm-block" data-toggle="print" type="button">
+        <span class="icon icon-printer"></span> Imprimer les résultats
+      </button>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    {% include 'dashboard/users/vsi/filters.html.twig' %}
+
+    {% if grades_answers_count|length > 0 %}
+      <h3 class="page-header mt-5 d-none d-print-block">Statistiques globales</h3>
+      {# Global answers percents #}
+      {% include 'dashboard/components/survey-results/global-notation-by-grades.html.twig' %}
+
+      <div class="row mb-lg-4">
+        {# Steps stats #}
+        <div class="col-lg-8 col-print-8 mb-4 mb-lg-0">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Statistiques par étape</h5>
+            </div>
+            <div class="card-body">
+              {% include 'dashboard/components/survey-results/steps-stats.html.twig' %}
+            </div>
+            <div class="card-footer">
+              <div class="text-hint">
+                <b>L'écart-type</b> donne une information sur la dispersion des notes autour de la moyenne.
+                Plus il est faible (proche de 0), plus les notes sont regroupées autour de la moyenne.
+                Plus il est important, plus les notes sont dispersées.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# Some infos. #}
+        <div class="col-lg-4 col-print-4 mb-4 mb-lg-0">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Chiffres clés</h5>
+            </div>
+            {% include 'dashboard/components/survey-results/key-stats.html.twig' %}
+          </div>
+        </div>
+      </div>
+
+      {% include 'dashboard/components/survey-results/answers-amount-by-questions.html.twig' %}
+
+      {% include 'dashboard/components/survey-results/list-participants.html.twig' %}
+    {% else %}
+      <div class="alert alert-light text-center">
+        <u>Aucun résultat</u> pour la periode du <b>{{ user_vsi_filters.date_start|date("d/m/Y") }}</b> au <b>{{ user_vsi_filters.date_end|date("d/m/Y") }}</b>
+        {% if current_consultant is not null %}
+         avec comme consultant référent : <b>{{ current_consultant.getLastname() }} {{ current_consultant.getFirstname() }}</b>
+        {% endif %}<br>
+        Veuillez essayer avec de <u>nouveaux paramètres de filtres</u>.
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

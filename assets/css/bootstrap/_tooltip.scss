@@ -1,0 +1,10 @@
+.tooltip {
+  pointer-events: none; // prevents glitch effects on hover
+}
+
+.tooltip-inner {
+  max-width: 320px;
+  small, .small {
+    display: inline-block;
+  }
+}

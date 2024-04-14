@@ -1,0 +1,62 @@
+{% set enable_workshop_popin = (enable_workshop_popin is defined) ? enable_workshop_popin : true %}
+
+<div class="user-workshops-by-days show-old-days container"{% if id_list is defined %} id="{{ id_list }}"{% endif %}>
+  {% set has_display_new_label = false %}
+  {% set has_display_old_label = false %}
+  {% for key_date, workshops in workshops_by_date %}
+    {% set is_current_or_future = (key_date|date('U') >= "now"|date('Y-m-d')|date('U')) %}
+
+    {% if is_current_or_future == false %}
+      {% if has_display_old_label == false %}
+        <span class="user-workshops-label old-days">Atelier(s) passé(s)</span>
+        {% set has_display_old_label = true %}
+      {% endif %}
+    {% elseif has_display_new_label == false %}
+      <span class="user-workshops-label">Atelier(s) à venir</span>
+      {% set has_display_new_label = true %}
+    {% endif %}
+
+    <div class="card mb-3 user-workshops-day{% if is_current_or_future == false %} old-days{% endif %}">
+      <div class="card-body p-3">
+        <h4 class="card-title h5 mb-0">
+          <span class="icon icon-calender-outline"></span>
+          {{ key_date | localizeddate('full', 'none') | capitalize }}
+        </h4>
+      </div>
+
+      <table class="table table-workshops">
+      {% for user_sub in workshops %}
+        {% set workshop = (user_sub.workshop is defined) ? user_sub.workshop : user_sub %}
+        {% set subscriber = (user_sub.workshop is defined) ? user_sub : null %}
+
+        <tr class="row-workshop{% if subscriber is not null %} user-status-{{ subscriber.getStatusSlug() }}{% endif %}" {% if subscriber is not null %}data-subs-status="{{ subscriber.getStatusSlug() }}"{% endif %} {% if enable_workshop_popin %}data-load-workshop-popin="{{ path('dashboard_workshop_get', {'id' : workshop.getId()}) }}" data-workshop-id="{{ workshop.getId() }}"{% endif %}>
+          <td class="col-time">
+            <span class="icon icon-time"></span>
+            <span class="text-time">{{ workshop.getDateStart() | localizeddate('none', 'short') }}</span>
+          </td>
+          <td class="col-workshop-label">{{ workshop.theme.getName() }}</td>
+          <td class="col-subscribe-status">
+          {% if subscriber is not null %}
+            {# Subscriber presence #}
+            {% if is_current_or_future == false %}
+            <span class="presence-icon {% if subscriber.getHasCome() %}icon-tick text-success{% else %}icon-times text-danger{% endif %}"
+              data-toggle="tooltip" title="{{ subscriber.getHasComeText() }}"
+                data-html="true" data-placement="left" data-id-subscribe="{{ user_sub.getId() }}">
+            </span>
+            {% endif %}
+            {# Subscriber status #}
+            <span class="status-icon" data-status-icon="{{ subscriber.getStatusSlug() }}"
+              data-toggle="tooltip" title="{{ user_sub.getStatusText() }}"
+                data-html="true" data-placement="left" data-id-subscribe="{{ user_sub.getId() }}"></span>
+          {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </table>
+    </div>
+  {% endfor %}
+
+  {% if enable_workshop_popin %}
+    {% include 'dashboard/components/workshop-popin.html.twig' %}
+  {% endif %}
+</div>

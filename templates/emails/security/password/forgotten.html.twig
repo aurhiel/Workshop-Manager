@@ -1,0 +1,18 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ user.firstname|capitalize }},
+  </p>
+
+  <p>
+    Vous avez effectué une demande de réinitialisation de mot de passe, cliquez sur le lien
+    ci-dessous afin de modifier votre mot de passe.
+  </p>
+
+  <p>
+    <a href="{{ url('reset_password', { token : token }) }}" style="color: #4aa5e6;">
+      Réinitialiser mon mot de passe
+    </a>
+  </p>
+{% endblock %}

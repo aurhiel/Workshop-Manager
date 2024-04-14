@@ -1,0 +1,26 @@
+// Admin dashboard part
+// -----------------------
+
+//
+// Base
+//
+
+@import "bootstrap/variables";        // Variables overrides before Bootstrap libs
+@import "~bootstrap/scss/functions";  // Need to be with Bootstrap _variables.scss
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+// App libs
+@import "main/mixins";
+@import "main/variables";
+
+@import "icomoon/variables";
+
+//
+// Admin Dashboard
+//
+
+@import "admin-dashboard/variables";
+@import "admin-dashboard/core";
+@import "admin-dashboard/modal";
+@import "admin-dashboard/simple-popin";
+@import "admin-dashboard/stealthRaven";

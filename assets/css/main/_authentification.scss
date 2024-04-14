@@ -1,0 +1,54 @@
+// Authentication
+//
+
+
+//
+// Logo
+//
+
+.logo-auth {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+
+
+//
+// Panel (login|register)
+//
+
+.panel-auth {
+  margin: ($grid-gutter-width / 2) auto;
+  box-shadow: .4rem .4rem 1.6rem rgba(0, 0, 0, .05);
+
+  .col-auth {
+    padding: 2rem;
+
+    &--form {
+      background-color: transparentize($white, .75);
+    }
+
+    &--redirect {
+      background-color: $dark;
+      color: $white;
+    }
+  }
+}
+
+
+@include media-breakpoint-up(md) {
+  .panel-auth {
+    margin-top: 2rem;
+    max-width: 51rem;
+
+    // Registration panel
+    &--register {
+      max-width: 56rem;
+    }
+
+    .col-auth {
+      padding: 3rem 3.6rem;
+    }
+  }
+}

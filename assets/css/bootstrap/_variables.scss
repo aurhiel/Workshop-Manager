@@ -1,0 +1,40 @@
+
+//
+// Color system
+//
+
+// stylelint-disable
+// $white:    #fff;
+// $gray-100: #f8f9fa;
+// $gray-200: #e9ecef;
+// $gray-300: #dee2e6;
+// $gray-400: #ced4da;
+// $gray-500: #adb5bd;
+// $gray-600: #6c757d;
+// $gray-700: #495057;
+// $gray-800: #343a40;
+// $gray-900: #212529;
+// $black:    #000;
+
+$primary:                   #4aa5e6;
+
+$body-bg:                   #f8f9fa; // = $gray-100
+$body-color:                #495057; // = $gray-700
+
+// $headings-color:            #343a40;
+
+$font-family-sans-serif: Cabin, sans-serif;
+$font-family-monospace: monospace;
+$font-family-time: $font-family-monospace;
+
+
+
+// Tables
+
+$table-cell-padding-sm: .3rem .6rem;
+
+
+
+// Modals
+
+$modal-xl: 1080px;

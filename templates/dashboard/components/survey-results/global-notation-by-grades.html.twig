@@ -1,0 +1,33 @@
+{% if survey_grades is defined and survey_grades is not empty and
+  grades_answers_count is defined and grades_answers_count is not empty %}
+  <div class="card mb-4 text-center">
+    <div class="card-header">
+      <h5 class="mb-0">Évaluation globale</h5>
+    </div>
+    <div class="card-body">
+      <div class="survey-results survey-results--global-notation">
+      {% for grade in survey_grades %}
+        {% set answers_percent = ((grades_answers_count[grade.id] is defined) ? (grades_answers_count[grade.id] * 100 / total_answers) : 0)|round %}
+        <div class="-item -item--grade-{{ grade.value }}" data-toggle="tooltip" data-placement="top" title="{{ grade.label }}{% if grades_answers_count[grade.id] is defined %} ({{ grades_answers_count[grade.id] }} réponse{% if grades_answers_count[grade.id] > 1 %}s{% endif %}){% endif %}">
+          <span class="-icon icon-grade-{{ grade.value }}">
+            <span class="-icon--percent-mask" style="height: {{ answers_percent }}%">
+              <span class="icon-grade-{{ grade.value }}" ></span>
+            </span>
+          </span>
+          <span class="-text">{{ answers_percent }}%</span>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    <div class="card-footer d-none d-print-block">
+      <div class="text-hint">
+        <b>Nombre de réponses par évaluation</b> :
+        {% for grade in survey_grades %}
+          <span class="d-inline-block">
+            {{ grade.label }} : <b>{% if grades_answers_count[grade.id] is defined %}{{ grades_answers_count[grade.id] }}{% else %}0{% endif %}</b>{% if loop.last == false %},{% endif %}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

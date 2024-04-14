@@ -1,0 +1,53 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{# delete errors from label ! #}
+{% form_theme form _self %}
+{% block form_label_errors %}{% endblock %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      Mon profil
+      {% if 'ROLE_USER' in app.user.roles %}
+      <small class="badge badge-type-service badge-{{ app.user.serviceType }}"
+        data-toggle="tooltip" data-placement="right" data-html="true"
+          title="Fin de la prestation le <br> <u>{{ app.user.registerEndDate | localizeddate('long', 'none') }}</u>">
+        {{ ('label.' ~ app.user.serviceType) | trans }}
+      </small>
+      {% endif %}
+    {% endblock %}
+    {% block dashboard_header_subtitle %}
+      Modifier ici les informations de votre compte utilisateur
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-9 col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          {{ form_start(form) }}
+            {% include 'dashboard/profile/components/form-settings-inputs.html.twig' with {
+              form : form
+            } %}
+
+            <div class="col-7 col-md-4 py-2 px-0 mt-2 mb-3 border-top small text-required text-required--prepend">
+              Champs obligatoires
+            </div>
+
+            <button class="btn btn-primary" type="submit" name="register">
+              Valider les modifications
+            </button>
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

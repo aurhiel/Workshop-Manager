@@ -1,0 +1,51 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--authentification app-core--body-centered app-core--footer-centered' %}
+
+{# Remove default flashes to change their position #}
+{% block flashes %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="logo-auth">
+    {% include 'components/logo.html.twig' with { goto_home : true } %}
+  </div>
+
+  <div class="panel-auth">
+    <div class="col-auth col-auth--form">
+      {% include 'components/flashes.html.twig' %}
+
+      <h1 class="h4 page-header">Réinitialiser mon mot de passe</h1>
+      <p class="text-muted mb-3">
+        Veuillez renseigner l'adresse email que vous utilisez habituellement
+        pour vous connecter.<br>
+        Un lien, valide pendant <u>1 heure</u>, vous sera expédié par email pour renouveler votre mot de passe.
+      </p>
+
+      <form action="{{ path('forgotten_password') }}" method="post">
+        <label for="username" class="sr-only">Adresse email</label>
+        <div class="input-group input-group--icon mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <span class="icon-social-at-circular"></span>
+            </span>
+          </div>
+          <input class="form-control" type="email" id="username" name="username" placeholder="Adresse email" value="{{ last_username }}">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit" name="send">Envoyer la demande</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="mt-5">
+        <a href="{{ path('login') }}" class="btn btn-sm btn-outline-secondary">
+          <span class="icon-chevron-left"></span> Revenir à la connexion
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% include 'components/footer.html.twig' %}
+</div>
+{% endblock %}

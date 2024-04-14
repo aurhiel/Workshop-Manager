@@ -1,0 +1,56 @@
+<style>
+  body {
+    background-color: #ecf0f1;
+    color: #567492;
+    font-family: monospace;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    color: #34495e;
+  }
+
+  ul {
+    margin-bottom: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 15px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    position: relative;
+  }
+
+  .now {
+    font-weight: bold;
+    text-align: right;
+    /* position: absolute;
+    top: 1rem;
+    right: 1rem; */
+  }
+
+  .text-warning {
+    color: #f1c40f;
+  }
+</style>
+
+<div class="container">
+  <div class="now">now: {{ "now"|date('H:m - d M Y') }}</div>
+  {% if workshops|length > 0 %}
+    <h2>Liste des ateliers du {{ workshops[0].getDateStart() | localizeddate('none', 'none', null, null, 'eeee') }} {{ workshops[0].getDateStart() | localizeddate('long', 'none') }} <span class="text-warning">à confirmer</span></h2>
+    <ul>
+      {% for ws in workshops %}
+        <li>
+          <b>{{ ws.getTheme().getName() }}</b> à
+          {{ ws.getDateStart() | localizeddate('none', 'short') }}
+          (en attente de confirmation: {{ ws.getSubscribesByStatus([0, -3])|length }}, en file d'attente: {{ ws.getSubscribesByStatus([-1])|length }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h1>Aucun atelier avec ouverture des confirmations</h1>
+  {% endif %}
+</div>

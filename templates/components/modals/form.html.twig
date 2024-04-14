@@ -1,0 +1,39 @@
+{% if form is defined and form is not empty %}
+<div class="modal modal-stealth-raven fade" id="{{ stealth_raven_modal_id }}" tabindex="-1" role="dialog">
+  <div class="modal-dialog {% if modal_size is defined %}modal-{{ modal_size }}{% endif %}" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-stealth-raven-title-add="{{ stealth_raven_title_add }}"
+          data-stealth-raven-title-edit="{{ stealth_raven_title_edit }}">{{ stealth_raven_title_add }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {{ form_start(form,
+        { attr : {
+          'class' : 'form-stealth-raven',
+          'data-stealth-raven-after-submit' : stealth_raven_callback is defined ? stealth_raven_callback : null }
+        }
+      ) }}
+        {# Form inputs #}
+        <div class="modal-body">
+          {% block form_widgets %}
+            {{ form_widget(form) }}
+          {% endblock %}
+        </div>
+
+        {# Form buttons #}
+        <div class="modal-footer">
+	        {% block form_footer %}
+					{% endblock %}
+
+	        {% block form_buttons %}
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+	          <button type="submit" class="btn btn-primary">Sauvegarder</button>
+					{% endblock %}
+        </div>
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+{% endif %}

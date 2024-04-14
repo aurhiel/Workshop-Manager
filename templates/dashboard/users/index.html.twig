@@ -1,0 +1,114 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard app-core--dashboard-disable-merge' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-group"></span>
+      Utilisateurs
+    {% endblock %}
+    {% block dashboard_header_subtitle %}
+      Modifiez ou désactivez des utilisateurs
+    {% endblock %}
+    {% block dashboard_header_actions %}
+      {% if roles|length > 0 %}
+        <div class="btn-group" role="group" aria-label="Pages des groupes d'utilisateurs">
+        {% for role_slug, role_label in roles %}
+          <a href="{{ path('admin_dashboard_users', { role: role_slug }) }}"
+            class="btn {% if role_slug == current_role %}btn-primary{% else %}btn-outline-primary{% endif %} text-white">
+            {% if role_slug == 'ROLE_ADMIN' %}
+            <span class="icon icon-star"></span>
+            {% elseif role_slug == 'ROLE_PUBLISHER' %}
+            <span class="icon icon-star-outline"></span>
+            {% endif %}
+            {{ role_label }}
+          </a>
+        {% endfor %}
+        </div>
+        <div class="btn-group">
+          <a href="{{ path('admin_dashboard_users_VSI') }}" class="btn btn-outline-purple text-white">
+            Utilisateurs <span class="text-vsi">VSI</span>
+          </a>
+        </div>
+      {% endif %}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <nav class="overflow-scroll overflow-scroll-lg" aria-label="Pages de navigation par lettre">
+    <ul class="os-content pagination pagination-alphabet">
+      {% for letter, data_letter in letters %}
+        <li class="page-item{% if data_letter.nb_users < 1 %} disabled{% elseif letter == first_letter %} active{% endif %}"
+          title="{{ data_letter.nb_users }} utilisateur{% if data_letter.nb_users > 1 %}s{% endif %}">
+           <a class="page-link" href="{{ path('admin_dashboard_users', { role: current_role, first_letter: letter }) }}#main-content">
+             {{ letter }}
+           </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  {% include 'dashboard/users/list-users.html.twig' %}
+
+  {% if nb_pages > 1 %}
+  <nav aria-label="Navigation par numéro de page d'utilisateur">
+    <ul class="pagination justify-content-center">
+      {# Previous button #}
+      {% if current_page > 1 %}
+      <li class="page-item">
+        <a class="page-link" aria-label="Précédent" href="{{ path('admin_dashboard_users', { role: current_role, first_letter: first_letter, page: (current_page - 1) }) }}#main-content">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Précédent</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Précédent</span>
+        </span>
+      </li>
+      {% endif %}
+
+      {# Loop to generate numbers pages #}
+      {% for num_page in 1..nb_pages %}
+        {% if num_page == current_page %}
+        <li class="page-item active">
+          <span class="page-link">{{ num_page }}</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="{{ path('admin_dashboard_users', { role: current_role, first_letter: first_letter, page: num_page }) }}#main-content">
+            {{ num_page }}
+          </a>
+        </li>
+        {% endif %}
+      {% endfor %}
+
+      {# Next button #}
+      {% if current_page < nb_pages %}
+      <li class="page-item">
+        <a class="page-link" aria-label="Suivant" href="{{ path('admin_dashboard_users', { role: current_role, first_letter: first_letter, page: (current_page + 1) }) }}#main-content">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Suivant</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Suivant</span>
+        </span>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

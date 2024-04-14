@@ -1,0 +1,23 @@
+{% extends 'layouts/blank.html.twig' %}
+
+{% block body %}
+  <div class="app-main-content">
+    <h1 class="page-header h3 mb-4">
+      Page introuvable
+    </h1>
+
+    <div class="textual-content">
+      <p>
+        La page que vous cherchez à accéder n'existe pas, si cette page existait
+        auparavant veuillez ré-essayer ultérieurement ou bien contacter
+        un administrateur du site.
+      </p>
+    </div>
+
+    <div>
+      <a href="{{ path('home') }}" class="btn btn-outline-secondary btn-sm">
+        <span class="icon-chevron-left"></span> Revenir au site
+      </a>
+    </div>
+  </div>
+{% endblock %}

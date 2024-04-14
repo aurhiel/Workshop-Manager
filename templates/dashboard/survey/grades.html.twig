@@ -1,0 +1,83 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-cog"></span>
+      Étapes du questionnaire {{ survey.label }}
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Créez, modifiez ou supprimez les notations et questions du questionnaire de satisfaction <u>{{ survey.label }}</u>
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <a class="btn btn-outline-primary text-white px-3 modal-stealth-raven-button"
+          data-target="#modal-manage-survey-grade">
+        Ajouter une notation
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="card">
+      {% if survey.surveyGrades is not empty %}
+        <table class="table table-hover table-striped table-entities table-survey-grade-entities">
+          <thead>
+            <tr>
+              <th scope="col" class="col-id">#</th>
+              <th scope="col" class="col-position">Pos.</th>
+              <th scope="col" class="col-name">Libellé</th>
+              <th scope="col" class="col-value">Valeur / Note</th>
+              <th scope="col" class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for grade in survey.surveyGrades %}
+              <tr>
+                <th scope="row" class="col-id">{{ grade.id }}</th>
+                <td class="col-position">{{ grade.position }}</td>
+                <td class="col-name">{{ grade.label }}</td>
+                <td class="col-value">{{ grade.value }}</td>
+                <td class="col-actions">
+                  <button type="button" name="button" class="btn btn-sm btn-secondary btn-stealth-raven-load-form"
+                      data-stealth-raven-loader="{{ path('admin_dashboard_users_VSI_survey_grade_get', { id : grade.id }) }}"
+                        data-stealth-raven-fill-form="survey_grade" data-target="#modal-manage-survey-grade">
+                    <span class="icon-edit"></span>
+                    <span class="sr-only">Modifier</span>
+                  </button>
+                  <a class="btn btn-sm btn-danger btn-stealth-raven" data-action="survey_grade_delete"
+                    href=""
+                      data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer la notation : {{ grade.label }} ?">
+                    <span class="icon-trash"></span>
+                    <span class="sr-only">Supprimer</span>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  </div>
+
+  {# Modal / Manage survey grade #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_survey_grade,
+    'stealth_raven_modal_id'    : 'modal-manage-survey-grade',
+    'stealth_raven_title_add'   : 'Ajouter une notation',
+    'stealth_raven_title_edit'  : 'Modifier la notation'
+  } %}
+    {% block form_widgets %}
+      {{ form_widget(form) }}
+      <input type="hidden" name="survey-id" value="{{ survey.id }}">
+    {% endblock %}
+  {% endembed %}
+{% endblock %}

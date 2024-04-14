@@ -1,0 +1,49 @@
+{% if steps_stats is not empty %}
+  <div class="survey-results survey-results--answers-amount">
+    <h3 class="page-header mt-5">Nombre de réponses par question</h3>
+    {% for step_stat in steps_stats %}
+      <div class="-item">
+        <h4 class="-step-label">{{ step_stat.step_label }}</h4>
+        <div class="-step-questions row">
+          {% for id_question, question in step_stat.questions %}
+            <div class="col-md-6 col-lg-4 col-print-4 mb-4">
+              <div class="card">
+                <div class="card-header">{{ question.question_label }}</div>
+                <div class="card-body">
+                  <div class="chart-js" data-chartjs-type="horizontalBar"
+                    data-chartjs-data-name="question_{{ id_question }}" data-chartjs-data-type="percent"
+                      data-chartjs-display-legend="false">{# data-chartjs-min="0" data-chartjs-max="100"> (not working) #}
+                    <canvas></canvas>
+                  </div>
+                  <script type="text/javascript">
+                    var question_{{ id_question }} = {
+                      labels    : ["{{ question.grades_labels|join('", "')|raw }}"],
+                      datasets  : [{
+                        label           : 'réponse',
+                        backgroundColor : [ 'rgba(220, 53, 69, .5)', 'rgba(253, 126, 20, .5)', 'rgba(255, 193, 7, .5)', 'rgba(40, 167, 69, .5)', 'rgba(32, 201, 151, .5)' ],
+                        borderColor     : [ 'rgba(220, 53, 69, .75)', 'rgba(253, 126, 20, .75)', 'rgba(255, 193, 7, .75)', 'rgba(40, 167, 69, .75)', 'rgba(32, 201, 151, .75)' ],
+                        borderWidth     : 1,
+                        data : [{{ question.grades_answers_percent|join(', ')|raw }}],
+                        data_count : [{{ question.grades_answers_count|join(', ')|raw }}]
+                      }]
+                    };
+                  </script>
+                </div>
+                <div class="card-footer d-none d-print-block">
+                  <div class="text-hint">
+                    <b>Nombre de réponses</b> :
+                    {% for id_grade, grade_answers_percent in question.grades_answers_percent %}
+                      <span class="d-inline-block">
+                        {{ question.grades_labels[id_grade] }} : <b>{{ question.grades_answers_count[id_grade] }}</b> ({{ grade_answers_percent }}%){% if loop.last == false %},{% endif %}
+                      </span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

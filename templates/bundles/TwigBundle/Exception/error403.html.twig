@@ -1,0 +1,23 @@
+{% extends 'layouts/blank.html.twig' %}
+
+{% block body %}
+  <div class="app-main-content">
+    <h1 class="page-header h3">
+      Accès non-autorisé
+    </h1>
+
+    <div class="textual-content">
+      <p>
+        L'accès à cette page ne vous est pas autorisé, si vous devriez y
+        avoir accès veuillez ré-essayer ultérieurement ou bien contacter
+        un administrateur du site.
+      </p>
+    </div>
+
+    <div>
+      <a href="{{ path('home') }}" class="btn btn-outline-secondary btn-sm">
+        <span class="icon-chevron-left"></span> Revenir au site
+      </a>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard app-core--survey-results' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-chart-bar-outline"></span>
+      Résultats de <u>{{ user_vsi.lastname }} {{ user_vsi.firstname }}</u> au questionnaire
+    {% endblock %}
+    {% block dashboard_header_subtitle %}
+
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h3 class="page-header mt-5 d-none d-print-block">Statistiques globales</h3>
+    {# Global answers percents #}
+    {% include 'dashboard/components/survey-results/global-notation-by-grades.html.twig' %}
+
+    <div class="row mb-lg-4">
+      {# Steps stats #}
+      <div class="col-lg-8 col-print-8 mb-4 mb-lg-0">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Statistiques par étape</h5>
+          </div>
+          <div class="card-body">
+            {% include 'dashboard/components/survey-results/steps-stats.html.twig' %}
+          </div>
+          <div class="card-footer">
+            <div class="text-hint">
+              <b>L'écart-type</b> donne une information sur la dispersion des notes autour de la moyenne.
+              Plus il est faible (proche de 0), plus les notes sont regroupées autour de la moyenne.
+              Plus il est important, plus les notes sont dispersées.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Some infos. #}
+      <div class="col-lg-4 col-print-4 mb-4 mb-lg-0">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Informations clés</h5>
+          </div>
+          {% include 'dashboard/components/survey-results/key-stats.html.twig' %}
+        </div>
+      </div>
+    </div>
+
+    {% include 'dashboard/components/survey-results/answers-amount-by-questions--rowed.html.twig' %}
+  </div>
+{% endblock %}

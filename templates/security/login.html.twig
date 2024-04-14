@@ -1,0 +1,81 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--authentification app-core--body-centered app-core--footer-centered' %}
+
+{# Remove default flashes to change their position #}
+{% block flashes %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="logo-auth">
+    {% include 'components/logo.html.twig' %}
+  </div>
+
+  <div class="row panel-auth panel-auth--login">
+    <form class="col-auth col-auth--form col-sm-7" action="{{ path('login') }}" method="post">
+      {% include 'components/flashes.html.twig' %}
+      
+      {% if error %}
+        {% if error.messageKey is defined %}
+          <div class="alert alert-warning">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% elseif error.message is defined %}
+          <div class="alert alert-{{ error.type }}">{{ error.message|raw }}</div>
+        {% endif %}
+      {% endif %}
+
+      <h2 class="h4 mb-3">Identification</h2>
+
+      <label for="username" class="sr-only">Adresse email</label>
+      <div class="input-group input-group--icon mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <span class="icon-social-at-circular"></span>
+          </span>
+        </div>
+        <input class="form-control" type="email" id="username" name="_username" placeholder="Adresse email" value="{{ last_username }}" />
+      </div>
+
+      <label for="password" class="sr-only">Mot de passe</label>
+      <div class="input-group input-group--icon mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <span class="icon-key-outline"></span>
+          </span>
+        </div>
+        <input class="form-control" type="password" id="password" name="_password" placeholder="Mot de passe" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" id="remember_me" name="_remember_me" checked>
+            <label class="custom-control-label" for="remember_me">Rester connecté</label>
+          </div>
+        </div>
+        <div class="col text-right">
+          <a href="{{ path('forgotten_password') }}">Mot de passe oublié&nbsp;?</a>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" name="login">
+        Connexion
+      </button>
+    </form>
+
+    <div class="col-auth col-auth--redirect col-sm-5">
+      <h2 class="h4 mb-3">Pas encore inscrit&middot;e ?</h2>
+      <p class="small">
+        Vous êtes un&middot;e nouveau&middot;elle candidat&middot;e et vous souhaitez participer aux ateliers
+        proposé par Ingeneria ?
+      </p>
+
+      <div class="mt-4">
+        <a href="{{ path('user_registration') }}" class="btn btn-light">Inscrivez-vous</a>
+      </div>
+    </div>
+  </div>
+
+  {% include 'components/footer.html.twig' %}
+</div>
+{% endblock %}

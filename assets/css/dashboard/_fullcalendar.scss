@@ -1,0 +1,470 @@
+// Full calendar
+// -----------------------
+
+.workshop-calendar {
+  min-height: 400px;
+
+  + .workshop-calendar-legends {
+    margin-bottom: 2rem;
+  }
+}
+
+
+// Container
+.fc-view-container {
+  background-color: $white;
+}
+
+
+// Toolbar
+.fc-toolbar.fc-header-toolbar {
+  background-color: transparentize($dashboard-header-bg, .025);
+  border-radius: 4px;
+  width: 99%;
+  margin-left: .5%;
+  margin-bottom: .5%;
+  padding: 10px;
+  position: sticky;
+  top: .5%;
+  z-index: 5;
+}
+
+
+// Legend
+.fc-legend {
+  .legend-title {
+    font-weight: bold;
+  }
+
+  .legend-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Legend item
+  .legend-item {
+    line-height: 1rem;
+    display: inline-block;
+    width: 48%;
+    position: relative;
+    padding-left: 1.2rem;
+
+    .picto {
+      background-color: currentcolor;
+      position: absolute;
+      z-index: 0;
+      height: .7rem;
+      width: .7rem;
+      left: .1rem;
+      top: 50%;
+      margin-top: -.35rem;
+      border-radius: .16rem;
+    }
+
+    .label {
+      font-size: .8rem;
+      color: $gray-600;
+    }
+
+    // Workshop status
+    &--workshop-open {
+      .picto {
+        background-color: $workshop-opened-bg;
+      }
+    }
+
+    &--workshop-close {
+      .picto {
+        background-color: $workshop-closed-bg;
+      }
+    }
+
+    &--workshop-confirm {
+      .picto {
+        background-color: $workshop-waiting-valid-bg;
+      }
+    }
+  }
+}
+
+
+// Toolbar
+.fc-toolbar {
+  .fc-next, .fc-prev {
+    &-button {
+      padding-right: .4rem;
+      padding-left: .4rem;
+    }
+  }
+}
+
+
+// Event
+.fc-event, .fc-event-dot {
+  background-color: $workshop-default-bg;
+  color: $workshop-default-color;
+}
+
+$workshop-vsi-font-family: $font-family-monospace;
+$workshop-vsi-font-size: .6rem;
+
+.fc-event {
+  text-shadow: 0 .08rem 0 rgba(0, 0, 0, .15);
+  border-color: rgba(0, 0, 0, .1);
+  cursor: pointer;
+
+  &:hover {
+		z-index: 15 !important;
+
+    .fc-bg {
+      opacity: 0;
+    }
+
+		.fc-time {
+			opacity: 1;
+		}
+  }
+
+  // Workshop status
+  &.workshop-status {
+    &-subscribes-opened {
+      background-color: $workshop-opened-bg;
+      color: $workshop-opened-color;
+      text-shadow: 0 .08rem 0 rgba(255, 255, 255, .45);
+    }
+
+    &-waiting-validation {
+      background-color: $workshop-waiting-valid-bg;
+      color: $workshop-waiting-valid-color;
+      text-shadow: 0 .08rem 0 rgba(255, 255, 255, .45);
+    }
+
+    &-subscribes-closed {
+      background-color: $workshop-closed-bg;
+      color: $workshop-closed-color;
+      text-shadow: none;
+      // opacity: .65;
+
+			&.workshop-is-active {
+				border-color: $gray-700;
+				.fc-time {
+					background-color: $gray-700;
+				}
+			}
+    }
+  }
+
+  // User status
+  &[class^="user-status-"], &[class*=" user-status-"] {
+    .fc-time {
+      &:before {
+        content: '';
+        @include status-icon-base($gray-600);
+				margin-left: 0;
+      }
+    }
+  }
+
+  &.user-status {
+    &-waiting-seats {
+      .fc-time {
+        &:before { @include status-icon-variant($user-waiting-seats-bg); }
+      }
+    }
+
+    &-pre-subscribe {
+      .fc-time {
+        &:before { @include status-icon-variant($user-pre-sub-bg); }
+      }
+    }
+
+    &-sub-not-confirmed {
+      .fc-time {
+        &:before { @include status-icon-variant($user-not-confirmed-bg); }
+      }
+    }
+
+    &-subscribed {
+      .fc-time {
+        &:before { @include status-icon-variant($user-subscribed-bg); }
+      }
+    }
+  }
+
+	// VSI workshop
+	&.workshop-is-vsi {
+    background-color: #f6f8fb;
+    color: #343a40;
+    // TODO add scss variables
+		opacity: .4;
+		z-index: 0 !important;
+		transition: opacity 400ms ease;
+
+		&:hover {
+			opacity: 1;
+			z-index: 5 !important;
+		}
+
+		.fc-title {
+			&:before {
+				content: 'VSI';
+				background-color: $primary;
+				color: $white;
+				font-weight: bold;
+				font-family: $workshop-vsi-font-family;
+				font-size: $workshop-vsi-font-size;
+				letter-spacing: .1rem;
+				text-shadow: none;
+				vertical-align: middle;
+				padding: .02rem .5rem 0;
+				border-radius: .6rem;
+				margin-right: .2rem;
+			}
+		}
+	}
+
+	// Workshop activated (popin open)
+	&.workshop-is-active {
+		border-color: $primary;
+		opacity: 1;
+		z-index: 15 !important;
+
+		.fc-bg {
+			opacity: 0;
+		}
+
+		.fc-time {
+			background-color: $primary;
+			color: $white;
+			opacity: 1;
+		}
+	}
+
+	.fc-bg {
+    opacity: .1;
+		transition: opacity 400ms ease;
+  }
+
+	.fc-time {
+		// background: rgba(0, 0, 0, .42);
+		// color: #fff;
+		background-color: transparentize($black, .9);
+	  text-shadow: none;
+	  padding: .2rem .4rem;
+		opacity: .8;
+		transition: opacity 400ms ease;
+	}
+
+  .fc-footer {
+    background-color: transparentize($black, .4);
+    color: $white;
+    font-size: 86%;
+    display: inline-block;
+    border-radius: .2rem;
+    padding: .18rem;
+    overflow: hidden;
+		margin-top: .2rem;
+		pointer-events: none;
+		user-select: none;
+
+    .amount {
+      background-color: transparentize($white, .05);
+      color: $black;
+      font-weight: bold;
+      text-align: center;
+			display: inline-block;
+	    border-radius: .1rem;
+			padding: .04rem .2rem 0;
+	    min-width: .4rem;
+    }
+
+    .text {
+      padding: .06rem .2rem;
+    }
+  }
+}
+
+.fc-list-item {
+  // User status
+  &.user-status {
+    &-pre-subscribe {
+      .fc-event-dot {
+        background-color: $user-pre-sub-bg;
+      }
+    }
+
+    &-subscribed {
+      .fc-event-dot {
+        background-color: $user-subscribed-bg;
+      }
+    }
+  }
+}
+
+
+// Event on Time Grid
+.fc-time {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: .75rem;
+}
+
+
+$fc-time-event-padding-x: .2rem;
+$fc-time-event-padding-y: .35rem;
+
+// .fc-event
+.fc-v-event {
+  padding: $fc-time-event-padding-y $fc-time-event-padding-x;
+
+	.fc-content {
+		overflow: visible;
+		position: static;
+	}
+
+  .fc-time {
+    font-size: .75rem;
+		margin: (-$fc-time-event-padding-y) (-$fc-time-event-padding-x) .14rem;
+  }
+
+	//.variantes
+	&.workshop-is-vsi {
+		.fc-title {
+			&:before {
+				// > content: 'VSI';
+				padding: .12rem .5rem 0;
+				position: absolute;
+				bottom: .14rem;
+		    right: .14rem;
+		    margin: 0;
+			}
+		}
+	}
+}
+
+// .fc-event
+.fc-h-event {
+	.fc-content {
+		left: -1px;
+	}
+
+  .fc-time {
+    border-radius: 3px 0 0 3px;
+
+    &:after {
+      margin-right: .3rem;
+    }
+  }
+}
+
+
+
+// Calendar types
+// -- basic (= by month) + agendaWeek (= by week) views
+.fc-basic-view, .fc-agendaWeek-view {
+	.fc-event {
+		.fc-footer {
+			margin: 0;
+			opacity: 0;
+      position: absolute;
+      z-index: 5;
+	    white-space: nowrap;
+		}
+	}
+}
+
+// -- basic view (= by month)
+.fc-basic-view {
+  .fc-event {
+    &:hover {
+      .fc-footer {
+        right: 0;
+        opacity: 1;
+      }
+    }
+
+		// In this view footer comes from the right of the event
+		// -- (events on the calendar are represented by lines)
+    .fc-footer {
+			top: -1px;
+      right: -1rem;
+      transition: opacity 600ms ease, right 400ms ease;
+
+			.text {
+				display: none;
+			}
+    }
+  }
+}
+
+// -- agendaWeek (= by week)
+.fc-agendaWeek-view {
+  .fc-event {
+    &:hover {
+      .fc-footer {
+        bottom: .1rem;
+        opacity: 1;
+      }
+    }
+
+		// In this view footer comes from the bottom of the event
+    .fc-footer {
+      bottom: -1rem;
+			left: .2rem;
+      transition: opacity 600ms ease, bottom 400ms ease;
+    }
+  }
+}
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(sm) {
+  .fc-legend {
+    // Legend item
+    .legend-item {
+      width: auto;
+      margin-right: .8rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+
+
+
+//
+// Print
+//
+
+@media print {
+  .fc-toolbar, .fc-now-indicator, .workshop-calendar-legends {
+    display: none;
+  }
+
+  .fc-today {
+    background: none;
+  }
+
+  .fc-scroller {
+    overflow: hidden !important;
+  }
+
+  .fc-event {
+    // Workshop status
+    &.workshop-status {
+      &, &-subscribes-opened, &-waiting-validation, &-subscribes-closed {
+        background-color: $workshop-print-bg;
+        color: $workshop-print-color;
+        text-shadow: none;
+      }
+    }
+  }
+}

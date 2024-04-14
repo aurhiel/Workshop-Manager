@@ -1,0 +1,21 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ user.firstname|capitalize }},
+  </p>
+
+  <p>
+    Votre compte vient d'être activé par votre consultant référent.
+  </p>
+
+  <p>
+    Vous pouvez donc vous connecter et souscrire aux ateliers d'Ingeneria.
+  </p>
+
+  <p class="content-block">
+    <a href="{{ url('login') }}" style="color: #fff; background-color: #4aa5e6; border: 1px solid #459bd8; text-decoration: none; font-size: 14px; line-height: 1.5; text-align: center; border-radius: 4px; padding: 7px 20px; user-select: none; white-space: nowrap;">
+      Connectez-vous dès maintenant !
+    </a>
+  </p>
+{% endblock %}

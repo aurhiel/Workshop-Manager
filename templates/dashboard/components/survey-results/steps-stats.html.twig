@@ -1,0 +1,22 @@
+{% if steps_answers_labels is defined and (steps_answers_averages is defined or steps_answers_std_deviations is defined) %}
+  <div class="chart-js" data-chartjs-type="radar" data-chartjs-data-name="steps_answers"
+    data-chartjs-min="0" data-chartjs-max="5">
+    <canvas></canvas>
+  </div>
+  <script type="text/javascript">
+    var steps_answers = {
+      labels    : {{ steps_answers_labels|json_encode|raw }},
+      datasets  : [{
+          label           : 'Moyenne',
+          backgroundColor : 'rgba(74, 165, 230, .5)',
+          borderColor     : 'rgba(74, 165, 230, .75)',
+          data            : {{ steps_answers_averages|json_encode }}
+        },{
+          label           : 'Écart-type',
+          backgroundColor : 'rgba(111, 66, 193, .5)',
+          borderColor     : 'rgba(111, 66, 193, .75)',
+          data            : {{ steps_answers_std_deviations|json_encode }}
+        }]
+      };
+  </script>
+{% endif %}

@@ -1,0 +1,21 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ consultant.firstname|capitalize }},
+  </p>
+
+  <p>
+    L'utilisateur&middot;rice <b>{{ user.firstname|capitalize }}
+    {{ user.lastname|capitalize }}</b> souhaiterait que vous
+    réactiviez son compte
+    du site des <a href="{{ url('login') }}">Ateliers d'Ingeneria</a>.
+  </p>
+
+  <p>
+    Rappel : Sa date de fin de prestation est le <b>{{ user.registerEndDate|localizeddate('long', 'none', 'fr') }}</b>.
+    {% if user.registerEndDate|date('U') <= "now"|date('Y-m-d')|date('U') %}
+    <br>Après l'avoir réactivé&middot;e, veuillez aussi <b>prolonger sa date de fin de prestation</b>, auquel cas son compte sera de <b>nouveau <span style="color: #e74c3c;">désactivé</span> ce soir</b>.
+    {% endif %}
+  </p>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      Ajouter une nouvelle thématique
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-9 col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          {{ form_start(form_workshop_theme) }}
+            {# Form inputs #}
+            {{ form_widget(form_workshop_theme) }}
+
+            {# Form buttons #}
+            <div class="text-right border-top mt-3 pt-3">
+              <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            </div>
+          {{ form_end(form_workshop_theme) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

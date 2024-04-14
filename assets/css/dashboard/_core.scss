@@ -1,0 +1,153 @@
+
+.app-core {
+  &--dashboard {
+    .app-body {
+      // margin-bottom: 1.8rem;
+      margin-top: -$dashboard-merge-size;
+      min-height: 50vh;
+    }
+
+    .app-footer {
+      margin-top: 2rem;
+    }
+  }
+
+  &--dashboard-home {
+    .app-footer {
+      margin-top: 0;
+    }
+  }
+
+  &--dashboard-disable-merge {
+    .app-body {
+      padding-top: $grid-gutter-width / 2 !important;
+      margin-top: 0 !important;
+    }
+
+    .dashboard-header {
+      padding-bottom: $dashboard-header-padding-y * 2;
+    }
+  }
+}
+
+
+.status-icon {
+  @include status-icon-base($gray-500);
+
+  &[data-status-icon="waiting-seats"] {
+    @include status-icon-variant($user-waiting-seats-bg);
+  }
+
+  &[data-status-icon="pre-subscribe"] {
+    @include status-icon-variant($user-pre-sub-bg);
+  }
+
+  &[data-status-icon="sub-not-confirmed"] {
+    @include status-icon-variant($user-not-confirmed-bg);
+  }
+
+  &[data-status-icon="subscribed"] {
+    @include status-icon-variant($user-subscribed-bg);
+  }
+}
+
+.checkbox-filters {
+  .custom-checkbox {
+    display: inline-block;
+
+    + .custom-checkbox {
+      margin-left: .6rem;
+    }
+  }
+}
+
+.user-workshops-by-days {
+  // = item
+  .user-workshops-day {
+    &.old-days {
+      .card-title {
+        color: $text-muted;
+        .icon { color: lighten($text-muted, 20%); }
+      }
+    }
+  }
+
+  .user-workshops-label {
+    font-weight: bold;
+    // display: block;
+    margin-left: .6rem;
+    margin-bottom: .2rem;
+    opacity: .6;
+  }
+}
+
+.old-days {
+  display: none;
+}
+
+.show-old-days {
+  // = old item & label
+  .old-days {
+    display: block;
+  }
+}
+
+.user-workshops-day {
+  .card-title {
+    .icon {
+      color: $primary;
+    }
+  }
+}
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(md) {
+  .app-core {
+    &--dashboard {
+      .app-body {
+        margin-top: -$dashboard-merge-size-md;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .app-core {
+    &--dashboard {
+      .app-body {
+        margin-top: -$dashboard-merge-size-lg;
+      }
+    }
+
+    &--dashboard-disable-merge {
+      .dashboard-header {
+        padding-bottom: $dashboard-header-padding-y * 4;
+      }
+    }
+  }
+}
+
+
+
+//
+// Print
+//
+
+@media print {
+  .app-core {
+    background: none;
+    // Force print colors
+    // @include print-color-adjust(exact);
+  }
+
+  .user-workshops-by-days {
+    .user-workshops-label {
+      display: none !important;
+    }
+  }
+}

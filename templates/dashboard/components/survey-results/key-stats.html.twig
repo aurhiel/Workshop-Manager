@@ -1,0 +1,17 @@
+
+{% if key_stats is defined and key_stats is not empty %}
+  <table class="table survey-results survey-results--table-keys-stats">
+    <tbody>
+    {% for slug, key_stat in key_stats %}
+      <tr class="-item" data-key-stat-slug="{{ slug }}">
+        <td class="cell-label"><b>{{ key_stat.label|raw }}</b></td>
+        <td class="cell-value text-right">{{ key_stat.value }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="card-body text-hint">
+    Aucun chiffre clé à afficher.
+  </div>
+{% endif %}

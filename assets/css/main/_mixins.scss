@@ -1,0 +1,28 @@
+// Mixins
+//
+
+@mixin print-color-adjust($type) {
+  -webkit-print-color-adjust: $type;
+  -moz-print-color-adjust: $type;
+  print-color-adjust: $type;
+}
+
+@mixin status-icon-base($color) {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 0;
+  border-radius: 50%;
+  height: .435rem;
+  width: .435rem;
+  margin: -.2rem .2rem 0 .2rem;
+  @include status-icon-variant($color);
+  // TODO change to margin-left with attr if status is at the end of a line
+  margin-right: .4rem;
+  // Force print
+  @include print-color-adjust(exact);
+}
+
+@mixin status-icon-variant($color) {
+  background-color: $color;
+  box-shadow: 0 0 0 .2rem transparentize($color, .75);
+}

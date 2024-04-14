@@ -1,0 +1,57 @@
+{% extends 'layouts/base.html.twig' %}
+{% set core_class = 'app-core--authentification app-core--body-centered app-core--footer-centered' %}
+
+{# delete errors from label ! #}
+{% form_theme form _self %}
+{% block form_label_errors %}{% endblock %}
+
+{# Remove default flashes to change their position #}
+{% block flashes %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="logo-auth">
+    {% include 'components/logo.html.twig' with { goto_home: true } %}
+  </div>
+
+  <div class="panel-auth">
+    <div class="col-auth col-auth--form">
+      {% include 'components/flashes.html.twig' %}
+
+      <h1 class="h4 page-header">Réinitialiser mon mot de passe</h1>
+      <p class="text-muted mb-3">
+        Veuillez saisir un nouveau mot de passe, une fois changé vous serez
+        redirigé&middot;e vers la page de connexion, vous pourrez ainsi directement l'utiliser pour vous identifier.
+      </p>
+
+      {{ form_start(form) }}
+        <div class="form-row">
+          <div class="col-sm-6 mb-3">
+            {{ form_label(form.plainPassword.first, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form.plainPassword.first) }}
+            {{ form_errors(form.plainPassword.first) }}
+          </div>
+
+          <div class="col-sm-6 mb-2">
+            {{ form_label(form.plainPassword.second, null, { label_attr: { class: 'text-required' } }) }}
+            {{ form_widget(form.plainPassword.second) }}
+            {{ form_errors(form.plainPassword.second) }}
+          </div>
+        </div>
+
+        <div class="col-7 col-md-4 py-2 px-0 mt-2 mb-3 border-top small text-required text-required--prepend">
+          Champs obligatoires
+        </div>
+
+        <button class="btn btn-primary" type="submit" name="register">
+          Changer mon mot de passe
+        </button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+  {% include 'components/footer.html.twig' %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour,
+  </p>
+
+  <p>
+    Comme vous n'avez pas confirmé, ou non, votre inscription pour l'atelier,
+    <b>{{ workshop.getTheme.getName }}</b>, se déroulant le <b>{{ workshop.getDateStart() | localizeddate('long', 'none', 'fr') }}
+    à {{ workshop.getDateStart() | localizeddate('none', 'short', 'fr') }}</b>,
+    elle a été automatiquement rejetée afin de privilégier une personne en file d'attente.
+  </p>
+
+  <p>
+    Rendez-vous sur le site <a href="https://ateliers-ingeneria.fr{{ path('dashboard') }}" style="color: #4aa5e6;">des ateliers d'Ingeneria</a>
+    si vous souhaitez trouver une nouvelle date.
+  </p>
+
+  <p>
+    Merci de votre compréhension.
+  </p>
+{% endblock %}

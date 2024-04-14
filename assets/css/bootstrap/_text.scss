@@ -1,0 +1,22 @@
+.reverse-colors {
+  background-color: $dark;
+  color: $gray-200;
+}
+
+.text-time {
+  font-family: $font-family-time;
+  font-size: 85%;
+  font-weight: bold;
+}
+
+.text-important {
+  font-weight: bold;
+  text-decoration: underline;
+  display: inline-block;
+}
+
+.text-hint {
+  font-size: 75%;
+  line-height: 1.4;
+  opacity: .65;
+}

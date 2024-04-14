@@ -1,0 +1,31 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <p>
+    Bonjour {{ user.firstname|capitalize }},
+  </p>
+
+  <p>
+    Votre période de formation aux ateliers d'Ingeneria touche à sa fin,
+    dites-nous ce que vous en avez pensé à travers ce questionnaire.
+  </p>
+
+  <p>
+    Vous avez jusqu'au <u>{{ token.expiresAt | localizeddate('long', 'none', 'fr') }}</u>
+    pour y répondre, n'attendez pas !<br>
+    Cliquez ci-dessous pour nous partager votre avis :
+  </p>
+
+  <p class="content-block" style="text-align:center;">
+    <a href="https://ateliers-ingeneria.fr{{ path('survey', { token : token.token }) }}" style="color: #fff; background-color: #4aa5e6; border: 1px solid #459bd8; text-decoration: none; font-size: 14px; line-height: 1.5; text-align: center; border-radius: 4px; padding: 7px 20px; user-select: none; white-space: nowrap;">
+      Questionnaire
+    </a>
+  </p>
+{% endblock %}
+
+{% block after_see_ya %}
+<p class="colored-link" style="font-size:12px;color:#7f8c8d;margin-top:20px;margin-bottom: 0;">
+  Si le bouton ne fonctionne pas, vous pouvez utiliser le lien suivant :<br>
+  https://ateliers-ingeneria.fr{{ path('survey', { token : token.token }) }}
+</p>
+{% endblock %}

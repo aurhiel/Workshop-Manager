@@ -1,0 +1,108 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-cog"></span>
+      Questionnaires
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Créez, modifiez ou supprimez les questionnaires de satisfaction ici
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <a class="btn btn-outline-primary text-white px-3 modal-stealth-raven-button"
+          data-target="#modal-manage-survey">
+        Ajouter un questionnaire
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    {% if surveys is defined and surveys is not empty %}
+      <div class="card">
+        <table class="table table-hover table-striped table-entities table-survey-entities">
+          <thead>
+            <tr>
+              <th scope="col" class="col-id">#</th>
+              <th scope="col" class="col-name">Libellé &amp; questionnaire par défaut</th>
+              <th scope="col" class="col-slug">Slug</th>
+              <th scope="col" class="col-grade-workshops">Evaluer les ateliers ?</th>
+              <th scope="col" class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for survey in surveys %}
+            {% set nb_steps = survey.surveySteps|length %}
+            <tr>
+              <th scope="row" class="col-id">{{ survey.id }}</th>
+              <td class="col-name">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="survey-default-{{ survey.id }}" name="survey-default" class="custom-control-input control-default-survey" value="{{ survey.id }}"
+                    {% if survey_default.id == survey.id %}checked="checked"{% endif %}>
+                  <label class="custom-control-label" for="survey-default-{{ survey.id }}">
+                    {{ survey.label }}
+                    <small class="text-muted">
+                      {% if nb_steps > 0 %}
+                        (nb. étape{% if nb_steps > 1 %}s{% endif %} {{ nb_steps }})
+                      {% else %}
+                        (Aucune étape)
+                      {% endif %}
+                    </small>
+                  </label>
+                </div>
+              </td>
+              <td class="col-slug">{{ survey.slug }}</td>
+              <td class="col-grade-workshops">
+                {% if survey.enableWorkshopsGrade == true %}Oui{% else %}-{% endif %}
+              </td>
+              <td class="col-actions">
+                <a href="{{ path('admin_dashboard_users_VSI_survey_steps', { id : survey.id }) }}" class="btn btn-sm btn-outline-primary my-1">
+                  <span class="icon-cog"></span>
+                  <span class="d-none d-sm-inline">Étapes</span>
+                </a>
+                  <a href="{{ path('admin_dashboard_users_VSI_survey_grades', { id : survey.id }) }}" class="btn btn-sm btn-outline-primary my-1">
+                    <span class="icon-cog"></span>
+                    <span class="d-none d-sm-inline">Notations</span>
+                  </a>
+                <button type="button" name="button" class="btn btn-sm btn-secondary btn-stealth-raven-load-form"
+                    data-stealth-raven-loader="{{ path('admin_dashboard_users_VSI_survey_get', { id : survey.id }) }}"
+                      data-stealth-raven-fill-form="survey" data-target="#modal-manage-survey">
+                  <span class="icon-edit"></span>
+                  <span class="d-none">Modifier</span>
+                </button>
+                <a class="btn btn-sm btn-danger btn-stealth-raven" data-action="survey_delete"
+                  href=""
+                    data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer le questionnaire : {{ survey.label }} ?">
+                  <span class="icon-trash"></span>
+                  <span class="d-none">Supprimer</span>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-light text-center">
+        Aucun questionnaire à afficher, créez-en un en utilisant le bouton "Ajouter un questionnaire" situé ci-dessus.
+      </div>
+    {% endif %}
+  </div>
+  {# Modal / Manage survey #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_survey,
+    'stealth_raven_modal_id'    : 'modal-manage-survey',
+    'stealth_raven_title_add'   : 'Ajouter un questionnaire',
+    'stealth_raven_title_edit'  : 'Modifier la questionnaire'
+  } %}
+  {% endembed %}
+{% endblock %}

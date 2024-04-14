@@ -1,0 +1,376 @@
+
+@mixin simpin-close-variant($color, $bg_color) {
+  color: $color;
+  border-color: $color;
+
+  &:hover, &:active {
+    background-color: $color;
+    color: $bg_color;
+    border-color: $color;
+  }
+
+  &:focus, &.focus, &:active:focus {
+    box-shadow: 0 0 0 .2rem transparentize($color, .5);
+  }
+}
+
+
+.simple-popin {
+  position: relative;
+  z-index: 5;
+  max-height: 100%;
+  transition: max-height 600ms ease;
+
+  &.simpin-hide {
+    max-height: 0;
+    display: none;
+  }
+
+  .simpin-inner {
+    position: relative;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .simpin-close {
+    position: absolute;
+    z-index: 5;
+    top: $grid-gutter-width / 2;
+    right: $grid-gutter-width / 2;
+
+    .icon {
+      &:before {
+        width: auto;
+        margin: 0;
+      }
+    }
+
+    ~ * {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  // Bootstrap cards
+  .card {
+    background: none;
+
+    &:nth-of-type(odd) {
+      background-color: rgba(0, 0, 0, .04);
+    }
+  }
+
+
+  //
+  // Customs Simple Popin
+  //
+  &--workshop {
+    background-color: $workshop-default-bg;
+    color: $workshop-default-color;
+
+    // Status users BEFORE workshops
+    &.user-status-pre-subscribe, &.user-status-waiting-seats {
+      .workshop-actions {
+        .btn-subscribe-to-workshop {
+          display: none;
+        }
+
+        .btn-unsubscribe-to-workshop {
+          display: inline-block;
+        }
+      }
+    }
+
+    &.user-status-subscribed {
+      .workshop-actions {
+        .btn-subscribe-to-workshop {
+          display: none;
+        }
+      }
+    }
+
+
+    // Workshop:Open
+    &.workshop-subscribes-opened {
+      background-color: $workshop-opened-bg;
+      color: $workshop-opened-color;
+
+      .simpin-close {
+        @include simpin-close-variant($workshop-opened-color, $workshop-opened-bg);
+      }
+    }
+
+    // Workshop:Waiting user's validations
+    &.workshop-waiting-validation {
+      background-color: $workshop-waiting-valid-bg;
+      color: $workshop-waiting-valid-color;
+
+      &.user-status-pre-subscribe {
+        .workshop-actions {
+          .btn-valid-subscribe {
+            display: inline-block;
+          }
+        }
+      }
+
+      // Workshop::No more seats
+      &.workshop-no-more-seats {
+        .workshop-actions {
+          .btn-subscribe-to-workshop {
+            display: none;
+          }
+        }
+      }
+
+      .simpin-close {
+        @include simpin-close-variant($workshop-waiting-valid-color, $workshop-waiting-valid-bg);
+      }
+    }
+
+    // Workshop:Close
+    &.workshop-subscribes-closed {
+      background-color: $workshop-closed-bg;
+      color: $workshop-closed-color;
+
+      &.user-status-subscribed, &.user-status-sub-not-confirmed {
+        .workshop-user-has-come {
+          display: block;
+        }
+
+        &.user-status-has-come {
+          .has-come-icon {
+            &:before {
+              content: $icon-tick;
+              color: $success;
+            }
+          }
+        }
+      }
+
+      .simpin-close {
+        @include simpin-close-variant($workshop-closed-color, $workshop-closed-bg);
+      }
+
+      .workshop-date {
+        .calendar-deluxe-icon {
+          // opacity: .4;
+          .content-top {
+            background-color: $gray-700;
+          }
+        }
+
+        ._time {
+          border-color: $gray-700;
+        }
+      }
+
+      .workshop-actions {
+        .btn-subscribe-to-workshop, .btn-unsubscribe-to-workshop, .btn-valid-subscribe {
+          display: none;
+        }
+      }
+    }
+
+    // Workshop:VSI type
+    &.workshop-is-type-vsi {
+      background-color: $workshop-type-vsi-bg;
+      color: $workshop-type-vsi-color;
+      box-shadow: inset 0 0 2rem transparentize($dark, .91);
+
+      .simpin-close {
+        @include simpin-close-variant($workshop-type-vsi-color, $workshop-type-vsi-bg);
+      }
+
+      .workshop-subscribers {
+        .status-icon {
+          background-color: $gray-500;
+          box-shadow: 0 0 0 .2em transparentize($gray-500, .9);
+          pointer-events: none;
+        }
+      }
+
+      .subber-manage-subscribe {
+        display: none;
+      }
+    }
+
+    // Customs
+    .workshop-date {
+      font-size: 1.2rem;
+      margin-right: 1rem;
+      margin-bottom: .2rem;
+      float: left;
+
+      .calendar-deluxe-icon {
+        display: block;
+      }
+
+      ._time {
+        font-size: .6em;
+        text-align: right;
+        display: inline-block;
+        padding: .15em .3em 0 0;
+        border-right: .2em solid $primary;
+        margin-left: .3em;
+
+        .from, .to {
+          display: block;
+
+          .value {
+            font-weight: bold;
+            font-size: 1.1em;
+          }
+        }
+      }
+    }
+
+    .workshop-title {
+      font-size: 2rem;
+      margin-bottom: .2rem;
+      padding-right: 2.6rem; // Avoid overlay under close button
+    }
+
+    .workshop-desc {
+      line-height: 1.4rem;
+      text-align: justify;
+      margin-bottom: .4rem;
+    }
+
+    .workshop-summary {
+      clear: left;
+    }
+
+    .workshop-lecturer {
+      .contact {
+        font-size: .8rem;
+        word-break: break-word;
+        opacity: .75;
+      }
+    }
+
+    .workshop-seats-left {
+      .text {
+        font-size: 1rem;
+      }
+
+      .nb-waiting {
+        opacity: .6;
+      }
+    }
+
+    .workshop-user-has-come {
+      display: none;
+
+      .has-come-icon {
+        &:before {
+          content: $icon-times;
+          font-family: '#{$icomoon-font-family}';
+          color: $danger;
+        }
+      }
+    }
+
+    .workshop-actions {
+      text-align: center;
+
+      .btn-unsubscribe-to-workshop, .btn-valid-subscribe {
+        display: none;
+      }
+    }
+
+    .workshop-location {
+      background-color: rgba(0, 0, 0, .04);
+      border-radius: $list-group-border-radius;
+      border: $list-group-border-width solid $list-group-border-color;
+      overflow: hidden;
+
+      .workshop-address {
+        padding: $list-group-item-padding-y $list-group-item-padding-x;
+      }
+    }
+
+    .workshop-address {
+      font-weight: bold;
+      .text { font-weight: normal; }
+    }
+
+    .google-maps {
+      // Change maps ratio
+      &:before { padding-top: 42%; }
+    }
+  }
+}
+
+
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(md) {
+  .simple-popin {
+    .simpin-inner {
+      padding-top: 1.6rem;
+      padding-bottom: 1.6rem;
+    }
+
+    //
+    // Customs Simple Popin
+    //
+    &--workshop {
+      .workshop-date {
+        margin-bottom: .8rem;
+      }
+
+      .workshop-desc {
+        margin-bottom: 1.2rem;
+      }
+
+      .workshop-actions {
+        text-align: right;
+      }
+
+      .google-maps {
+        &:before { padding-top: 60%; }
+      }
+    }
+  }
+}
+
+
+@include media-breakpoint-up(md) {
+  .simple-popin {
+    //
+    // Customs Simple Popin
+    //
+    &--workshop {
+      .workshop-title {
+        font-size: 2.2rem;
+      }
+    }
+  }
+}
+
+
+
+//
+// Print
+//
+
+@media print {
+  .simple-popin {
+    display: none; // not displayed on print screen
+
+    .simpin-close {
+      display: none;
+    }
+
+    &--workshop {
+      .workshop-actions {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{% extends 'layouts/dashboard.html.twig' %}
+{% set core_class = 'app-core--dashboard' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-group"></span>
+      Utilisateurs <span class="text-vsi">VSI</span>
+    {% endblock %}
+    {% block dashboard_header_subtitle %}
+      Modifiez ou désactivez des utilisateurs
+    {% endblock %}
+    {% block dashboard_header_actions %}
+      {% if roles is defined and roles|length > 0 %}
+        <div class="btn-group" role="group" aria-label="Pages des groupes d'utilisateurs">
+        {% for role_slug, role_label in roles %}
+          <a href="{{ path('admin_dashboard_users', { role: role_slug }) }}"
+            class="btn {% if role_slug == current_role %}btn-primary{% else %}btn-outline-primary{% endif %} text-white">
+            {% if role_slug == 'ROLE_ADMIN' %}
+            <span class="icon icon-star"></span>
+            {% elseif role_slug == 'ROLE_PUBLISHER' %}
+            <span class="icon icon-star-outline"></span>
+            {% endif %}
+            {{ role_label }}
+          </a>
+        {% endfor %}
+        </div>
+        <div class="btn-group">
+          <a href="{{ path('admin_dashboard_users_VSI') }}" class="btn btn-purple">Utilisateurs <span class="text-vsi">VSI</span></a>
+          <button type="button" class="btn btn-purple dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Afficher menu déroulant</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item modal-stealth-raven-button" data-target="#modal-manage-user-vsi">
+              <span class="icon icon-user-add mr-1"></span> Ajouter des utilisateurs
+            </button>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ path('admin_dashboard_users_VSI_survey_results', user_vsi_filters) }}">
+              <span class="icon icon-chart-bar-outline mr-1"></span> Résultats du questionnaire
+            </a>
+            {% if is_granted('ROLE_SUPERADMIN') %}
+            <a class="dropdown-item" href="{{ path('admin_dashboard_users_VSI_survey_list') }}">
+              <span class="icon icon-cog mr-1"></span> Config. des questionnaires
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    {% include 'dashboard/users/vsi/filters.html.twig' %}
+
+    {% include 'dashboard/users/vsi/list.html.twig' %}
+
+    {% if users_vsi is not empty %}
+      {# User's VSI pagination #}
+      {% if nb_pages > 1 %}
+        <nav aria-label="Navigation par numéro de page d'utilisateur">
+          <ul class="pagination justify-content-center">
+            {# Previous button #}
+            {% if current_page > 1 %}
+            <li class="page-item">
+              <a class="page-link" aria-label="Précédent" href="{{ path('admin_dashboard_users_VSI', { id_consultant: user_vsi_filters.id_consultant, id_cohort: user_vsi_filters.id_cohort, date_start: user_vsi_filters.date_start, date_end: user_vsi_filters.date_end, page: (current_page - 1) }) }}#main-content">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Précédent</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Précédent</span>
+              </span>
+            </li>
+            {% endif %}
+
+            {# Loop to generate numbers pages #}
+            {% for num_page in 1..nb_pages %}
+              {% if num_page == current_page %}
+              <li class="page-item active">
+                <span class="page-link">{{ num_page }}</span>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="{{ path('admin_dashboard_users_VSI', { id_consultant: user_vsi_filters.id_consultant, id_cohort: user_vsi_filters.id_cohort, date_start: user_vsi_filters.date_start, date_end: user_vsi_filters.date_end, page: num_page }) }}#main-content">
+                  {{ num_page }}
+                </a>
+              </li>
+              {% endif %}
+            {% endfor %}
+
+            {# Next button #}
+            {% if current_page < nb_pages %}
+            <li class="page-item">
+              <a class="page-link" aria-label="Suivant" href="{{ path('admin_dashboard_users_VSI', { id_consultant: user_vsi_filters.id_consultant, id_cohort: user_vsi_filters.id_cohort, date_start: user_vsi_filters.date_start, date_end: user_vsi_filters.date_end, page: (current_page + 1) }) }}#main-content">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Suivant</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Suivant</span>
+              </span>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+
+      <div class="text-muted text-center small mt-5">
+        <u>{{ nb_users_vsi }} utilisat&middot;eur&middot;rice{% if nb_users_vsi > 1 %}s{% endif %} VSI</u>
+        {% if user_vsi_filters.id_cohort != 'all' %}
+         de la cohorte <b>{{ user_vsi_filters.id_cohort }}</b>,
+        {% endif %}
+         pour la période du <b>{{ user_vsi_filters.date_start|date("d/m/Y") }}</b> au <b>{{ user_vsi_filters.date_end|date("d/m/Y") }}</b>
+        {% if current_consultant is not null %}
+         avec comme consultant référent : <b>{{ current_consultant.getLastname() }} {{ current_consultant.getFirstname() }}</b>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="alert alert-light text-center">
+        <u>Aucun&middot;e utilisat&middot;eur&middot;rice VSI</u> inscrit&middot;e
+        {% if user_vsi_filters.id_cohort != 'all' %}
+         de la cohorte <b>{{ user_vsi_filters.id_cohort }}</b>,
+        {% endif %}
+         pour la periode du <b>{{ user_vsi_filters.date_start|date("d/m/Y") }}</b> au <b>{{ user_vsi_filters.date_end|date("d/m/Y") }}</b>
+        {% if current_consultant is not null %}
+         avec comme consultant référent : <b>{{ current_consultant.getLastname() }} {{ current_consultant.getFirstname() }}</b>
+        {% endif %}<br>
+        Veuillez essayer de <u>nouveaux paramètres de filtres</u> ou ajoutez simplement de <u>nouveaux utilisateurs</u>.
+      </div>
+    {% endif %}
+  </div>
+
+  {# Modal / Manage entity #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_user_vsi,
+    'stealth_raven_modal_id'    : 'modal-manage-user-vsi',
+    'stealth_raven_title_add'   : 'Ajouter un utilisateur VSI',
+    'stealth_raven_title_edit'  : 'Modifier l\'utilisateur VSI'
+  } %}
+    {% block form_widgets %}
+      <div class="form-group">
+        {{ form_label(form_user_vsi.referent_consultant, null, { label_attr: { class: 'text-required' } }) }}
+        {{ form_widget(form_user_vsi.referent_consultant, { attr : { 'data-stealth-raven-wash-value': app.user.id, 'data-stealth-raven-dont-wash': "true" } }) }}
+        {{ form_errors(form_user_vsi.referent_consultant) }}
+      </div>
+
+      <div class="form-row">
+        <div class="col-sm-4 mb-3">
+          {{ form_label(form_user_vsi.idVSI) }}
+          {{ form_widget(form_user_vsi.idVSI) }}
+          {{ form_errors(form_user_vsi.idVSI) }}
+        </div>
+        <div class="col-sm-8 mb-3">
+          {{ form_label(form_user_vsi.email, null, { label_attr: { class: 'text-required' } }) }}
+          {{ form_widget(form_user_vsi.email) }}
+          {{ form_errors(form_user_vsi.email) }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-sm-6 mb-3">
+          {{ form_label(form_user_vsi.lastname, null, { label_attr: { class: 'text-required' } }) }}
+          {{ form_widget(form_user_vsi.lastname) }}
+          {{ form_errors(form_user_vsi.lastname) }}
+        </div>
+        <div class="col-sm-6 mb-3">
+          {{ form_label(form_user_vsi.firstname, null, { label_attr: { class: 'text-required' } }) }}
+          {{ form_widget(form_user_vsi.firstname) }}
+          {{ form_errors(form_user_vsi.firstname) }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-sm-6">
+          {{ form_label(form_user_vsi.workshop_end_date, null, { label_attr: { class: 'text-required' } }) }}
+          {{ form_widget(form_user_vsi.workshop_end_date, { attr : { 'data-stealth-raven-wash-value': 'now'|date('Y-m-d'), 'value': 'now'|date('Y-m-d') } }) }}
+          {{ form_errors(form_user_vsi.workshop_end_date) }}
+          <div class="form-hint">{{ 'form_user_vsi.workshop_end_date.hint'|trans }}</div>
+        </div>
+        <div class="col-sm-6">
+          {{ form_label(form_user_vsi.idCohort, null, { label_attr: { class: 'text-required' } }) }}
+          {{ form_widget(form_user_vsi.idCohort, { attr : { value : id_cohort_default, 'data-stealth-raven-dont-wash': "true" } }) }}
+          {{ form_errors(form_user_vsi.idCohort) }}
+          <div class="form-hint">{{ 'form_user_vsi.id_cohort.hint'|trans }}</div>
+        </div>
+      </div>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}

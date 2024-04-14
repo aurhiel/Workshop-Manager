@@ -1,0 +1,38 @@
+$dashboard-header-bg:           $dark;
+$dashboard-header-color:        $white;
+// $dashboard-header-print-bg:     $gray-100;
+$dashboard-header-print-bg:     transparent;
+$dashboard-header-print-color:  $dark;
+
+$navbard-dashboard-bg:        darken($dashboard-header-bg, 2%);
+$navbard-dashboard-color:     $white;
+
+$dashboard-header-padding-y:  .6rem;
+
+$dashboard-merge-size:        6rem;
+$dashboard-merge-size-md:     6rem;
+$dashboard-merge-size-lg:     8rem;
+
+
+// Workshop status
+$workshop-default-bg:           $dark;
+$workshop-default-color:        $white;
+$workshop-opened-bg:            $gray-200;
+$workshop-opened-color:         $dark;
+$workshop-waiting-valid-bg:     $gray-400;
+$workshop-waiting-valid-color:  $dark;
+$workshop-closed-bg:            $gray-600;
+$workshop-closed-color:         $gray-100;
+$workshop-type-vsi-bg:          $gray-100;
+$workshop-type-vsi-color:       $dark;
+$workshop-print-bg:             $gray-100;
+$workshop-print-color:          $dark;
+// User status
+$user-pre-sub-bg:           $yellow;
+// $user-pre-sub-color:        $dark;
+$user-waiting-seats-bg:     $orange;
+// $user-waiting-seats-color:  $dark;
+$user-subscribed-bg:        $success;
+// $user-subscribed-color:     $white;
+$user-not-confirmed-bg:     $orange;
+// $user-not-confirmed-color:  $dark;

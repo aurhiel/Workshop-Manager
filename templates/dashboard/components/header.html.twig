@@ -1,0 +1,33 @@
+{% set _header_title    = (block('dashboard_header_title') is defined) ? block('dashboard_header_title')|trim : 'Dashboard' %}
+{% set _header_subtitle = (block('dashboard_header_subtitle') is defined) ? block('dashboard_header_subtitle')|trim : '' %}
+{% set _header_actions  = (block('dashboard_header_actions') is defined) ? block('dashboard_header_actions')|trim : '' %}
+
+<header class="dashboard-header">
+  <div class="container">
+    {% block flashes %}
+      {% include 'components/flashes.html.twig' %}
+    {% endblock %}
+
+    {# Breadcrumb #}
+    {% block breadcrumb %}
+      {% include 'components/breadcrumb.html.twig' %}
+    {% endblock %}
+
+    {% if _header_title is not empty %}
+      <h1 class="dshbd-header-title">
+        <span class="brand-logo">{# for print #}
+          <span class="icon icon-calendar"></span>
+        </span>
+        {{ _header_title|raw }}
+      </h1>
+    {% endif %}
+
+    {% if _header_subtitle is not empty %}
+      <h2 class="dshbd-header-subtitle">{{ _header_subtitle|raw }}</h2>
+    {% endif %}
+
+    {% if _header_actions is not empty %}
+      <div class="dshbd-header-actions">{{ _header_actions|raw }}</div>
+    {% endif %}
+  </div>
+</header>

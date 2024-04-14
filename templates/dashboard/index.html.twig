@@ -1,0 +1,71 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{# If core_class is not defined by a layout child, default = app-core--dashboard #}
+{% if core_class is not defined %}
+  {% set core_class = 'app-core--dashboard app-core--dashboard-home' %}
+{% endif %}
+
+{% block javascripts_defines %}
+<script type="text/javascript">
+  var DASH_SETTINGS = {
+    calendar_start  : '{{ calendar.start }}',
+    calendar_end    : '{{ calendar.end }}',
+    events          : {{ calendar.events|raw }},
+    show_help_modal : {{ show_help_modal }},
+    {% if is_granted('ROLE_PUBLISHER') %}
+    is_admin        : true,
+    {% endif %}
+    user            : user,
+  };
+</script>
+{% endblock %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      Planning - <span class="planning-period"></span>
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <button class="btn btn-outline-primary text-white px-3 d-none d-sm-block" data-toggle="print" type="button">
+        <span class="icon icon-printer"></span> Imprimer le planning <small class="planning-format"></small>
+      </button>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="workshop-calendar mb-3"></div>
+
+    <div class="card workshop-calendar-legends">
+      <div class="card-body py-2 px-3">
+        <div class="fc-legend">
+          <div class="legend-title">
+            Légende
+          </div>
+          <ul class="legend-list">
+            <li class="legend-item legend-item--workshop-open">
+              <span class="picto"></span>
+              <span class="label">Inscription</span>
+            </li>
+            <li class="legend-item legend-item--workshop-confirm">
+              <span class="picto"></span>
+              <span class="label">Confirmation</span>
+            </li>
+            <li class="legend-item legend-item--workshop-close">
+              <span class="picto"></span>
+              <span class="label">Fermeture</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'dashboard/components/workshop-popin.html.twig' %}
+{% endblock %}

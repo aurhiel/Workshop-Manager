@@ -1,0 +1,54 @@
+{% if filters_form_action is defined and filters_form_action is not empty %}
+{% set has_surveys = (surveys is defined and surveys is not empty) %}
+<div class="card-filters card mb-3 d-print-none">
+  <form action="{{ filters_form_action }}" method="post">
+    <div class="form-row align-items-center m-0">
+      <div class="col-md-5 col-lg-{% if has_surveys == true %}4{% else %}3{% endif %} row m-1 px-0">
+        <div class="col-{% if has_surveys == true %}6{% else %}12{% endif %} px-0 pr-1">
+          <label class="sr-only" for="user_vsi_filter_consultant">Consultant référent</label>
+          <select class="form-control" id="user_vsi_filter_consultant" name="user_vsi_filter_consultant">
+            <option value="0">Tous les consultants</option>
+            {% for consultant in consultants %}
+              <option value="{{ consultant.id }}"{% if consultant.id == user_vsi_filters.id_consultant %} selected="selected"{% endif %}>{{ consultant.lastname }} {{ consultant.firstname }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% if has_surveys == true %}
+          <div class="col-6 px-0 pl-1 pl-md-0">
+            <label class="sr-only" for="user_vsi_filter_survey_slug">Questionnaire</label>
+            <select class="form-control" id="user_vsi_filter_survey_slug" name="user_vsi_filter_survey_slug">
+              {% for survey in surveys %}
+                <option value="{{ survey.slug }}"{% if survey.slug == user_vsi_filters.survey_slug %} selected="selected"{% endif %}>{{ survey.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endif %}
+      </div>
+      <div class="col-md-6 col-lg-{% if has_surveys == true %}4{% else %}5{% endif %} row m-1 px-0 mx-md-0">
+        <div class="col-6 px-0 pr-1">
+          <label class="sr-only" for="user_vsi_filter_date_start">Date de début</label>
+          <input type="date" class="form-control" id="user_vsi_filter_date_start" name="user_vsi_filter_date_start" placeholder="Date de début" value="{{ user_vsi_filters.date_start }}">
+        </div>
+        <div class="col-6 px-0 pl-1 pl-md-0">
+          <label class="sr-only" for="user_vsi_filter_date_end">Date de fin</label>
+          <input type="date" class="form-control" id="user_vsi_filter_date_end" name="user_vsi_filter_date_end" placeholder="Date de fin" value="{{ user_vsi_filters.date_end }}">
+        </div>
+      </div>
+      <div class="col-md-auto col-lg-2 my-1 pl-1">
+        <label class="sr-only" for="user_vsi_filter_id_cohort">Numéro de cohorte</label>
+        <input type="text" class="form-control" id="user_vsi_filter_id_cohort" name="user_vsi_filter_id_cohort" placeholder="Numéro de cohorte" value="{% if user_vsi_filters.id_cohort != 'all' %}{{ user_vsi_filters.id_cohort }}{% endif %}">
+      </div>
+      <div class="col-md-auto m-1 px-0 text-center text-md-left">
+        <button type="submit" class="btn btn-primary" name="user_vsi_filter_submit" value="send">
+          <span class="icon icon-zoom-outline"></span>
+          Filtrer
+        </button>
+        <button type="submit" class="btn btn-secondary" name="user_vsi_filter_reset" value="reset" data-toggle="tooltip" data-placement="left"
+        data-html="true" title="filtres: valeurs par défaut">
+          <span class="icon-times"></span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endif %}

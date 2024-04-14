@@ -1,0 +1,24 @@
+<div class="modal{% if modal_class is defined %} modal-{{ modal_class }}{% endif %} fade" id="{{ modal_id }}" tabindex="-1" role="dialog">
+  <div class="modal-dialog {% if modal_size is defined %}modal-{{ modal_size }}{% endif %}" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">{{ modal_title | raw }}</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      {# Modal body #}
+      <div class="modal-body">
+        {% block modal_body %}[edit] Modal basic body ~{% endblock %}
+      </div>
+
+      {# Modal buttons #}
+      <div class="modal-footer">
+      {% block modal_footer %}
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>

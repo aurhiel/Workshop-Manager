@@ -1,0 +1,332 @@
+// Tables
+// -----------------------
+
+.table {
+  .row-workshop {
+    // &.user-status-subscribed, &.user-status-sub-not-confirmed {
+    //   .col-subscribe-status {
+    //     .presence-icon {
+    //       display: inline-block;
+    //     }
+    //   }
+    // }
+
+    &[data-load-workshop-popin] {
+      &:hover, &.current {
+        cursor: pointer;
+
+        .col-time {
+          opacity: 1;
+        }
+
+        .col-workshop-label {
+          font-weight: bold;
+        }
+      }
+
+      &.current {
+        background-color: rgba(0, 0, 0, .025);
+      }
+    }
+  }
+
+  .col-time {
+    width: 6rem;
+    opacity: .8;
+  }
+
+  .col-subscribe-status {
+    text-align: right;
+    width: 5rem;
+
+    .presence-icon {
+      font-size: 1.2rem;
+      line-height: 1;
+      vertical-align: middle;
+      margin-right: .2rem;
+      // display: none; // Only display for validated subscribes
+      // Always displayed, managed by JS for past or coming workshops
+    }
+
+    .status-icon {
+      margin-top: 0;
+    }
+  }
+
+  .col-date, .col-schedule {
+    width: 6rem;
+  }
+
+  .col-nb-subscribes {
+    text-align: right;
+    width: 5rem;
+  }
+}
+
+.table-entities {
+  th, td {
+    display: none;
+  }
+
+  .col-name, .col-actions {
+    display: table-cell;
+  }
+
+  .col-id { // only for debug
+    display: none;
+    text-align: center;
+  }
+
+  .col-name {
+    line-height: 1.2;
+    vertical-align: middle;
+  }
+
+  .col-description-mini {
+    display: none;
+    vertical-align: middle;
+
+    .description {
+      display: -webkit-box;
+      max-height: 2.4rem;
+      line-height: 1.2rem;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      -webkit-line-clamp: 2;
+    }
+  }
+
+  .col-actions {
+    text-align: right;
+    width: 7rem;
+  }
+}
+
+// Tables / Workshops ---- (= workshop themes)
+.table-workshop-entities {
+  .col-date, .col-schedule, .col-nb-subscribes {
+    display: table-cell;
+  }
+}
+
+.user-workshops-by-days {
+  .simple-popin {
+    &--workshop {
+      border-radius: $card-border-radius;
+      margin-bottom: 1rem;
+
+      .simpin-inner {
+        padding: 1.2rem;
+      }
+    }
+  }
+}
+
+// Tables / Users VSI ----
+.table-user-vsi-entities {
+  // Head & body cells
+  tbody td, thead th {
+    line-height: 1.2;
+    vertical-align: middle;
+  }
+
+  td.col-id-vsi, td.col-send-date {
+    font-family: monospace;
+    font-size: .85rem;
+    font-weight: 600;
+  }
+
+  .col-names, .col-status {
+    display: table-cell;
+  }
+
+  .col-id-vsi, .col-send-date {
+    width: 7rem;
+  }
+
+  .col-names {
+    width: 10rem;
+  }
+
+  .col-email {
+    width: 12rem;
+  }
+}
+
+.user-vsi--need-to-reload {
+  background-color: #f8f9fa;
+  background-color: rgba(248, 249, 250, .9);
+  font-family: monospace;
+  font-size: .8rem;
+  font-weight: bold;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  display: none;
+}
+.user-vsi--need-to-reload .-inner {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50%;
+  margin-top: -.7em;
+}
+.user-vsi--need-to-reload.show {
+  display: block;
+}
+
+
+// Tables / Surveys ----
+.table-survey-entities {
+  .col-actions {
+    width: 9rem;
+  }
+
+  tbody {
+    td {
+      vertical-align: middle;
+    }
+    
+    .col-name {
+      font-size: 1.2rem;
+    }
+  }
+}
+.table-survey-question-entities {
+  .col-actions {
+    width: 7rem;
+  }
+}
+
+
+
+//
+// Responsive
+//
+
+@include media-breakpoint-up(sm) {
+  .table-entities {
+    th, td {
+      display: table-cell;
+    }
+
+    .col-actions {
+      width: 14rem;
+    }
+
+    .col-lat-lng {
+      width: 12rem;
+    }
+  }
+
+  // Tables / Workshops ---- (= workshop themes)
+  .table-workshop-entities {
+    .col-location, .col-lecturer {
+      display: none;
+    }
+  }
+
+  // Tables / Users VSI ----
+  .table-user-vsi-entities {
+    .col-id-vsi, .col-email {
+      display: none;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .table {
+    .col-time {
+      width: 6.4rem;
+    }
+
+    .col-date {
+      width: 8rem;
+    }
+
+    .col-schedule {
+      width: 9rem;
+    }
+  }
+
+  // Tables / Workshops ---- (= workshop themes)
+  .table-workshop-entities {
+    .col-location, .col-lecturer {
+      display: table-cell;
+    }
+  }
+
+  // Tables / Surveys ----
+  .table-survey-entities {
+    .col-actions {
+      width: 21rem;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .table-entities {
+    .col-description-mini {
+      display: table-cell;
+      width: 36%;
+    }
+
+    .col-lat-lng {
+      width: 13rem;
+    }
+  }
+
+  // Tables / Workshops ---- (= workshop themes)
+  .table-workshop-entities {
+    .col-nb-subscribes {
+      width: 8rem;
+    }
+  }
+
+  // Tables / Users VSI ----
+  .table-user-vsi-entities {
+    .col-id-vsi, .col-email {
+      display: table-cell;
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .table-entities {
+    .col-description-mini {
+      width: 32%;
+    }
+  }
+}
+
+
+
+//
+// Print
+//
+
+@media print {
+  .table {
+    .row-workshop {
+      background: none !important;
+
+      &:hover, &.current {
+        cursor: default;
+
+        .col-workshop-label {
+          font-weight: normal;
+        }
+      }
+
+      .col-time {
+        opacity: 1;
+      }
+    }
+  }
+}

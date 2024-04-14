@@ -1,0 +1,12 @@
+{% extends 'emails/layouts/base.html.twig' %}
+
+{% block body %}
+  <h1>Hello world !</h1>
+  <p>Ceci est un email de test. (token: {{ uniq_id }})</p>
+
+  <p>
+    Génération de lien via :<br>
+    - path(<a href="https://ateliers-ingeneria.fr{{ path('dashboard') }}">Dashboard</a>)<br>
+    - url(<a href="{{ url('dashboard') }}">Dashboard</a>)
+  </p>
+{% endblock %}

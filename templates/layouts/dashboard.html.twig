@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html.twig' %}
+{# If core_class is not defined by a layout child, default = app-core--dashboard #}
+{% if core_class is not defined %}
+  {% set core_class = 'app-core--dashboard' %}
+{% endif %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% include "dashboard/components/header.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      Default Dashboard Page
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'dashboard/components/modals/help.html.twig' %}
+
+  {% include 'components/footer.html.twig' %}
+{% endblock %}

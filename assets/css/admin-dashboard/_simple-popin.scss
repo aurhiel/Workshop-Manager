@@ -1,0 +1,249 @@
+
+$subscribers-bg:    $white;
+$subscribers-color: $body-color;
+$subscribe-check-presence-width: 2.2rem;
+// Subber presence checkbox
+$subscribe-check-box-size: 1rem;
+$subscribe-check-box-bg: $subscribers-bg;
+$subscribe-check-box-color-hover: darken($subscribe-check-box-bg, 10%);
+$subscribe-check-box-color-checked: $subscribers-color;
+$subscribe-check-box-color-validated: $success;
+
+
+.simple-popin {
+  //
+  // Customs Simple Popin
+  //
+  &--workshop {
+    //
+    //Workshop status
+
+    // Workshop:Open
+    &.workshop-subscribes-opened {
+      .subber-manage-subscribe {
+        .btn-status-subscribed, .btn-status-sub-not-confirmed {
+          display: none;
+        }
+      }
+    }
+
+    // Workshop:Waiting user's validations
+    &.workshop-waiting-validation {
+      .subber-manage-subscribe {
+        .btn-status-waiting-seats, .btn-status-sub-not-confirmed {
+          display: none;
+        }
+      }
+    }
+
+    // Workshop:Close
+    &.workshop-subscribes-closed {
+      .subber-manage-subscribe {
+        .btn-status-waiting-seats, .btn-status-pre-sub {
+          display: none;
+        }
+      }
+
+
+      // Subscribers
+      .subscriber-item {
+        // NOTE: 09.12.2018 : Removed on Ingeneria's demand (all user's can be checked, no matter their subscribe status)
+        // &.user-status-subscribed, &.user-status-sub-not-confirmed {
+          .card-body {
+            margin-left: $subscribe-check-presence-width;
+          }
+
+          .subber-check-presence {
+            display: block;
+          }
+        // }
+      }
+    }
+
+    // Workshop:No More Seats
+    &.workshop-no-more-seats {
+      // Subscribers
+      .subscriber-item {
+        &.user-status-waiting-seats, &.user-status-waiting-stuck {
+          .subber-manage-subscribe {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+//
+// Subscribers list
+
+// List container
+.workshop-subscribers {
+  background-color: $subscribers-bg;
+  color: $subscribers-color;
+  border-radius: $card-border-radius;
+  padding: $card-spacer-x;
+
+  &.no-subs {
+    .subscribers-actions {
+      .btn-copy {
+        display: none;
+      }
+    }
+
+    .card-subscribers {
+      display: none;
+    }
+
+    .no-subscribes {
+      display: block;
+    }
+  }
+
+  .no-subscribes {
+    display: none;
+    opacity: .4;
+  }
+
+  .subscribers-actions {
+    text-align: right;
+  }
+}
+
+
+// Item
+.subscriber-item {
+  &.user-status-waiting-seats, &.user-status-waiting-stuck {
+    .btn-status-waiting-seats {
+      display: none;
+    }
+  }
+
+  &.user-status-pre-subscribe, &.user-status-sub-not-confirmed {
+    .btn-status-pre-sub, .btn-status-sub-not-confirmed {
+      display: none;
+    }
+  }
+
+  &.user-status-subscribed {
+    .btn-status-subscribed {
+      display: none;
+    }
+  }
+
+  &.is-vsi {
+    ._names {
+      padding-right: 1.8em;
+      position: relative;
+      z-index: 1;
+
+      &:after {
+        content: 'VSI';
+        background-color: $primary;
+        color: $white;
+        font-weight: bold;
+        font-family: monospace;
+        font-size: .5em;
+        line-height: 1;
+        letter-spacing: .1em;
+        border-radius: .7em;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -.65em;
+        padding: .2em .6em .1em .6em;
+      }
+    }
+
+    .dropdown-menu {
+      .subscriber-link, .subscriber-link-divider {
+        display: none;
+      }
+    }
+  }
+
+  .subber-check-presence {
+    display: none;
+    background-color: rgba(0, 0, 0, .05);
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: $subscribe-check-presence-width;
+    overflow: hidden;
+    cursor: pointer;
+
+    &:hover {
+      .box {
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+        transform: scale(1.2);
+
+        &:after {
+          color: $subscribe-check-box-color-hover;
+        }
+      }
+    }
+
+    .checkbox {
+      position: absolute;
+      left: -100%;
+
+      &:checked, &.validated {
+        ~ .box {
+          background-color: $subscribe-check-box-bg;
+          &:after {
+            color: $subscribe-check-box-color-checked;
+          }
+        }
+      }
+
+      &.validated {
+        ~ .box {
+          background-color: $subscribe-check-box-bg;
+          &:after {
+            color: $subscribe-check-box-color-validated;
+          }
+        }
+      }
+    }
+
+    .box {
+      background-color: $subscribe-check-box-bg;
+      border-radius: .2rem;
+      display: block;
+      height: $subscribe-check-box-size;
+      width: $subscribe-check-box-size;
+      margin-top: - $subscribe-check-box-size / 2;
+      margin-left: - $subscribe-check-box-size / 2;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      user-select: none;
+      transition: transform 400ms ease;
+
+      &:after {
+        content: $icon-tick;
+        color: darken($subscribe-check-box-bg, 4%);
+        font-family: '#{$icomoon-font-family}';
+        line-height: 1;
+        display: block;
+        transition: color 400ms ease;
+      }
+    }
+  }
+}
+
+
+@include media-breakpoint-up(lg) {
+  // Item
+  .subscriber-item {
+    &.is-vsi {
+      ._names {
+        &:after {
+          padding-top: .25em;
+        }
+      }
+    }
+  }
+}

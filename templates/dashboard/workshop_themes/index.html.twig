@@ -1,0 +1,145 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block header %}
+  {# Navigation #}
+  {% include 'dashboard/components/navigation.html.twig' %}
+
+  {# Header #}
+  {% embed "dashboard/components/header.html.twig" %}
+    {% block dashboard_header_title %}
+      <span class="icon-brush"></span>
+      Thématiques
+    {% endblock %}
+
+    {% block dashboard_header_subtitle %}
+      Ajoutez, modifiez ou supprimez les thématiques des ateliers ici
+    {% endblock %}
+
+    {% block dashboard_header_actions %}
+      <a class="btn btn-outline-primary text-white px-3 modal-stealth-raven-button"
+          data-target="#modal-manage-workshop-theme">
+        Ajouter une thématique
+      </a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="card">
+      <table class="table table-hover table-striped table-entities table-workshop-theme-entities">
+        <thead>
+          <tr>
+            <th scope="col" class="col-id">#</th>
+            <th scope="col" class="col-name">Nom de la thématique</th>
+            <th scope="col" class="col-description-mini">Description</th>
+            <th scope="col" class="col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for workshop_theme in workshop_themes %}
+          {% set workshops_count = workshop_theme.getWorkshopsCount() %}
+          <tr class="workshop-theme-entity" data-id-entity="{{ workshop_theme.id }}">
+            <th scope="row" class="col-id">{{ workshop_theme.id }}</th>
+            <td class="col-name">
+              <a href="{{ path('admin_dashboard_workthemes_get', { id : workshop_theme.id }) }}">
+                {{ workshop_theme.name }}
+              </a>
+              {% if workshops_count > 0 %}
+              <span class="small d-inline-block">
+                - <b>{{ workshops_count }}</b> atelier{% if workshops_count > 1 %}s{% endif %}
+              </span>
+              {% else %}
+              <span class="text-muted small d-inline-block">
+                - <b>Aucun</b> atelier
+              </span>
+              {% endif %}
+            </td>
+            <td class="col-description-mini">
+              <span class="description">{{ workshop_theme.description|truncate(100, true) }}</span>
+            </td>
+            <td class="col-actions">
+              <button type="button" name="button" class="btn btn-sm btn-secondary btn-stealth-raven-load-form"
+                  data-stealth-raven-loader="{{ path('admin_dashboard_workthemes_get', { id : workshop_theme.id }) }}"
+                    data-stealth-raven-fill-form="workshop_theme" data-target="#modal-manage-workshop-theme">
+                <span class="icon-edit"></span>
+                <span class="d-none d-sm-inline">Modifier</span>
+              </button>
+              <a class="btn btn-sm btn-danger btn-stealth-raven" data-action="workshop_theme_delete"
+                href="{{ path('admin_dashboard_workthemes_del', { id : workshop_theme.id }) }}"
+                  data-stealth-raven-confirm="Êtes-vous sûr de vouloir supprimer la thématique : {{ workshop_theme.name }} ?">
+                <span class="icon-trash"></span>
+                <span class="d-none d-sm-inline">Supprimer</span>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if nb_pages > 1 %}
+    <nav class="mt-3" aria-label="Navigation par numéro de page">
+      <ul class="pagination justify-content-center">
+        {# Previous button #}
+        {% if current_page > 1 %}
+        <li class="page-item">
+          <a class="page-link" aria-label="Précédent" href="{{ path('admin_dashboard_workthemes', { page: (current_page - 1) }) }}">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Précédent</span>
+          </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Précédent</span>
+          </span>
+        </li>
+        {% endif %}
+
+        {# Loop to generate numbers pages #}
+        {% for num_page in 1..nb_pages %}
+          {% if num_page == current_page %}
+          <li class="page-item active">
+            <span class="page-link">{{ num_page }}</span>
+          </li>
+          {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{ path('admin_dashboard_workthemes', { page: num_page }) }}">
+              {{ num_page }}
+            </a>
+          </li>
+          {% endif %}
+        {% endfor %}
+
+        {# Next button #}
+        {% if current_page < nb_pages %}
+        <li class="page-item">
+          <a class="page-link" aria-label="Suivant" href="{{ path('admin_dashboard_workthemes', { page: (current_page + 1) }) }}">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Suivant</span>
+          </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Suivant</span>
+          </span>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+
+  {# Modal / Manage workshop #}
+  {% embed 'components/modals/form.html.twig' with {
+    'form'                      : form_workshop_theme,
+    'stealth_raven_modal_id'    : 'modal-manage-workshop-theme',
+    'stealth_raven_title_add'   : 'Ajouter une thématique',
+    'stealth_raven_title_edit'  : 'Modifier la thématique'
+  } %}
+  {% endembed %}
+{% endblock %}

@@ -1,0 +1,65 @@
+// Stealth Raven
+//
+
+body {
+  &.raven-searching {
+    .search-results {
+      user-select: none;
+      overflow: hidden;
+
+      &:before {
+        top: 0;
+        bottom: 0;
+        opacity: 1;
+        pointer-events: initial;
+        transition: opacity 600ms ease, top 400ms ease, bottom 400ms ease;
+      }
+
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+// Search results
+
+.search-results {
+  position: relative;
+
+  &.no-results {
+    &:after {
+      content: 'Aucun résultat.';
+      color: $gray-600;
+      opacity: 1;
+    }
+  }
+
+  &:before, &:after {
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    opacity: 0;
+  }
+
+  &:before {
+    content: ' ';
+    background-color: #222;
+    background-color: rgba(0, 0, 0, .75);
+    border-radius: $border-radius;
+    bottom: 50%;
+    transition: opacity 400ms ease, top 600ms ease, bottom 600ms ease;
+  }
+
+  &:after {
+    content: 'Recherche en cours . . .';
+    color: #FFF;
+    text-align: center;
+    margin-top: -.5rem;
+    transition: opacity 400ms ease;
+  }
+}
